@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @link https://www.humhub.org/
+ * @copyright Copyright (c) 2020 HumHub GmbH & Co. KG
+ * @license https://www.humhub.com/licences
+ */
+
+use humhub\modules\twofa\Events;
+use humhub\modules\user\controllers\AuthController;
+use yii\web\Controller;
+
+return [
+    'id' => 'twofa',
+    'class' => 'humhub\modules\twofa\Module',
+    'namespace' => 'humhub\modules\twofa',
+    'events' => [
+        [AuthController::class, AuthController::EVENT_AFTER_LOGIN, [Events::class, 'onAfterLogin']],
+        [Controller::class, Controller::EVENT_BEFORE_ACTION, [Events::class, 'onBeforeAction']],
+    ],
+];

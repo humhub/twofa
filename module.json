@@ -1,0 +1,12 @@
+{
+    "id": "twofa",
+    "name": "2fa",
+    "description": "Two-Factor Authentication.",
+    "keywords": [
+        "2fa", "two-factor authentication"
+    ],
+    "version": "0.1",
+    "humhub": {
+        "minVersion": "1.8"
+    }
+}
