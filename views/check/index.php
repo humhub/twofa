@@ -6,14 +6,16 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\modules\user\models\Password;
+use humhub\modules\twofa\drivers\BaseDriver;
+use humhub\modules\twofa\models\CheckCode;
 use humhub\widgets\Button;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use humhub\widgets\SiteLogo;
 
-/* @var $model Password */
+/* @var $model CheckCode */
+/* @var $driver BaseDriver */
 
 $this->pageTitle = Yii::t('TwofaModule.base', 'Two-Factor Authentication');
 ?>
@@ -29,7 +31,7 @@ $this->pageTitle = Yii::t('TwofaModule.base', 'Two-Factor Authentication');
 
                 <?php $form = ActiveForm::begin(); ?>
 
-                <p><?= Yii::t('TwofaModule.base', 'Please enter your verifying code.'); ?></p>
+                <p><?= $driver->info ?></p>
 
                 <?= $form->field($model, 'code')->textInput(); ?>
 

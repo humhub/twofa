@@ -25,18 +25,25 @@ class CheckController extends Controller
      */
     public function actionIndex()
     {
+        if (!TwofaHelper::isVerifyingRequired()) {
+            return $this->goHome();
+        }
+
         Yii::$app->getModule('live')->isActive = false;
 
         $model = new CheckCode();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            TwofaHelper::disableVerifying();
-
+        if ($model->load(Yii::$app->request->post()) &&
+            $model->validate() &&
+            TwofaHelper::disableVerifying()) {
             $this->view->success(Yii::t('TwofaModule.base', 'Two-factor authentication code is validated!'));
             return $this->goHome();
         }
 
-        return $this->render('index', ['model' => $model]);
+        return $this->render('index', [
+            'model' => $model,
+            'driver' => TwofaHelper::getDriver(),
+        ]);
     }
 
 }

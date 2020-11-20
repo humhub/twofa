@@ -17,9 +17,11 @@ class EmailDriver extends BaseDriver
     /**
      * @inheritdoc
      */
-    public function getName()
+    public function init()
     {
-        return Yii::t('TwofaModule.base', 'E-mail');
+        parent::init();
+        $this->name = Yii::t('TwofaModule.base', 'E-mail');
+        $this->info = Yii::t('TwofaModule.base', 'Please find a verifying code sent to your email-address.');
     }
 
     /**

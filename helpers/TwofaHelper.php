@@ -10,7 +10,6 @@ namespace humhub\modules\twofa\helpers;
 
 use humhub\modules\content\components\ContentContainerSettingsManager;
 use humhub\modules\twofa\drivers\BaseDriver;
-use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\user\models\User;
 use humhub\modules\user\Module;
 use Yii;
@@ -19,6 +18,7 @@ class TwofaHelper
 {
     const USER_SETTING = 'twofaDriver';
     const CODE_SETTING = 'twofaCode';
+    const CODE_LENGTH = 6;
 
     /**
      * Get settings manager of current User
@@ -36,6 +36,40 @@ class TwofaHelper
     }
 
     /**
+     * Get setting value of current User
+     *
+     * @param string $name Setting name
+     * @return string|null
+     */
+    public static function getSetting($name)
+    {
+        return ($settings = self::getSettings()) ? $settings->get($name) : null;
+    }
+
+    /**
+     * Get setting value of current User
+     *
+     * @param string $name Setting name
+     * @param string|null $value Setting value, null - to delete the setting
+     * @return string|null
+     */
+    public static function setSetting($name, $value = null)
+    {
+        if (!($settings = TwofaHelper::getSettings())) {
+            return false;
+        }
+
+        if (empty($value)) {
+            // Remove empty setting from DB
+            $settings->delete($name);
+        } else {
+            $settings->set($name, $value);
+        }
+
+        return true;
+    }
+
+    /**
      * Get 2fa Driver for current User
      *
      * @return BaseDriver|false
@@ -43,11 +77,9 @@ class TwofaHelper
     public static function getDriver()
     {
         /** @var BaseDriver $driverClass */
-        // TODO: Implement new user setting who should be checked by 2fa
-        // $driverClass = self::getSettings()->get(self::USER_SETTING);
-        $driverClass = EmailDriver::class; // Use temporary Email Driver by default enabled for all users
+        $driverClass = self::getSetting(self::USER_SETTING);
 
-        if (in_array($driverClass, Yii::$app->getModule('twofa')->drivers )) {
+        if ($driverClass && in_array($driverClass, Yii::$app->getModule('twofa')->drivers )) {
             $driverClass = '\\' . $driverClass;
             return new $driverClass();
         }
@@ -62,7 +94,18 @@ class TwofaHelper
      */
     public static function getCode()
     {
-        return ($settings = self::getSettings()) ? $settings->get(self::CODE_SETTING) : null;
+        return self::getSetting(self::CODE_SETTING);
+    }
+
+    /**
+     * Hash code
+     *
+     * @param string $code Code value
+     * @return string Hashed code
+     */
+    public static function hashCode($code)
+    {
+        return md5($code);
     }
 
     /**
@@ -72,36 +115,34 @@ class TwofaHelper
      */
     public static function enableVerifying()
     {
-        $settings = self::getSettings();
         $driver = self::getDriver();
 
-        if (!$settings || !$driver) {
-            // Current User may be not logged in
-            // OR Wrong driver OR current User has no enabled 2fa
+        // Send a verifying code to use by driver
+        if (!$driver || !$driver->send()) {
+            // Impossible to send a verifying code by Driver,
+            // because wrong driver OR current User has no enabled 2fa
             return false;
         }
 
-        if (!$driver->send()) {
-            // Impossible to send a verifying code by Driver
+        // Store the sending verifying code in DB to use this as flag to display a form to check the code
+        if (!self::setSetting(self::CODE_SETTING, self::hashCode($driver->getCode()))) {
             return false;
         }
 
         // TODO: Inform user about way of sending the verifying code
-
-        // Store the sending verifying code in DB to use this as flag to display a form to check the code
-        $settings->set(self::CODE_SETTING, md5($driver->getCode()));
 
         return true;
     }
 
     /**
      * Disable verifying by 2fa for current User
+     *
+     * @return bool true on success disabling
      */
     public static function disableVerifying()
     {
-        if ($settings = self::getSettings()) {
-            $settings->delete(self::CODE_SETTING);
-        }
+        // Remove the verifying code from DB:
+        return self::setSetting(self::CODE_SETTING);
     }
 
     /**
@@ -115,11 +156,11 @@ class TwofaHelper
     /**
      * Check the requested code is valid for current User
      *
-     * @param $code
+     * @param string $code Code value
      * @return bool
      */
     public static function isValidCode($code)
     {
-        return md5($code) === self::getCode();
+        return self::hashCode($code) === self::getCode();
     }
 }

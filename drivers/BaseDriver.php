@@ -8,9 +8,11 @@
 
 namespace humhub\modules\twofa\drivers;
 
+use humhub\modules\twofa\helpers\TwofaHelper;
 use Yii;
+use yii\base\BaseObject;
 
-abstract class BaseDriver
+abstract class BaseDriver extends BaseObject
 {
     /**
      * @var string Last generated code
@@ -18,11 +20,23 @@ abstract class BaseDriver
     private $code;
 
     /**
-     * Return driver name
-     *
-     * @return string
+     * @var string Driver name
      */
-    abstract public function getName();
+    public $name;
+
+    /**
+     * @var string Info for user to know where to find a verifying code
+     */
+    public $info;
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->info = Yii::t('TwofaModule.base', 'Please enter your verifying code.');
+    }
 
     /**
      * Send new generated code
@@ -39,7 +53,7 @@ abstract class BaseDriver
     public function getCode()
     {
         if (!isset($this->code)) {
-            $this->code = Yii::$app->security->generateRandomString(6);
+            $this->code = Yii::$app->security->generateRandomString(TwofaHelper::CODE_LENGTH);
         }
 
         return $this->code;
