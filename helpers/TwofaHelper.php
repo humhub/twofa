@@ -10,8 +10,9 @@ namespace humhub\modules\twofa\helpers;
 
 use humhub\modules\content\components\ContentContainerSettingsManager;
 use humhub\modules\twofa\drivers\BaseDriver;
+use humhub\modules\twofa\Module as TwofaModule;
 use humhub\modules\user\models\User;
-use humhub\modules\user\Module;
+use humhub\modules\user\Module as UserModule;
 use Yii;
 
 class TwofaHelper
@@ -29,7 +30,7 @@ class TwofaHelper
     {
         /** @var User $user */
         $user = Yii::$app->user->getIdentity();
-        /** @var Module $module */
+        /** @var UserModule $module */
         $module = Yii::$app->getModule('user');
 
         return $user ? $module->settings->contentContainer($user) : false;
@@ -78,8 +79,10 @@ class TwofaHelper
     {
         /** @var BaseDriver $driverClass */
         $driverClass = self::getSetting(self::USER_SETTING);
+        /** @var TwofaModule $module */
+        $module = Yii::$app->getModule('twofa');
 
-        if ($driverClass && in_array($driverClass, Yii::$app->getModule('twofa')->drivers )) {
+        if ($driverClass && in_array($driverClass, $module->getEnabledDrivers())) {
             $driverClass = '\\' . $driverClass;
             return new $driverClass();
         }
@@ -150,7 +153,7 @@ class TwofaHelper
      */
     public static function isVerifyingRequired()
     {
-        return self::getCode() !== null;
+        return self::getDriver() && self::getCode() !== null;
     }
 
     /**

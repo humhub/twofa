@@ -9,6 +9,7 @@
 namespace humhub\modules\twofa;
 
 use humhub\modules\twofa\helpers\TwofaHelper;
+use humhub\modules\twofa\helpers\TwofaUrl;
 use Yii;
 
 class Events
@@ -28,7 +29,7 @@ class Events
 
         if (TwofaHelper::isVerifyingRequired() &&
             !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
-            return Yii::$app->getResponse()->redirect(Yii::$app->getModule('twofa')->checkRoute);
+            return Yii::$app->getResponse()->redirect(TwofaUrl::ROUTE_CHECK);
         }
     }
 

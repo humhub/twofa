@@ -63,12 +63,7 @@ class UserSettings extends Model
      */
     public function getDrivers()
     {
-        $driverOptions = ['' => Yii::t('TwofaModule.base', 'None')];
-        foreach ($this->module->drivers as $driverClassName) {
-            $driverOptions[$driverClassName] = (new $driverClassName())->name;
-        }
-
-        return $driverOptions;
+        return $this->module->getDriversOptions(Yii::t('TwofaModule.base', 'None'), true);
     }
 
     /**

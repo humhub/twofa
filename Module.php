@@ -11,6 +11,7 @@ namespace humhub\modules\twofa;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerModule;
 use humhub\modules\twofa\drivers\EmailDriver;
+use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\user\models\User;
 use Yii;
 
@@ -24,11 +25,6 @@ class Module extends ContentContainerModule
     ];
 
     /**
-     * @var string Route to check user for two-factor authentication
-     */
-    public $checkRoute = '/twofa/check';
-
-    /**
      * @inheritdoc
      */
     public function getContentContainerTypes()
@@ -36,6 +32,14 @@ class Module extends ContentContainerModule
         return [
             User::class,
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getConfigUrl()
+    {
+        return TwofaUrl::toConfig();
     }
 
     /**
@@ -61,6 +65,40 @@ class Module extends ContentContainerModule
      */
     public function isTwofaCheckUrl()
     {
-        return Yii::$app->requestedRoute === trim($this->checkRoute, '/');
+        return Yii::$app->requestedRoute === trim(TwofaUrl::ROUTE_CHECK, '/');
+    }
+
+    /**
+     * Get available drivers options for the 2fa module settings
+     *
+     * @param array|null None option
+     * @param boolean true - to load only enabled drivers, false - to load all implemented drivers for the module
+     * @return array
+     */
+    public function getDriversOptions($noneOption = null, $onlyEnabled = false)
+    {
+        $driversOptions = [];
+        if ($noneOption !== null) {
+            $driversOptions[''] = $noneOption;
+        }
+
+        $drivers = $onlyEnabled ? $this->getEnabledDrivers() : $this->drivers;
+
+        foreach ($drivers as $driverClassName) {
+            $driversOptions[$driverClassName] = (new $driverClassName())->name;
+        }
+
+        return $driversOptions;
+    }
+
+    /**
+     * Get enabled drivers
+     *
+     * @return array
+     */
+    function getEnabledDrivers()
+    {
+        $enabledDrivers = $this->settings->get('enabledDrivers', implode(',', $this->drivers));
+        return empty($enabledDrivers) ? [] : explode(',', $enabledDrivers);
     }
 }
