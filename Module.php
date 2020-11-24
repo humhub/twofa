@@ -101,4 +101,14 @@ class Module extends ContentContainerModule
         $enabledDrivers = $this->settings->get('enabledDrivers', implode(',', $this->drivers));
         return empty($enabledDrivers) ? [] : explode(',', $enabledDrivers);
     }
+
+    /**
+     * Get length of verifying code
+     *
+     * @return integer
+     */
+    function getCodeLength()
+    {
+        return intval($this->settings->get('codeLength', 6));
+    }
 }

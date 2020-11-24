@@ -22,11 +22,17 @@ class Config extends Model
      */
     public $enabledDrivers;
 
+    /**
+     * @var int Length of verifying code
+     */
+    public $codeLength;
+
     public function init()
     {
         parent::init();
         $this->module = Yii::$app->getModule('twofa');
         $this->enabledDrivers = $this->module->getEnabledDrivers();
+        $this->codeLength = $this->module->getCodeLength();
     }
 
     /**
@@ -36,6 +42,7 @@ class Config extends Model
     {
         return [
             ['enabledDrivers', 'in', 'range' => array_keys($this->module->getDriversOptions()), 'allowArray' => true],
+            ['codeLength', 'integer', 'min' => 4],
         ];
     }
 
@@ -47,7 +54,8 @@ class Config extends Model
     public function attributeLabels()
     {
         return [
-            'enabledDrivers' => Yii::t('MailModule.base', 'Enabled drivers'),
+            'enabledDrivers' => Yii::t('TwofaModule.config', 'Enabled drivers'),
+            'codeLength' => Yii::t('TwofaModule.config', 'Length of verifying code'),
         ];
     }
 
@@ -58,6 +66,7 @@ class Config extends Model
         }
 
         $this->module->settings->set('enabledDrivers', empty($this->enabledDrivers) ? '' : implode(',', $this->enabledDrivers));
+        $this->module->settings->set('codeLength', $this->codeLength);
         return true;
     }
 }

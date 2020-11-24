@@ -21,6 +21,8 @@ use yii\bootstrap\ActiveForm;
                 <i class="fa fa-info-circle"></i> <?= Yii::t('TwofaModule.config', 'This module is completely disabled because no drivers are selected.') ?>
             </div>
 
+            <?= $form->field($model, 'codeLength'); ?>
+
             <?= Button::save()->submit() ?>
 
         <?php ActiveForm::end(); ?>

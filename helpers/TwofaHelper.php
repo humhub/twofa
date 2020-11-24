@@ -19,7 +19,6 @@ class TwofaHelper
 {
     const USER_SETTING = 'twofaDriver';
     const CODE_SETTING = 'twofaCode';
-    const CODE_LENGTH = 6;
 
     /**
      * Get settings manager of current User

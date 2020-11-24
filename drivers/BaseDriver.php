@@ -8,7 +8,7 @@
 
 namespace humhub\modules\twofa\drivers;
 
-use humhub\modules\twofa\helpers\TwofaHelper;
+use humhub\modules\twofa\Module;
 use Yii;
 use yii\base\BaseObject;
 
@@ -53,7 +53,9 @@ abstract class BaseDriver extends BaseObject
     public function getCode()
     {
         if (!isset($this->code)) {
-            $this->code = Yii::$app->security->generateRandomString(TwofaHelper::CODE_LENGTH);
+            /** @var Module $module */
+            $module = Yii::$app->getModule('twofa');
+            $this->code = Yii::$app->security->generateRandomString($module->getCodeLength());
         }
 
         return $this->code;
