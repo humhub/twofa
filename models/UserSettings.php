@@ -32,7 +32,7 @@ class UserSettings extends Model
     public function init()
     {
         $this->module = Yii::$app->getModule('twofa');
-        $this->driver = TwofaHelper::getSetting(TwofaHelper::USER_SETTING);
+        $this->driver = TwofaHelper::getDriverSetting();
     }
 
     /**
@@ -57,13 +57,20 @@ class UserSettings extends Model
     }
 
     /**
-     * Get available drivers for the 2fa module
+     * Get available drivers for current User in the 2fa module
      *
      * @return array
      */
     public function getDrivers()
     {
-        return $this->module->getDriversOptions(Yii::t('TwofaModule.base', 'None'), true);
+        if (TwofaHelper::isEnforcedUser()) {
+            // User from enforced group should be denied to unselect 2fa driver
+            $noneOption = [$this->module->defaultDriver => (new $this->module->defaultDriver())->name];
+        } else {
+            $noneOption = ['' => Yii::t('TwofaModule.base', 'None')];
+        }
+
+        return $this->module->getDriversOptions($noneOption, true);
     }
 
     /**

@@ -70,6 +70,29 @@ class TwofaHelper
     }
 
     /**
+     * Get Driver setting value of current User
+     *
+     * @return string|null
+     */
+    public static function getDriverSetting()
+    {
+        $driverClass = self::getSetting(self::USER_SETTING);
+
+        /** @var TwofaModule $module */
+        $module = Yii::$app->getModule('twofa');
+
+        if (!in_array($driverClass, $module->getEnabledDrivers())) {
+            $driverClass = null;
+        }
+
+        if (empty($driverClass) && self::isEnforcedUser()) {
+            return $module->defaultDriver;
+        }
+
+        return $driverClass;
+    }
+
+    /**
      * Get 2fa Driver for current User
      *
      * @return BaseDriver|false
@@ -77,16 +100,39 @@ class TwofaHelper
     public static function getDriver()
     {
         /** @var BaseDriver $driverClass */
-        $driverClass = self::getSetting(self::USER_SETTING);
-        /** @var TwofaModule $module */
-        $module = Yii::$app->getModule('twofa');
+        $driverClass = self::getDriverSetting();
 
-        if ($driverClass && in_array($driverClass, $module->getEnabledDrivers())) {
+        if ($driverClass) {
             $driverClass = '\\' . $driverClass;
             return new $driverClass();
         }
 
         return false;
+    }
+
+    /**
+     * Check if at least one Group of the current User is enforced to 2fa
+     *
+     * @return boolean
+     */
+    public static function isEnforcedUser()
+    {
+        if (Yii::$app->user->isGuest) {
+            return false;
+        }
+
+        /** @var TwofaModule $module */
+        $module = Yii::$app->getModule('twofa');
+
+        $enforcedGroups = $module->getEnforcedGroups();
+        if (empty($enforcedGroups)) {
+            return false;
+        }
+
+        /** @var User $user */
+        $user = Yii::$app->user->getIdentity();
+
+        return $user->getGroups()->where(['in', 'id', $enforcedGroups])->exists();
     }
 
     /**

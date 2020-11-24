@@ -23,6 +23,11 @@ class Config extends Model
     public $enabledDrivers;
 
     /**
+     * @var array Ids of groups where users are enforced to use 2fa
+     */
+    public $enforcedGroups;
+
+    /**
      * @var int Length of verifying code
      */
     public $codeLength;
@@ -33,6 +38,7 @@ class Config extends Model
         $this->module = Yii::$app->getModule('twofa');
         $this->enabledDrivers = $this->module->getEnabledDrivers();
         $this->codeLength = $this->module->getCodeLength();
+        $this->enforcedGroups = $this->module->getEnforcedGroups();
     }
 
     /**
@@ -43,6 +49,7 @@ class Config extends Model
         return [
             ['enabledDrivers', 'in', 'range' => array_keys($this->module->getDriversOptions()), 'allowArray' => true],
             ['codeLength', 'integer', 'min' => 4],
+            ['enforcedGroups', 'in', 'range' => array_keys($this->module->getGroupsOptions()), 'allowArray' => true]
         ];
     }
 
@@ -56,6 +63,7 @@ class Config extends Model
         return [
             'enabledDrivers' => Yii::t('TwofaModule.config', 'Enabled drivers'),
             'codeLength' => Yii::t('TwofaModule.config', 'Length of verifying code'),
+            'enforcedGroups' => Yii::t('TwofaModule.config', 'Enforced groups to use 2FA'),
         ];
     }
 
@@ -66,6 +74,7 @@ class Config extends Model
         }
 
         $this->module->settings->set('enabledDrivers', empty($this->enabledDrivers) ? '' : implode(',', $this->enabledDrivers));
+        $this->module->settings->set('enforcedGroups', empty($this->enforcedGroups) ? '' : implode(',', $this->enforcedGroups));
         $this->module->settings->set('codeLength', $this->codeLength);
         return true;
     }

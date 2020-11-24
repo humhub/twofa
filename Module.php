@@ -8,15 +8,23 @@
 
 namespace humhub\modules\twofa;
 
+use humhub\modules\admin\models\forms\UserEditForm;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerModule;
 use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\helpers\TwofaUrl;
+use humhub\modules\user\models\Group;
 use humhub\modules\user\models\User;
 use Yii;
 
 class Module extends ContentContainerModule
 {
+
+    /**
+     * @var string Default Driver, used for Users from enforced Groups by default
+     */
+    public $defaultDriver = EmailDriver::class;
+
     /**
      * @var array Drivers
      */
@@ -63,23 +71,16 @@ class Module extends ContentContainerModule
     /**
      * Get available drivers options for the 2fa module settings
      *
-     * @param array|null None option
+     * @param array|null Init options(Key - Driver class name, Value - Drive name), used to init None option and/or forced/default Driver
      * @param boolean true - to load only enabled drivers, false - to load all implemented drivers for the module
      * @return array
      */
-    public function getDriversOptions($noneOption = null, $onlyEnabled = false)
+    public function getDriversOptions($driversOptions = [], $onlyEnabled = false)
     {
-        $driversOptions = [];
-        if ($noneOption !== null) {
-            $driversOptions[''] = $noneOption;
-        }
-
         $drivers = $onlyEnabled ? $this->getEnabledDrivers() : $this->drivers;
-
         foreach ($drivers as $driverClassName) {
             $driversOptions[$driverClassName] = (new $driverClassName())->name;
         }
-
         return $driversOptions;
     }
 
@@ -88,7 +89,7 @@ class Module extends ContentContainerModule
      *
      * @return array
      */
-    function getEnabledDrivers()
+    public function getEnabledDrivers()
     {
         $enabledDrivers = $this->settings->get('enabledDrivers', implode(',', $this->drivers));
         return empty($enabledDrivers) ? [] : explode(',', $enabledDrivers);
@@ -99,8 +100,35 @@ class Module extends ContentContainerModule
      *
      * @return integer
      */
-    function getCodeLength()
+    public function getCodeLength()
     {
         return intval($this->settings->get('codeLength', 6));
+    }
+
+    /**
+     * Get groups options for the 2fa module settings
+     *
+     * @return array
+     */
+    public function getGroupsOptions()
+    {
+        $groups = Group::find()->all();
+        return UserEditForm::getGroupItems($groups);
+    }
+
+    /**
+     * Get enforced groups to 2fa E-mail driver
+     *
+     * @return array
+     */
+    public function getEnforcedGroups()
+    {
+        $enforcedGroups = $this->settings->get('enforcedGroups');
+        if ($enforcedGroups === null) {
+            // Enforce all Administrative Groups by default
+            return Group::find()->select('id')->where(['is_admin_group' => '1'])->column();
+        }
+
+        return empty($enforcedGroups) ? [] : explode(',', $enforcedGroups);
     }
 }

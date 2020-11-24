@@ -6,6 +6,7 @@ use humhub\widgets\Button;
 use yii\bootstrap\ActiveForm;
 
 /* @var $model Config */
+/* @var $defaultDriverName string */
 ?>
 
 <div class="panel panel-default">
@@ -15,11 +16,18 @@ use yii\bootstrap\ActiveForm;
     <div class="panel-body">
         <?php $form = ActiveForm::begin(['id' => 'configure-form']); ?>
 
+            <div id="disabledDriversInfo" class="alert alert-warning"<?= empty($model->enabledDrivers) ? '' : ' style="display:none"' ?>>
+                <i class="fa fa-info-circle"></i> <?= Yii::t('TwofaModule.config', 'This module is disabled because no drivers are selected, however users from the enforced groups always fallback to {defaultDriverName} driver by default.', [
+                    'defaultDriverName' => $defaultDriverName
+                ]) ?>
+            </div>
+
             <?= $form->field($model, 'enabledDrivers')->checkboxList($model->module->getDriversOptions()); ?>
 
-            <div id="disabledDriversInfo" class="alert alert-warning"<?= empty($model->enabledDrivers) ? '' : ' style="display:none"' ?>>
-                <i class="fa fa-info-circle"></i> <?= Yii::t('TwofaModule.config', 'This module is completely disabled because no drivers are selected.') ?>
-            </div>
+            <?= $form->field($model, 'enforcedGroups')->checkboxList($model->module->getGroupsOptions()); ?>
+            <div class="help-block"><?= Yii::t('TwofaModule.config', 'Users of the selected groups are enforced to {defaultDriverName} driver by default.', [
+                    'defaultDriverName' => $defaultDriverName
+                ]) ?></div>
 
             <?= $form->field($model, 'codeLength'); ?>
 
