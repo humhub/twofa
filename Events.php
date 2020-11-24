@@ -10,6 +10,9 @@ namespace humhub\modules\twofa;
 
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\helpers\TwofaUrl;
+use humhub\modules\ui\menu\MenuLink;
+use humhub\modules\user\events\UserEvent;
+use humhub\modules\user\widgets\AccountMenu;
 use Yii;
 
 class Events
@@ -42,5 +45,31 @@ class Events
     public static function onAfterLogin($event)
     {
         TwofaHelper::enableVerifying();
+    }
+
+    /**
+     * Add menu to edit module setting per current User
+     *
+     * @param UserEvent $event
+     */
+    public static function onProfileSettingMenuInit($event)
+    {
+        if (Yii::$app->user->isGuest) {
+            return;
+        }
+
+        $menuRoute = explode('/', trim(TwofaUrl::ROUTE_USER_SETTINGS, '/'));
+        $isActiveMenu = MenuLink::isActiveState($menuRoute[0], $menuRoute[1]);
+
+        $event->sender->addItem([
+            'label' => Yii::t('TwofaModule.base', 'Two-Factor Authentication'),
+            'url' => Yii::$app->user->identity->createUrl(TwofaUrl::ROUTE_USER_SETTINGS),
+            'isActive' => $isActiveMenu,
+            'sortOrder' => 300
+        ]);
+
+        if ($isActiveMenu) {
+            AccountMenu::markAsActive('account-settings-settings');
+        }
     }
 }

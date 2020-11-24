@@ -45,14 +45,6 @@ class Module extends ContentContainerModule
     /**
      * @inheritdoc
      */
-    public function getContentContainerConfigUrl(ContentContainerActiveRecord $container)
-    {
-        return $container->createUrl('/twofa/container-config');
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getContentContainerDescription(ContentContainerActiveRecord $container)
     {
         if ($container instanceof User) {

@@ -9,20 +9,20 @@
 namespace humhub\modules\twofa\controllers;
 
 use humhub\modules\twofa\models\UserSettings;
-use humhub\modules\wiki\permissions\AdministerPages;
-use humhub\modules\content\components\ContentContainerController;
+use humhub\modules\user\components\BaseAccountController;
 use Yii;
 
-class ContainerConfigController extends ContentContainerController
+class UserSettingsController extends BaseAccountController
 {
     /**
      * @inheritdoc
      */
-    public function getAccessRules()
+    public function init()
     {
-        return [
-          ['permission' => [AdministerPages::class]]
-        ];
+        $this->setActionTitles([
+            'index' => Yii::t('TwofaModule.config', 'Two-Factor Authentication'),
+        ]);
+        return parent::init();
     }
 
     public function actionIndex()

@@ -18,9 +18,14 @@ class TwofaUrl extends Url
     const ROUTE_CHECK = '/twofa/check';
 
     /**
-     * @var string Route to configuration by admin
+     * @var string Route to configure general module settings by admin
      */
     const ROUTE_CONFIG = '/twofa/config';
+
+    /**
+     * @var string Route to configure user settings by current User
+     */
+    const ROUTE_USER_SETTINGS = '/twofa/user-settings';
 
     public static function toConfig()
     {
