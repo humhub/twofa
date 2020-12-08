@@ -29,7 +29,9 @@ class CheckController extends Controller
             return $this->goHome();
         }
 
-        Yii::$app->getModule('live')->isActive = false;
+        if (isset(Yii::$app->getModule('live')->isActive)) {
+            Yii::$app->getModule('live')->isActive = false;
+        }
 
         $model = new CheckCode();
 
