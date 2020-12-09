@@ -18,6 +18,26 @@ use Yii;
 class Events
 {
     /**
+     * @inheritdoc
+     */
+    public static function onBeforeRequest()
+    {
+        try {
+            static::registerAutoloader();
+        } catch (\Throwable $e) {
+            Yii::error($e);
+        }
+    }
+
+    /**
+     * Register composer autoloader
+     */
+    public static function registerAutoloader()
+    {
+        require Yii::getAlias('@twofa/vendor/autoload.php');
+    }
+
+    /**
      * Check if current User has been verified by 2fa if it is required
      *
      * @param $event

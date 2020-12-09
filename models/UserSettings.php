@@ -8,8 +8,10 @@
 
 namespace humhub\modules\twofa\models;
 
+use humhub\modules\twofa\drivers\BaseDriver;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\Module;
+use humhub\modules\ui\form\widgets\ActiveForm;
 use Yii;
 use yii\base\Model;
 
@@ -71,6 +73,21 @@ class UserSettings extends Model
         }
 
         return $this->module->getDriversOptions($noneOption, true);
+    }
+
+    /**
+     * Display additional fields of all enabled drivers
+     *
+     * @param ActiveForm $form
+     */
+    public function renderDriversFields($form)
+    {
+        $drivers = $this->module->getEnabledDrivers();
+        foreach ($drivers as $driverClassName) {
+            /* @var BaseDriver $driver */
+            $driver = new $driverClassName();
+            $driver->renderUserSettings($form, $this);
+        }
     }
 
     /**

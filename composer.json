@@ -1,0 +1,8 @@
+{
+  "name": "humhub/humhub-2fa",
+  "description": "HumHub 2FA module",
+  "type": "library",
+  "require": {
+    "sonata-project/google-authenticator": "^2.2"
+  }
+}

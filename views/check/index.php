@@ -31,7 +31,7 @@ $this->pageTitle = Yii::t('TwofaModule.base', 'Two-Factor Authentication');
 
                 <?php $form = ActiveForm::begin(); ?>
 
-                <p><?= $driver->info ?></p>
+                <?php $driver->beforeCheckCodeFormInput($form, $model); ?>
 
                 <?= $form->field($model, 'code')->textInput(); ?>
 

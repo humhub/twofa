@@ -12,6 +12,7 @@ use humhub\modules\admin\models\forms\UserEditForm;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerModule;
 use humhub\modules\twofa\drivers\EmailDriver;
+use humhub\modules\twofa\drivers\GoogleAuthenticatorDriver;
 use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\user\models\Group;
 use humhub\modules\user\models\User;
@@ -30,6 +31,7 @@ class Module extends ContentContainerModule
      */
     public $drivers = [
         EmailDriver::class,
+        GoogleAuthenticatorDriver::class,
     ];
 
     /**

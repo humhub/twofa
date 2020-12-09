@@ -6,10 +6,9 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\modules\twofa\models\UserSettings;
-
 /* @var $model UserSettings */
 
+use humhub\modules\twofa\models\UserSettings;
 use humhub\modules\ui\form\widgets\ActiveForm;
 use humhub\modules\user\widgets\AccountSettingsMenu;
 use humhub\widgets\Button;
@@ -26,7 +25,16 @@ use humhub\widgets\Button;
 
         <?= $form->field($model, 'driver')->dropDownList($model->getDrivers()) ?>
 
+        <?php $model->renderDriversFields($form) ?>
+
         <?= Button::primary(Yii::t('base', 'Save'))->submit() ?>
 
     <?php ActiveForm::end(); ?>
 </div>
+
+<script>
+$('#usersettings-driver').on('change', function() {
+    $('[data-driver-fields]').hide();
+    $('[data-driver-fields="' + $(this).val().replaceAll('\\', '\\\\') + '"]').show();
+})
+</script>

@@ -209,6 +209,13 @@ class TwofaHelper
      */
     public static function isValidCode($code)
     {
-        return self::hashCode($code) === self::getCode();
+        $driver = self::getDriver();
+
+        if (!$driver) {
+            // Don't restrict current User if proper Driver is not selected
+            return true;
+        }
+
+        return $driver->checkCode($code);
     }
 }

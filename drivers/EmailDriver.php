@@ -8,7 +8,6 @@
 
 namespace humhub\modules\twofa\drivers;
 
-use humhub\modules\user\models\User;
 use yii\mail\BaseMessage;
 use Yii;
 
@@ -29,15 +28,8 @@ class EmailDriver extends BaseDriver
      */
     public function send()
     {
-        /** @var User $user */
-        $user = Yii::$app->user->getIdentity();
-        if (!$user) {
+        if (!$this->beforeSend()) {
             return false;
-        }
-
-        // Switch to users language - if specified
-        if ($user->language !== '') {
-            Yii::$app->language = $user->language;
         }
 
         /** @var BaseMessage $mail */
