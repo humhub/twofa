@@ -93,21 +93,34 @@ class TwofaHelper
     }
 
     /**
+     * Get 2fa Driver by class name
+     *
+     * @param string Class name
+     * @return BaseDriver|false
+     */
+    public static function getDriverByClassName($driverClassName)
+    {
+        if (empty($driverClassName)) {
+            return false;
+        }
+
+        $driverClassName = '\\' . trim($driverClassName, '\\');
+
+        if (class_exists($driverClassName)) {
+            return new $driverClassName();
+        }
+
+        return false;
+    }
+
+    /**
      * Get 2fa Driver for current User
      *
      * @return BaseDriver|false
      */
     public static function getDriver()
     {
-        /** @var BaseDriver $driverClass */
-        $driverClass = self::getDriverSetting();
-
-        if ($driverClass) {
-            $driverClass = '\\' . $driverClass;
-            return new $driverClass();
-        }
-
-        return false;
+        return self::getDriverByClassName(self::getDriverSetting());
     }
 
     /**

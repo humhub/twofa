@@ -12,6 +12,7 @@ namespace humhub\modules\twofa\controllers;
 use humhub\modules\admin\permissions\ManageModules;
 use humhub\modules\admin\components\Controller;
 use humhub\modules\twofa\drivers\BaseDriver;
+use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\models\Config;
 use Yii;
 
@@ -36,13 +37,9 @@ class ConfigController extends Controller
             $this->view->saved();
         }
 
-        /** @var BaseDriver $defaultDriver */
-        $defaultDriverClassName = '\\' . $model->module->defaultDriver;
-        $defaultDriver = new $defaultDriverClassName();
-
         return $this->render('module', [
             'model' => $model,
-            'defaultDriverName' => $defaultDriver->name,
+            'defaultDriverName' => TwofaHelper::getDriverByClassName($model->module->defaultDriver)->name,
         ]);
     }
 }

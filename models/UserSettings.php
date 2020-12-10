@@ -67,7 +67,7 @@ class UserSettings extends Model
     {
         if (TwofaHelper::isEnforcedUser()) {
             // User from enforced group should be denied to unselect 2fa driver
-            $noneOption = [$this->module->defaultDriver => (new $this->module->defaultDriver())->name];
+            $noneOption = [$this->module->defaultDriver => TwofaHelper::getDriverByClassName($this->module->defaultDriver)->name];
         } else {
             $noneOption = ['' => Yii::t('TwofaModule.base', 'None')];
         }
@@ -84,8 +84,7 @@ class UserSettings extends Model
     {
         $drivers = $this->module->getEnabledDrivers();
         foreach ($drivers as $driverClassName) {
-            /* @var BaseDriver $driver */
-            $driver = new $driverClassName();
+            $driver = TwofaHelper::getDriverByClassName($driverClassName);
             $driver->renderUserSettings($form, $this);
         }
     }

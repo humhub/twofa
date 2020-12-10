@@ -44,6 +44,16 @@ abstract class BaseDriver extends BaseObject
     }
 
     /**
+     * Check if this Driver is installed successfully and can be used properly
+     *
+     * @return bool
+     */
+    public function isInstalled()
+    {
+        return true;
+    }
+
+    /**
      * Action before send/generate code
      *
      * @return bool

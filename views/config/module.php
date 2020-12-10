@@ -22,7 +22,9 @@ use yii\bootstrap\ActiveForm;
                 ]) ?>
             </div>
 
-            <?= $form->field($model, 'enabledDrivers')->checkboxList($model->module->getDriversOptions()); ?>
+            <?= $form->field($model, 'enabledDrivers')->checkboxList($model->module->getDriversOptions(), [
+                    'item' => array($model->module, 'renderDriverCheckboxItem')
+                ]); ?>
 
             <?= $form->field($model, 'enforcedGroups')->checkboxList($model->module->getGroupsOptions()); ?>
             <div class="help-block"><?= Yii::t('TwofaModule.config', 'Users of the selected groups are enforced to {defaultDriverName} driver by default.', [

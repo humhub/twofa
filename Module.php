@@ -8,11 +8,13 @@
 
 namespace humhub\modules\twofa;
 
+use humhub\libs\Html;
 use humhub\modules\admin\models\forms\UserEditForm;
 use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\content\components\ContentContainerModule;
 use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\drivers\GoogleAuthenticatorDriver;
+use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\user\models\Group;
 use humhub\modules\user\models\User;
@@ -81,9 +83,30 @@ class Module extends ContentContainerModule
     {
         $drivers = $onlyEnabled ? $this->getEnabledDrivers() : $this->drivers;
         foreach ($drivers as $driverClassName) {
-            $driversOptions[$driverClassName] = (new $driverClassName())->name;
+            $driversOptions[$driverClassName] = TwofaHelper::getDriverByClassName($driverClassName)->name;
         }
         return $driversOptions;
+    }
+
+    /**
+     * Callback function to render checkbox element of Driver on backoffice module config form
+     *
+     * @param $index
+     * @param $label
+     * @param $name
+     * @param $checked
+     * @param $value
+     * @return string
+     */
+    public function renderDriverCheckboxItem($index, $label, $name, $checked, $value)
+    {
+        $options = [
+            'label' => Html::encode($label),
+            'value' => $value,
+            'disabled' => !TwofaHelper::getDriverByClassName($value)->isInstalled(),
+        ];
+
+        return '<div class="checkbox">' . Html::checkbox($name, $checked, $options) . '</div>';
     }
 
     /**
@@ -94,7 +117,20 @@ class Module extends ContentContainerModule
     public function getEnabledDrivers()
     {
         $enabledDrivers = $this->settings->get('enabledDrivers', implode(',', $this->drivers));
-        return empty($enabledDrivers) ? [] : explode(',', $enabledDrivers);
+
+        if (empty($enabledDrivers)) {
+            return [];
+        }
+
+        // Check if each enabled Driver is properly installed:
+        $enabledDrivers = explode(',', $enabledDrivers);
+        foreach ($enabledDrivers as $d => $enabledDriverClassName) {
+            if (!TwofaHelper::getDriverByClassName($enabledDriverClassName)->isInstalled()) {
+                unset($enabledDrivers[$d]);
+            }
+        }
+
+        return $enabledDrivers;
     }
 
     /**

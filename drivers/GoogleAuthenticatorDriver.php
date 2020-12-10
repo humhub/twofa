@@ -33,6 +33,18 @@ class GoogleAuthenticatorDriver extends BaseDriver
     }
 
     /**
+     * Check if this Driver is installed successfully and can be used properly
+     *
+     * @return bool
+     */
+    public function isInstalled()
+    {
+        // Google Authenticator library must be installed for work of this Driver:
+        return class_exists('\Sonata\GoogleAuthenticator\GoogleAuthenticator') &&
+            class_exists('\Sonata\GoogleAuthenticator\GoogleQrUrl');
+    }
+
+    /**
      * @inheritdoc
      */
     public function send()

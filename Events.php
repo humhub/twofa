@@ -34,7 +34,10 @@ class Events
      */
     public static function registerAutoloader()
     {
-        require Yii::getAlias('@twofa/vendor/autoload.php');
+        $autoloaderFilePath = Yii::getAlias('@twofa/vendor/autoload.php');
+        if (file_exists($autoloaderFilePath)) {
+            require $autoloaderFilePath;
+        }
     }
 
     /**
