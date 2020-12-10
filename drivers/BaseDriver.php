@@ -125,19 +125,37 @@ abstract class BaseDriver extends BaseObject
      */
     public function renderUserSettingsFile($params = [])
     {
-        $driverFieldsFileName = '@twofa/views/config/user' . substr(static::class, strrpos(static::class, '\\') + 1) . '.php';
+        echo '<div data-driver-fields="' . static::class . '"'
+            . ( TwofaHelper::getDriverSetting() == static::class ? '' : ' style="display:none"') . '>';
+
+        echo $this->renderFile($params);
+
+        echo '</div>';
+    }
+
+    /**
+     * Get a rendered custom driver file
+     *
+     * @param array Params to pass to template
+     * @param array Options to init the rendered file
+     * @return string The rendered result
+     */
+    public function renderFile($params = [], $options = [])
+    {
+        $options = array_merge([
+            'prefix' => 'config/user',
+            'suffix' => '',
+        ], $options );
+
+        $driverName = substr(static::class, strrpos(static::class, '\\') + 1, -6);
+        $driverFieldsFileName = '@twofa/views/' . $options['prefix'] . $driverName . $options['suffix'] . '.php';
         if (!file_exists(Yii::getAlias($driverFieldsFileName))) {
             // Skip if this Driver has no file for additional fields:
             return;
         }
 
-        echo '<div data-driver-fields="' . static::class . '"'
-            . ( TwofaHelper::getDriverSetting() == static::class ? '' : ' style="display:none"') . '>';
-
         // Render a form file with additional fields for this Driver:
-        echo Yii::$app->getView()->renderFile($driverFieldsFileName, $params);
-
-        echo '</div>';
+        return Yii::$app->getView()->renderFile($driverFieldsFileName, $params);
     }
 
     /**
@@ -149,5 +167,23 @@ abstract class BaseDriver extends BaseObject
     public function checkCode($code)
     {
         return TwofaHelper::hashCode($code) === TwofaHelper::getCode();
+    }
+
+    /**
+     * Call driver action
+     * Used by AJAX request
+     *
+     * @param string Action name
+     * @param array Params
+     * @return mixed
+     */
+    public function callAction($action, $params = [])
+    {
+        $methodName = 'action'.ucfirst($action);
+        if (empty($action) || !method_exists($this, $methodName)) {
+            return;
+        }
+
+        return $this->$methodName($params);
     }
 }

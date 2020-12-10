@@ -71,18 +71,8 @@ class GoogleAuthenticatorDriver extends BaseDriver
      */
     public function renderUserSettings(ActiveForm $form, UserSettings $model)
     {
-        $secret = TwofaHelper::getSetting(self::SECRET_SETTING);
-        if (empty($secret)) {
-            // Generate new secret code and store for current User:
-            // TODO: Implement the generating by some button click where it can be refreshed by ajax
-            $secret = $this->getGoogleAuthenticator()->generateSecret();
-            // Save new generated secret in DB:
-            TwofaHelper::setSetting(self::SECRET_SETTING, $secret);
-        }
-
         $this->renderUserSettingsFile([
-            'qrCodeUrl' => GoogleQrUrl::generate(Yii::$app->user->getIdentity()->username, $secret, Yii::$app->request->hostName, 300),
-            'secret' => $secret,
+            'driver' => $this,
         ]);
     }
 
@@ -106,5 +96,43 @@ class GoogleAuthenticatorDriver extends BaseDriver
     {
         // NOTE: Don't try to pass different code length, only default $passCodeLength = 6 can be used here!
         return new GoogleAuthenticator(/* Yii::$app->getModule('twofa')->getCodeLength() */);
+    }
+
+    /**
+     * Request code by AJAX request on user settings form
+     *
+     * @param array Params
+     * @return string
+     */
+    public function actionRequestCode($params)
+    {
+        // Generate new secret code and store for current User:
+        $secret = $this->getGoogleAuthenticator()->generateSecret();
+
+        // Save new generated secret in DB:
+        TwofaHelper::setSetting(self::SECRET_SETTING, $secret);
+
+        return $this->getQrCodeSecretKeyFile();
+    }
+
+    /**
+     * Get file with QR code and secret key
+     *
+     * @return string|void
+     * @throws \Throwable
+     */
+    public function getQrCodeSecretKeyFile()
+    {
+        $secret = TwofaHelper::getSetting(self::SECRET_SETTING);
+
+        if (empty($secret)) {
+            // TODO: Maybe move to template/view
+            return '<div class="text-danger">'.Yii::t('TwofaModule.config', 'You should request QR code firstly in order to start using the Google Authenticator driver!').'</div>';
+        }
+
+        return $this->renderFile([
+            'qrCodeUrl' => GoogleQrUrl::generate(Yii::$app->user->getIdentity()->username, $secret, Yii::$app->request->hostName, 300),
+            'secret' => $secret,
+        ], ['suffix' => 'Code']);
     }
 }

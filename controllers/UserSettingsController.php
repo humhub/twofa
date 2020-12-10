@@ -8,6 +8,9 @@
 
 namespace humhub\modules\twofa\controllers;
 
+use humhub\modules\twofa\assets\Assets;
+use humhub\modules\twofa\drivers\BaseDriver;
+use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\models\UserSettings;
 use humhub\modules\user\components\BaseAccountController;
 use Yii;
@@ -33,8 +36,23 @@ class UserSettingsController extends BaseAccountController
             $this->view->saved();
         }
 
+        Assets::register($this->view);
+
         return $this->render('@twofa/views/config/user', [
             'model' => $model
         ]);
+    }
+
+    /**
+     * Execute specific driver action
+     */
+    public function actionDriverAction()
+    {
+        $driver = TwofaHelper::getDriverByClassName(Yii::$app->request->post('driver'));
+        if (!$driver || !($driver instanceof BaseDriver)) {
+            return;
+        }
+
+        return $driver->callAction(Yii::$app->request->post('action'), Yii::$app->request->post());
     }
 }
