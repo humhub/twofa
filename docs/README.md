@@ -5,6 +5,7 @@ The two-factor authentication modules allows users to select additional checking
 Available drivers:
 
 - E-mail
+- Google Authenticator
 
 Some user groups may be enforced to always use 2FA.
 
