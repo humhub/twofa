@@ -71,6 +71,16 @@ class GoogleAuthenticatorDriver extends BaseDriver
      */
     public function renderUserSettings(ActiveForm $form, UserSettings $model)
     {
+        Yii::$app->getView()->registerJsConfig('twofa', [
+            'confirmAction' => true,
+            'text' => [
+                'confirm.action.header' => Yii::t('TwofaModule.config', '<strong>Request</strong> new code'),
+                'confirm.action.question' => Yii::t('TwofaModule.config', 'Do you really want to request new code?') . '<br>'
+                    . Yii::t('TwofaModule.config', 'Please <strong>don\'t forget</strong> to update new code in your Google Authenticator app, otherwise you will cannot log in!'),
+                'confirm.action.button' => Yii::t('TwofaModule.config', 'Request'),
+            ]
+        ]);
+
         $this->renderUserSettingsFile([
             'driver' => $this,
         ]);
