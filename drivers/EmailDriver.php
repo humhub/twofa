@@ -8,6 +8,7 @@
 
 namespace humhub\modules\twofa\drivers;
 
+use humhub\modules\user\models\User;
 use yii\mail\BaseMessage;
 use Yii;
 
@@ -31,6 +32,9 @@ class EmailDriver extends BaseDriver
         if (!$this->beforeSend()) {
             return false;
         }
+
+        /** @var User $user */
+        $user = Yii::$app->user->getIdentity();
 
         /** @var BaseMessage $mail */
         $mail = Yii::$app->mailer->compose([
