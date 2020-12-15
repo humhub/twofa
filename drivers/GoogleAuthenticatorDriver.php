@@ -72,7 +72,6 @@ class GoogleAuthenticatorDriver extends BaseDriver
     public function renderUserSettings(ActiveForm $form, UserSettings $model)
     {
         Yii::$app->getView()->registerJsConfig('twofa', [
-            'confirmAction' => true,
             'text' => [
                 'confirm.action.header' => Yii::t('TwofaModule.config', '<strong>Request</strong> new code'),
                 'confirm.action.question' => Yii::t('TwofaModule.config', 'Do you really want to request new code?') . '<br>'
@@ -136,8 +135,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
         $secret = TwofaHelper::getSetting(self::SECRET_SETTING);
 
         if (empty($secret)) {
-            // TODO: Maybe move to template/view
-            return '<div class="text-danger">'.Yii::t('TwofaModule.config', 'You should request QR code firstly in order to start using the Google Authenticator driver!').'</div>';
+            return '';
         }
 
         return $this->renderFile([

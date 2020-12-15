@@ -23,7 +23,7 @@ use humhub\widgets\Button;
 <div class="panel-body">
     <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($model, 'driver')->dropDownList($model->getDrivers()) ?>
+        <?= $form->field($model, 'driver')->dropDownList($model->getDrivers(), ['data-action-change' => 'twofa.selectDriver']) ?>
 
         <?php $model->renderDriversFields($form) ?>
 
@@ -31,10 +31,3 @@ use humhub\widgets\Button;
 
     <?php ActiveForm::end(); ?>
 </div>
-
-<script>
-$('#usersettings-driver').on('change', function() {
-    $('[data-driver-fields]').hide();
-    $('[data-driver-fields="' + $(this).val().replaceAll('\\', '\\\\') + '"]').show();
-})
-</script>

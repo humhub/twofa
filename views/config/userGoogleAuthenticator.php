@@ -14,12 +14,13 @@ use humhub\widgets\Button;
 ?>
 
 <div class="form-group">
-<?= Button::info(Yii::t('TwofaModule.config', 'Request QR code'))
+<?= Button::asLink(Yii::t('TwofaModule.config', 'Request new code'))
     ->icon('fa-qrcode')
     ->action('twofa.callDriverAction', Yii::$app->user->identity->createUrl('/twofa/user-settings/driver-action'))
     ->options([
         'data-driver-class' => get_class($driver),
         'data-driver-action' => 'requestCode',
+        'data-driver-confirm' => 1,
         'data-container' => '#twofaGoogleAuthCode',
     ]) ?>
 </div>
