@@ -15,6 +15,10 @@ use humhub\libs\Html;
 <div class="form-group">
     <?= Html::label(Yii::t('TwofaModule.config', 'Scan this QR code in Google Authenticator app:'), '', ['class' => 'control-label']) ?><br>
     <?= Html::img($qrCodeUrl, ['alt' => Yii::t('TwofaModule.config', 'Google Authenticator QR Code')]) ?>
+    <div class="help-block">
+        <?= Yii::t('TwofaModule.config', 'Please read this <a{docLinkAttrs}>documentaion</a> to know how to download, set up and use the Google Authenticator app.',
+            ['{docLinkAttrs}' => ' href="https://support.google.com/accounts/answer/1066447" target="_blank"']) ?>
+    </div>
 </div>
 
 <div class="form-group">
