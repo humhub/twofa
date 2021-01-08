@@ -91,7 +91,7 @@ abstract class BaseDriver extends BaseObject
         if (!isset($this->code)) {
             /** @var Module $module */
             $module = Yii::$app->getModule('twofa');
-            $this->code = Yii::$app->security->generateRandomString($module->getCodeLength());
+            $this->code = TwofaHelper::generateCode($module->getCodeLength());
         }
 
         return $this->code;
@@ -126,7 +126,7 @@ abstract class BaseDriver extends BaseObject
     public function renderUserSettingsFile($params = [])
     {
         echo '<div data-driver-fields="' . static::class . '"'
-            . ( TwofaHelper::getDriverSetting() == static::class ? '' : ' style="display:none"') . '>';
+            . (TwofaHelper::getDriverSetting() == static::class ? '' : ' style="display:none"') . '>';
 
         echo $this->renderFile($params);
 
@@ -145,7 +145,7 @@ abstract class BaseDriver extends BaseObject
         $options = array_merge([
             'prefix' => 'config/user',
             'suffix' => '',
-        ], $options );
+        ], $options);
 
         $driverName = substr(static::class, strrpos(static::class, '\\') + 1, -6);
         $driverFieldsFileName = '@twofa/views/' . $options['prefix'] . $driverName . $options['suffix'] . '.php';
@@ -179,7 +179,7 @@ abstract class BaseDriver extends BaseObject
      */
     public function callAction($action, $params = [])
     {
-        $methodName = 'action'.ucfirst($action);
+        $methodName = 'action' . ucfirst($action);
         if (empty($action) || !method_exists($this, $methodName)) {
             return;
         }
