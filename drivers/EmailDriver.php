@@ -21,7 +21,7 @@ class EmailDriver extends BaseDriver
     {
         parent::init();
         $this->name = Yii::t('TwofaModule.base', 'E-mail');
-        $this->info = Yii::t('TwofaModule.base', 'Please find a verifying code sent to your email-address.');
+        $this->info = Yii::t('TwofaModule.base', 'A confirmation code for this login has just been sent to your email address. Please enter the code from the e-mail in the field below.');
     }
 
     /**
@@ -45,7 +45,7 @@ class EmailDriver extends BaseDriver
             'code' => $this->getCode(),
         ]);
         $mail->setTo($user->email);
-        $mail->setSubject(Yii::t('TwofaModule.base', 'Two-Factor Authentication'));
+        $mail->setSubject(Yii::t('TwofaModule.base', 'Your login verification code'));
 
         return $mail->send();
     }
