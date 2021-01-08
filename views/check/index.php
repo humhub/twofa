@@ -25,18 +25,23 @@ $this->pageTitle = Yii::t('TwofaModule.base', 'Two-Factor Authentication');
 
     <div class="row">
         <div id="must-change-password-form" class="panel panel-default animated bounceIn"
-             style="max-width: 300px; margin: 0 auto 20px; text-align: left;">
-            <div class="panel-heading"><?= Yii::t('TwofaModule.base', '<strong>Check</strong> two-factor authentication'); ?></div>
+             style="max-width: 400px; margin: 0 auto 20px; text-align: left;">
+            <div class="panel-heading"><?= Yii::t('TwofaModule.base', '<strong>Two-factor</strong> authentication'); ?></div>
             <div class="panel-body">
 
                 <?php $form = ActiveForm::begin(); ?>
 
                 <?php $driver->beforeCheckCodeFormInput($form, $model); ?>
 
+                <br />
+
                 <?= $form->field($model, 'code')->textInput(); ?>
 
+                <br />
+
+                <?= Button::danger(Yii::t('TwofaModule.base', 'Log out'))->link(Url::toRoute('/user/auth/logout'))->xs()->right()->pjax(false) ?>
+
                 <?= Html::submitButton(Yii::t('TwofaModule.base', 'Verify'), ['class' => 'btn btn-primary', 'data-ui-loader' => ""]); ?>
-                <?= Button::danger(Yii::t('TwofaModule.base', 'Log out'))->link(Url::toRoute('/user/auth/logout'))->pjax(false) ?>
 
                 <?php ActiveForm::end(); ?>
 

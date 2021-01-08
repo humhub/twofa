@@ -15,8 +15,10 @@ use Yii;
 
 class CheckController extends Controller
 {
-
-    public $layout = "@twofa/views/layouts/main";
+    /**
+     * @inheritdoc
+     */
+    public $layout = "@user/views/layouts/main";
 
     /**
      * Renders a form to check user after log in by two-factor authentication

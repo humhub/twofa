@@ -54,7 +54,17 @@ class UserSettings extends Model
     public function attributeLabels()
     {
         return [
-            'driver' => Yii::t('TwofaModule.base', 'Driver'),
+            'driver' => Yii::t('TwofaModule.base', 'Authentication method'),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeHints()
+    {
+        return [
+            'driver' => Yii::t('TwofaModule.base', 'Choose between different methods which you can use as a second factor to increase your account security.'),
         ];
     }
 
@@ -69,7 +79,7 @@ class UserSettings extends Model
             // User from enforced group should be denied to unselect 2fa driver
             $noneOption = [$this->module->defaultDriver => TwofaHelper::getDriverByClassName($this->module->defaultDriver)->name];
         } else {
-            $noneOption = ['' => Yii::t('TwofaModule.base', 'None')];
+            $noneOption = ['' => Yii::t('TwofaModule.base', 'Disable two-factor authentication (not recommended)')];
         }
 
         return $this->module->getDriversOptions($noneOption, true);
