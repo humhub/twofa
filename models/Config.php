@@ -32,6 +32,9 @@ class Config extends Model
      */
     public $codeLength;
 
+    /**
+     * @inheritDoc
+     */
     public function init()
     {
         parent::init();
@@ -67,6 +70,9 @@ class Config extends Model
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function save()
     {
         if (!$this->validate()) {

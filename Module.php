@@ -8,10 +8,10 @@
 
 namespace humhub\modules\twofa;
 
+use humhub\components\Module as BaseModule;
 use humhub\libs\Html;
 use humhub\modules\admin\models\forms\UserEditForm;
 use humhub\modules\content\components\ContentContainerActiveRecord;
-use humhub\modules\content\components\ContentContainerModule;
 use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\drivers\GoogleAuthenticatorDriver;
 use humhub\modules\twofa\helpers\TwofaHelper;
@@ -20,7 +20,7 @@ use humhub\modules\user\models\Group;
 use humhub\modules\user\models\User;
 use Yii;
 
-class Module extends ContentContainerModule
+class Module extends BaseModule
 {
 
     /**
@@ -39,29 +39,9 @@ class Module extends ContentContainerModule
     /**
      * @inheritdoc
      */
-    public function getContentContainerTypes()
-    {
-        return [
-            User::class,
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getConfigUrl()
     {
         return TwofaUrl::toConfig();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getContentContainerDescription(ContentContainerActiveRecord $container)
-    {
-        if ($container instanceof User) {
-            return Yii::t('TwofaModule.base', 'Two-factor authentication for your account.');
-        }
     }
 
     /**
@@ -151,6 +131,7 @@ class Module extends ContentContainerModule
     public function getGroupsOptions()
     {
         $groups = Group::find()->all();
+
         return UserEditForm::getGroupItems($groups);
     }
 

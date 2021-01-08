@@ -38,7 +38,7 @@ class CheckController extends Controller
         if ($model->load(Yii::$app->request->post()) &&
             $model->validate() &&
             TwofaHelper::disableVerifying()) {
-            $this->view->success(Yii::t('TwofaModule.base', 'Two-factor authentication code is validated!'));
+            //$this->view->success(Yii::t('TwofaModule.base', 'Two-factor authentication code is validated!'));
             return $this->goHome();
         }
 

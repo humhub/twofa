@@ -1,12 +1,13 @@
 {
-    "id": "twofa",
-    "name": "2fa",
-    "description": "Two-Factor Authentication.",
-    "keywords": [
-        "2fa", "two-factor authentication"
-    ],
-    "version": "0.0.1",
-    "humhub": {
-        "minVersion": "1.8"
-    }
+  "id": "twofa",
+  "name": "2-Factor Authentication",
+  "description": "Increase access security by using various 2FA methods like e-mail or TOPT.",
+  "keywords": [
+    "2fa",
+    "two-factor authentication"
+  ],
+  "version": "0.9.0",
+  "humhub": {
+    "minVersion": "1.8"
+  }
 }
