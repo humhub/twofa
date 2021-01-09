@@ -250,4 +250,15 @@ class TwofaHelper
 
         return $driver->checkCode($code);
     }
+
+    /**
+     * Returns the display name for TwoFactor devices/apps
+     *
+     * @return string
+     * @throws \Throwable
+     */
+    public static function getAccountName()
+    {
+        return Yii::$app->name . ' - ' . Yii::$app->user->getIdentity()->username;
+    }
 }

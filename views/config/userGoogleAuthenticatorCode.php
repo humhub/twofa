@@ -7,24 +7,37 @@
  */
 
 /* @var $qrCodeUrl string */
+
 /* @var $secret string */
 
 use humhub\libs\Html;
+use humhub\modules\twofa\helpers\TwofaHelper;
+
 ?>
+<p><?= Yii::t('TwofaModule.config', 'Install an application that implements a time-based one-time password (TOTP) algorithm, such as <a{docLinkAttrs}>Google Authenticator</a>, and use it to scan the QR code shown below.',
+        ['{docLinkAttrs}' => ' href="https://support.google.com/accounts/answer/1066447" target="_blank"']); ?></p>
 
-<div class="form-group">
-    <?= Html::label(Yii::t('TwofaModule.config', 'Scan this QR code in Google Authenticator app:'), '', ['class' => 'control-label']) ?><br>
-    <?= Html::img($qrCodeUrl, ['alt' => Yii::t('TwofaModule.config', 'Google Authenticator QR Code')]) ?>
-    <div class="help-block">
-        <?= Yii::t('TwofaModule.config', 'Please read this <a{docLinkAttrs}>documentaion</a> to know how to download, set up and use the Google Authenticator app.',
-            ['{docLinkAttrs}' => ' href="https://support.google.com/accounts/answer/1066447" target="_blank"']) ?>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Html::img($qrCodeUrl, ['alt' => Yii::t('TwofaModule.config', 'QR Code')]) ?>
+            <div class="help-block"></div>
+        </div>
     </div>
-</div>
+    <div class="col-md-6">
+        <div class="alert alert-default">
+            <p><strong><?= Yii::t('TwofaModule.config', 'Can\'t scan the code?'); ?></strong></p>
+            <br/>
+            <p><?= Yii::t('TwofaModule.config', 'To add the entry manually, provide the following details to the TOTP app (e.g. Google Authenticator).'); ?></p>
+            <br/>
+            <p>
+                <?= Yii::t('TwofaModule.config', 'Account:'); ?> <?= TwofaHelper::getAccountName() ?><br>
+                <?= Yii::t('TwofaModule.config', 'Secret:'); ?> <?= $secret ?><br>
+                <?= Yii::t('TwofaModule.config', 'Time based: Yes'); ?><br>
+            </p>
+        </div>
+        <br/>
 
-<div class="form-group">
-    <?= Html::label(Yii::t('TwofaModule.config', 'Or use this secret key to add account manually:'), '', ['class' => 'control-label']) ?><br>
-    <?= Html::textInput('secret', $secret, ['class' => 'form-control', 'disabled' => 'disabled']) ?>
-    <div class="help-block"><?= Yii::t('TwofaModule.config', 'Use your username {username} for account name in Google Authenticator app.', [
-            'username' => '<code>' . Yii::$app->user->getIdentity()->username . '</code>'
-        ]) ?></div>
+    </div>
+
 </div>

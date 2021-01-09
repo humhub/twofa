@@ -63,9 +63,7 @@ class UserSettings extends Model
      */
     public function attributeHints()
     {
-        return [
-            'driver' => Yii::t('TwofaModule.base', 'Choose between different methods which you can use as a second factor to increase your account security.'),
-        ];
+        return [];
     }
 
     /**

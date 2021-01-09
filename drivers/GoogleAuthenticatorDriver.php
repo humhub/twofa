@@ -28,7 +28,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
     public function init()
     {
         parent::init();
-        $this->name = Yii::t('TwofaModule.base', 'Google Authenticator');
+        $this->name = Yii::t('TwofaModule.base', 'Time-based one-time passwords (e.g. Google Authenticator)');
         $this->info = Yii::t('TwofaModule.base', 'Open the two-factor authentication app on your device to view your authentication code and verify your identity.');
     }
 
@@ -139,7 +139,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
         }
 
         return $this->renderFile([
-            'qrCodeUrl' => GoogleQrUrl::generate(Yii::$app->user->getIdentity()->username, $secret, Yii::$app->request->hostName, 300),
+            'qrCodeUrl' => GoogleQrUrl::generate(TwofaHelper::getAccountName(), $secret, Yii::$app->request->hostName, 300),
             'secret' => $secret,
         ], ['suffix' => 'Code']);
     }
