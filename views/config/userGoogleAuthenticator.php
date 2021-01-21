@@ -7,15 +7,22 @@
  */
 
 /* @var $driver GoogleAuthenticatorDriver */
+/* @var $form ActiveForm */
+/* @var $model GoogleAuthenticatorUserSettings */
 
 use humhub\modules\twofa\drivers\GoogleAuthenticatorDriver;
+use humhub\modules\twofa\models\GoogleAuthenticatorUserSettings;
 use humhub\widgets\Button;
+use yii\bootstrap\ActiveForm;
 
 ?>
-
-
 <div id="twofaGoogleAuthCode" class="form-group">
-    <?= $driver->getQrCodeSecretKeyFile() ?>
+    <?= $driver->getQrCodeSecretKeyFile($model->hasErrors('pinCode')) ?>
+</div>
+
+<div id="twofaGoogleAuthPinCode"<?= $model->hasErrors('pinCode') ? '' : ' style="display:none"' ?>>
+    <?= $form->field($model, 'pinCode') ?>
+    <?= $form->field($model, 'changeSecretCode')->hiddenInput()->label(false) ?>
 </div>
 
 <div class="form-group">

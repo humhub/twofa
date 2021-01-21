@@ -10,11 +10,11 @@ namespace humhub\modules\twofa\drivers;
 
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\models\CheckCode;
-use humhub\modules\twofa\models\UserSettings;
 use humhub\modules\twofa\Module;
 use humhub\modules\user\models\User;
 use Yii;
 use yii\base\BaseObject;
+use yii\base\Model;
 use yii\bootstrap\ActiveForm;
 
 abstract class BaseDriver extends BaseObject
@@ -33,6 +33,11 @@ abstract class BaseDriver extends BaseObject
      * @var string Info for user to know where to find a verifying code
      */
     public $info;
+
+    /**
+     * @var Model
+     */
+    protected $userSettings;
 
     /**
      * @inheritdoc
@@ -111,10 +116,9 @@ abstract class BaseDriver extends BaseObject
     /**
      * Render additional user settings
      *
-     * @param ActiveForm $form
-     * @param UserSettings $model
+     * @param array Params
      */
-    public function renderUserSettings(ActiveForm $form, UserSettings $model)
+    public function renderUserSettings($params)
     {
     }
 
@@ -125,8 +129,12 @@ abstract class BaseDriver extends BaseObject
      */
     public function renderUserSettingsFile($params = [])
     {
+        $params = array_merge([
+            'activeDriverClassName' => TwofaHelper::getDriverSetting(),
+        ], $params);
+
         echo '<div data-driver-fields="' . static::class . '"'
-            . (TwofaHelper::getDriverSetting() == static::class ? '' : ' style="display:none"') . '>';
+            . ($params['activeDriverClassName'] == static::class ? '' : ' style="display:none"') . '>';
 
         echo $this->renderFile($params);
 
@@ -162,11 +170,16 @@ abstract class BaseDriver extends BaseObject
      * Check code
      *
      * @param string Verifying code
+     * @param string Correct code
      * @return bool
      */
-    public function checkCode($code)
+    public function checkCode($verifyingCode, $correctCode = null)
     {
-        return TwofaHelper::hashCode($code) === TwofaHelper::getCode();
+        if ($correctCode === null) {
+            $correctCode = TwofaHelper::getCode();
+        }
+
+        return TwofaHelper::hashCode($verifyingCode) === $correctCode;
     }
 
     /**
@@ -185,5 +198,19 @@ abstract class BaseDriver extends BaseObject
         }
 
         return $this->$methodName($params);
+    }
+
+    /**
+     * @return Model|false
+     */
+    public function getUserSettings()
+    {
+        if (!isset($this->userSettings)) {
+            $className = preg_replace('/^.+?\\\\([^\\\\]+)Driver$/', '$1', get_class($this));
+            $userSettingsClassName = '\\humhub\\modules\\twofa\\models\\' . $className . 'UserSettings';
+            $this->userSettings = (class_exists($userSettingsClassName) ? new $userSettingsClassName() : false);
+        }
+
+        return $this->userSettings;
     }
 }

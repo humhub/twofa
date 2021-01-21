@@ -7,8 +7,8 @@
  */
 
 /* @var $qrCodeUrl string */
-
 /* @var $secret string */
+/* @var $requirePinCode boolean */
 
 use humhub\libs\Html;
 use humhub\modules\twofa\helpers\TwofaHelper;
@@ -41,3 +41,12 @@ use humhub\modules\twofa\helpers\TwofaHelper;
     </div>
 
 </div>
+
+<?php if ($requirePinCode) : ?>
+<script>
+$(document).ready(function(){
+    $('#twofaGoogleAuthPinCode').show();
+    $('input[name="GoogleAuthenticatorUserSettings[changeSecretCode]"]').val(1);
+})
+</script>
+<?php endif; ?>

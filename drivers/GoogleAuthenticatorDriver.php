@@ -9,18 +9,17 @@
 namespace humhub\modules\twofa\drivers;
 
 use humhub\modules\twofa\helpers\TwofaHelper;
-use humhub\modules\twofa\models\UserSettings;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 use Sonata\GoogleAuthenticator\GoogleQrUrl;
 use Yii;
-use yii\bootstrap\ActiveForm;
 
 class GoogleAuthenticatorDriver extends BaseDriver
 {
     /**
      * @var string Setting name for secret code per User
      */
-    protected const SECRET_SETTING = 'twofaGoogleAuthSecret';
+    const SECRET_SETTING = 'twofaGoogleAuthSecret';
+    const SECRET_TEMP_SETTING = 'twofaGoogleAuthSecretTemp';
 
     /**
      * @inheritdoc
@@ -66,10 +65,9 @@ class GoogleAuthenticatorDriver extends BaseDriver
     /**
      * Render additional user settings
      *
-     * @param ActiveForm $form
-     * @param UserSettings $model
+     * @param array Params
      */
-    public function renderUserSettings(ActiveForm $form, UserSettings $model)
+    public function renderUserSettings($params)
     {
         Yii::$app->getView()->registerJsConfig('twofa', [
             'text' => [
@@ -80,20 +78,26 @@ class GoogleAuthenticatorDriver extends BaseDriver
             ]
         ]);
 
-        $this->renderUserSettingsFile([
+        $this->renderUserSettingsFile(array_merge($params, [
             'driver' => $this,
-        ]);
+            'model' => $this->getUserSettings(),
+        ]));
     }
 
     /**
      * Check code
      *
      * @param string Verifying code
+     * @param string Correct code
      * @return bool
      */
-    public function checkCode($code)
+    public function checkCode($verifyingCode, $correctCode = null)
     {
-        return $this->getGoogleAuthenticator()->checkCode(TwofaHelper::getSetting(self::SECRET_SETTING), $code);
+        if ($correctCode === null) {
+            $correctCode = TwofaHelper::getSetting(self::SECRET_SETTING);
+        }
+
+        return $this->getGoogleAuthenticator()->checkCode($correctCode, $verifyingCode);
     }
 
     /**
@@ -118,21 +122,22 @@ class GoogleAuthenticatorDriver extends BaseDriver
         // Generate new secret code and store for current User:
         $secret = $this->getGoogleAuthenticator()->generateSecret();
 
-        // Save new generated secret in DB:
-        TwofaHelper::setSetting(self::SECRET_SETTING, $secret);
+        // Save new generated secret in temporary setting before confirm by pin code:
+        TwofaHelper::setSetting(self::SECRET_TEMP_SETTING, $secret);
 
-        return $this->getQrCodeSecretKeyFile();
+        return $this->getQrCodeSecretKeyFile(true);
     }
 
     /**
      * Get file with QR code and secret key
      *
+     * @param boolean Require pin code?
      * @return string|void
      * @throws \Throwable
      */
-    public function getQrCodeSecretKeyFile()
+    public function getQrCodeSecretKeyFile($requirePinCode = false)
     {
-        $secret = TwofaHelper::getSetting(self::SECRET_SETTING);
+        $secret = TwofaHelper::getSetting($requirePinCode ? self::SECRET_TEMP_SETTING : self::SECRET_SETTING);
 
         if (empty($secret)) {
             return '';
@@ -141,6 +146,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
         return $this->renderFile([
             'qrCodeUrl' => GoogleQrUrl::generate(TwofaHelper::getAccountName(), $secret, Yii::$app->request->hostName, 300),
             'secret' => $secret,
+            'requirePinCode' => $requirePinCode,
         ], ['suffix' => 'Code']);
     }
 }

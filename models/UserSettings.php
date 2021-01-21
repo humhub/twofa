@@ -31,6 +31,11 @@ class UserSettings extends Model
      */
     public $driver;
 
+    /**
+     * @var BaseDriver[]
+     */
+    protected $driverObjects = [];
+
     public function init()
     {
         $this->module = Yii::$app->getModule('twofa');
@@ -92,9 +97,38 @@ class UserSettings extends Model
     {
         $drivers = $this->module->getEnabledDrivers();
         foreach ($drivers as $driverClassName) {
-            $driver = TwofaHelper::getDriverByClassName($driverClassName);
-            $driver->renderUserSettings($form, $this);
+            $this->getDriver($driverClassName)->renderUserSettings([
+                'form' => $form,
+                'activeDriverClassName' => $this->driver,
+            ]);
         }
+    }
+
+    /**
+     * Get driver by class name
+     *
+     * @param string Driver class name, null - to get current driver
+     * @return Model|false
+     */
+    protected function getDriver($driverClassName = null)
+    {
+        if ($driverClassName === null) {
+            $driverClassName = $this->driver;
+        }
+
+        if (!isset($this->driverObjects[$driverClassName])) {
+            $this->driverObjects[$driverClassName] = TwofaHelper::getDriverByClassName($driverClassName);
+        }
+
+        return $this->driverObjects[$driverClassName];
+    }
+
+    /**
+     * @return Model|false
+     */
+    protected function getDriverSettings()
+    {
+        return $this->getDriver() ? $this->getDriver()->getUserSettings() : false;
     }
 
     /**
@@ -105,6 +139,37 @@ class UserSettings extends Model
     public function save()
     {
         return TwofaHelper::setSetting(TwofaHelper::USER_SETTING, $this->driver);
+    }
+
+    /**
+     * Save form with validated params loaded from request
+     *
+     * @return bool
+     */
+    public function validatedSave()
+    {
+        return $this->load(Yii::$app->request->post()) &&
+            $this->validate() &&
+            $this->driverValidatedSave() &&
+            $this->save();
+    }
+
+    /**
+     * Save form with validated params loaded from request per current selected Driver
+     *
+     * @return bool
+     */
+    protected function driverValidatedSave()
+    {
+        $driverSettings = $this->getDriverSettings();
+
+        if (!$driverSettings) {
+            return true;
+        }
+
+        return $driverSettings->load(Yii::$app->request->post()) &&
+            $driverSettings->validate() &&
+            $driverSettings->save();
     }
 
 }

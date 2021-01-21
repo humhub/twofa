@@ -11,13 +11,11 @@ namespace humhub\modules\twofa;
 use humhub\components\Module as BaseModule;
 use humhub\libs\Html;
 use humhub\modules\admin\models\forms\UserEditForm;
-use humhub\modules\content\components\ContentContainerActiveRecord;
 use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\drivers\GoogleAuthenticatorDriver;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\user\models\Group;
-use humhub\modules\user\models\User;
 use Yii;
 
 class Module extends BaseModule
@@ -49,7 +47,7 @@ class Module extends BaseModule
      */
     public function isTwofaCheckUrl()
     {
-        return Yii::$app->requestedRoute === trim(TwofaUrl::ROUTE_CHECK, '/');
+        return Yii::$app->getRequest()->getUrl() === TwofaUrl::ROUTE_CHECK;
     }
 
     /**

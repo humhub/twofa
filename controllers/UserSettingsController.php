@@ -32,7 +32,7 @@ class UserSettingsController extends BaseAccountController
     {
         $model = new UserSettings();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->validatedSave()) {
             $this->view->saved();
         }
 
