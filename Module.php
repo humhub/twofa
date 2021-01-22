@@ -18,8 +18,15 @@ use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\user\models\Group;
 use Yii;
 
+/**
+ * @inheritdoc
+ */
 class Module extends BaseModule
 {
+    /**
+     * @inheritdoc
+     */
+    public $resourcesPath = 'resources';
 
     /**
      * @var string Default Driver, used for Users from enforced Groups by default
