@@ -27,6 +27,11 @@ class TwofaUrl extends Url
      */
     const ROUTE_USER_SETTINGS = '/twofa/user-settings';
 
+    public static function toCheck()
+    {
+        return static::toRoute(static::ROUTE_CHECK);
+    }
+
     public static function toConfig()
     {
         return static::toRoute(static::ROUTE_CONFIG);

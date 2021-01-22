@@ -47,7 +47,7 @@ class Module extends BaseModule
      */
     public function isTwofaCheckUrl()
     {
-        return Yii::$app->getRequest()->getUrl() === TwofaUrl::ROUTE_CHECK;
+        return Yii::$app->getRequest()->getUrl() === TwofaUrl::toCheck();
     }
 
     /**

@@ -55,7 +55,7 @@ class Events
 
         if (TwofaHelper::isVerifyingRequired() &&
             !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
-            return Yii::$app->getResponse()->redirect(TwofaUrl::ROUTE_CHECK);
+            return Yii::$app->getResponse()->redirect(TwofaUrl::toCheck());
         }
     }
 
