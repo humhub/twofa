@@ -11,9 +11,6 @@ use twofa\FunctionalTester;
 
 class TwofaCest
 {
-    public function _before(FunctionalTester $I)
-    {
-    }
 
     public function testSendVerifyingCode(FunctionalTester $I)
     {
