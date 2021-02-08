@@ -11,6 +11,7 @@ use twofa\AcceptanceTester;
 
 class TwofaCest
 {
+    /*
     public function testTwoFactorAuthentication(AcceptanceTester $I)
     {
         $I->amAdmin();
@@ -18,4 +19,5 @@ class TwofaCest
 
         $I->amGoingTo('enable module 2FA');
     }
+    */
 }
