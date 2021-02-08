@@ -7,4 +7,8 @@
 
 return [
     'modules' => ['twofa'],
+    'fixtures' => [
+        'default',
+        //'twofa' => \tests\codeception\fixtures\TwofaFixture::class
+    ]
 ];
