@@ -2,7 +2,7 @@
 
 The two-factor authentication modules allows users to select additional checking on log in by random generated code that may be sent by selected driver like E-mail.
 
-Available drivers:
+** Available drivers:**
 
 - E-mail
 - Google Authenticator
