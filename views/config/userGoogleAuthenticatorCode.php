@@ -28,7 +28,7 @@ use humhub\modules\twofa\helpers\TwofaHelper;
         <div class="alert alert-default">
             <p><strong><?= Yii::t('TwofaModule.config', 'Can\'t scan the code?'); ?></strong></p>
             <br/>
-            <p><?= Yii::t('TwofaModule.config', 'To add the entry manually, provide the following details to the TOTP app (e.g. Google Authenticator).'); ?></p>
+            <p><?= Yii::t('TwofaModule.config', 'To connect the app manually, provide the following details to the TOTP app (e.g. Google Authenticator).'); ?></p>
             <br/>
             <p>
                 <?= Yii::t('TwofaModule.config', 'Account:'); ?> <?= TwofaHelper::getAccountName() ?><br>

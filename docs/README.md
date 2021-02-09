@@ -1,14 +1,12 @@
-# Two-Factor Authentication
+# Two-Factor Authentication (2FA)
 
-The two-factor authentication modules allows users to select additional checking on log in by random generated code that may be sent by selected driver like E-mail.
+Increase security within your network by adding an additional authentication method besides username and password.
 
-** Available drivers:**
+**Available methods:**
 
-- E-mail
-- Google Authenticator
+- Email
+- Time-based one-time passwords (e.g. Google Authenticator)
 
-Some user groups may be enforced to always use 2FA.
+Administrators can individually define which user groups are required to use an additional authentication method.
+For administrators themselves, a second authentication method will be enabled by default.
 
-Group "Administrator" is enforced by default.
-
-Length of verifying code can be defined in the module configuration. Default is 6.

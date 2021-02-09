@@ -64,9 +64,9 @@ class Config extends Model
     public function attributeLabels()
     {
         return [
-            'enabledDrivers' => Yii::t('TwofaModule.config', 'Enabled drivers'),
+            'enabledDrivers' => Yii::t('TwofaModule.config', 'Enabled methods'),
             'codeLength' => Yii::t('TwofaModule.config', 'Length of verifying code'),
-            'enforcedGroups' => Yii::t('TwofaModule.config', 'Enforced groups to use 2FA'),
+            'enforcedGroups' => Yii::t('TwofaModule.config', 'Mandatory for the following groups'),
         ];
     }
 

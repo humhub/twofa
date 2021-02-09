@@ -29,21 +29,20 @@ $this->pageTitle = Yii::t('TwofaModule.base', 'Two-Factor Authentication');
             <div class="panel-heading"><?= Yii::t('TwofaModule.base', '<strong>Two-factor</strong> authentication'); ?></div>
             <div class="panel-body">
 
-                <?php $form = ActiveForm::begin(); ?>
+                <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
                 <?php $driver->beforeCheckCodeFormInput($form, $model); ?>
 
-                <br />
+                <br/>
 
                 <?= $form->field($model, 'code')->textInput(); ?>
 
-                <br />
-
-                <?= Button::danger(Yii::t('TwofaModule.base', 'Log out'))->link(Url::toRoute('/user/auth/logout'))->right()->pjax(false) ?>
+                <br/>
 
                 <?= Html::submitButton(Yii::t('TwofaModule.base', 'Verify'), ['class' => 'btn btn-primary', 'data-ui-loader' => ""]); ?>
 
                 <?php ActiveForm::end(); ?>
+                <?= Html::a(Yii::t('TwofaModule.base', 'Log out'), ['/user/auth/logout'], ['class' => 'pull-right', 'data-pjax' => false]) ?>
 
             </div>
         </div>

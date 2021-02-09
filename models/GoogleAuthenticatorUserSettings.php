@@ -65,7 +65,7 @@ class GoogleAuthenticatorUserSettings extends Model
     {
         $driver = new GoogleAuthenticatorDriver();
         if (!$driver->checkCode($this->pinCode, TwofaHelper::getSetting($driver::SECRET_TEMP_SETTING))) {
-            $this->addError($attribute, Yii::t('TwofaModule.base', 'Pin code is not valid!'));
+            $this->addError($attribute, Yii::t('TwofaModule.base', 'Code is not valid!'));
         }
     }
 

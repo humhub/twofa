@@ -23,7 +23,7 @@ use humhub\widgets\Button;
 
 <div class="panel-body">
     <div class="help-block">
-        <?= Yii::t('TwofaModule.config', 'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you\'ll be prompted to enter a code in addition to entering your username and password to log in . This code is provided by the 2FA method you choose . '); ?>
+        <?= Yii::t('TwofaModule.config', 'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.'); ?>
     </div>
     <br/>
 

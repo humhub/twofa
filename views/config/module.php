@@ -16,24 +16,28 @@ use yii\bootstrap\ActiveForm;
     <div class="panel-body">
         <?php $form = ActiveForm::begin(['id' => 'configure-form']); ?>
 
-            <div id="disabledDriversInfo" class="alert alert-warning"<?= empty($model->enabledDrivers) ? '' : ' style="display:none"' ?>>
-                <i class="fa fa-info-circle"></i> <?= Yii::t('TwofaModule.config', 'This module is disabled because no drivers are selected, however users from the enforced groups always fallback to {defaultDriverName} driver by default.', [
-                    'defaultDriverName' => $defaultDriverName
-                ]) ?>
-            </div>
+        <div id="disabledDriversInfo"
+             class="alert alert-warning"<?= empty($model->enabledDrivers) ? '' : ' style="display:none"' ?>>
+            <i class="fa fa-info-circle"></i> <?= Yii::t('TwofaModule.config', 'This module is disabled because no drivers are selected, however users from the enforced groups always fallback to {defaultDriverName} driver by default.', [
+                'defaultDriverName' => $defaultDriverName
+            ]) ?>
+        </div>
 
-            <?= $form->field($model, 'enabledDrivers')->checkboxList($model->module->getDriversOptions(), [
-                    'item' => array($model->module, 'renderDriverCheckboxItem')
-                ]); ?>
+        <?= $form->field($model, 'enabledDrivers')->checkboxList($model->module->getDriversOptions(), [
+            'item' => array($model->module, 'renderDriverCheckboxItem')
+        ]); ?>
 
-            <?= $form->field($model, 'enforcedGroups')->checkboxList($model->module->getGroupsOptions()); ?>
-            <div class="help-block"><?= Yii::t('TwofaModule.config', 'Users of the selected groups are enforced to {defaultDriverName} driver by default.', [
-                    'defaultDriverName' => $defaultDriverName
-                ]) ?></div>
+        <br/>
 
-            <?= $form->field($model, 'codeLength'); ?>
+        <?= $form->field($model, 'enforcedGroups')->checkboxList($model->module->getGroupsOptions()); ?>
+        <div class="help-block"><?= Yii::t('TwofaModule.config', 'By default, the method "{defaultDriverName}" is used.', [
+                'defaultDriverName' => $defaultDriverName
+            ]) ?></div>
 
-            <?= Button::save()->submit() ?>
+        <br/>
+        <?= $form->field($model, 'codeLength'); ?>
+
+        <?= Button::save()->submit() ?>
 
         <?php ActiveForm::end(); ?>
     </div>

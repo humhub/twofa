@@ -20,8 +20,8 @@ class EmailDriver extends BaseDriver
     public function init()
     {
         parent::init();
-        $this->name = Yii::t('TwofaModule.base', 'E-mail');
-        $this->info = Yii::t('TwofaModule.base', 'A confirmation code for this login has just been sent to your email address. Please enter the code from the e-mail in the field below.');
+        $this->name = Yii::t('TwofaModule.base', 'Email');
+        $this->info = Yii::t('TwofaModule.base', 'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.');
     }
 
     /**

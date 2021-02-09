@@ -93,15 +93,15 @@ $colorPrimary = Yii::$app->view->theme->variable('primary', '#708fa0')
 
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 22px; font-family: <?= Yii::$app->view->theme->variable('mail-font-family', DefaultMailStyle::DEFAULT_FONT_FAMILY) ?>; color: <?= Yii::$app->view->theme->variable('text-color-main', '#777') ?>; font-weight: 300; text-align: left; ">
-
                                                         <?= Yii::t('TwofaModule.base', 'Hello {displayName}!', ['{displayName}' => Html::encode($user->displayName)]) ?>
                                                         <br><br>
-                                                        <?= Yii::t('TwofaModule.base', 'In this email you will receive the verification code to continue the current login. This is necessary because your account is additionally secured by two-factor authentication.'); ?>
+                                                        <?= Yii::t('TwofaModule.base', 'Your account is secured by a two-factor authentication system. Please use the following code to proceed.'); ?>
                                                         <br><br>
 
                                                         <strong><?= Yii::t('TwofaModule.base', 'Date and time:'); ?></strong><br/>
                                                         <?= Yii::$app->formatter->asDatetime(time()); ?><br/>
                                                         <br/>
+
                                                         <strong><?= Yii::t('TwofaModule.base', 'Code:'); ?></strong><br/>
                                                         <div style="font-size:30px;line-height:36px;font-weight:bold;color:<?= $colorPrimary ?>"><?= $code ?></div>
                                                     </td>

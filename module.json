@@ -1,12 +1,18 @@
 {
   "id": "twofa",
-  "name": "2-Factor Authentication",
-  "description": "Increase access security by using various 2FA methods like e-mail or TOPT.",
+  "name": "Two-Factor Authentication (2FA)",
+  "description": "Increase security by using 2FA methods like e-mail or TOPT.",
   "keywords": [
     "2fa",
     "two-factor authentication"
   ],
-  "version": "0.9.0",
+  "homepage": "https://github.com/humhub/humhub-modules-twofa",
+  "screenshots": [
+    "resources/screen1.png",
+    "resources/screen2.png",
+    "resources/screen3.png"
+  ],
+  "version": "1.0.0",
   "humhub": {
     "minVersion": "1.8"
   }
