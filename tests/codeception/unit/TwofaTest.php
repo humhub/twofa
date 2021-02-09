@@ -36,9 +36,12 @@ class TwofaTest extends HumHubDbTestCase
         $this->assertTrue(TwofaHelper::enableVerifying());
         $this->assertTrue(TwofaHelper::isVerifyingRequired());
         $this->assertFalse(TwofaHelper::isValidCode('test'));
+    }
 
-        //$this->becomeUser('User1');
-        //$this->assertFalse(TwofaHelper::isVerifyingRequired());
-        //$this->assertFalse(TwofaHelper::isValidCode('test'));
+    public function testDisableVerifying()
+    {
+        $this->becomeUser('Admin');
+        $this->assertTrue(TwofaHelper::disableVerifying());
+        $this->assertFalse(TwofaHelper::isVerifyingRequired());
     }
 }

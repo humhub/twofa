@@ -41,7 +41,7 @@ $this->pageTitle = Yii::t('TwofaModule.base', 'Two-Factor Authentication');
 
                 <?= Button::danger(Yii::t('TwofaModule.base', 'Log out'))->link(Url::toRoute('/user/auth/logout'))->right()->pjax(false) ?>
 
-                <?= Html::submitButton(Yii::t('TwofaModule.base', 'Verify'), ['class' => 'btn btn-primary', 'data-ui-loader' => ""]); ?>
+                <?= Html::submitButton(Yii::t('TwofaModule.base', 'Verify'), ['id' => 'verify-button', 'class' => 'btn btn-primary', 'data-ui-loader' => ""]); ?>
 
                 <?php ActiveForm::end(); ?>
 
