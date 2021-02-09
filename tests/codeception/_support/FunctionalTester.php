@@ -7,6 +7,8 @@
 
 namespace twofa;
 
+use humhub\modules\twofa\helpers\TwofaHelper;
+
 /**
  * Inherited Methods
  * @method void wantToTest($text)
@@ -29,4 +31,14 @@ class FunctionalTester extends \FunctionalTester
    /**
     * Define custom actions here
     */
+
+    /**
+     * @return string
+     */
+    public function fetchCodeFromLastEmail()
+    {
+        return preg_match('/Code: ([' . preg_quote(TwofaHelper::CODE_CHARS) . ']+)/', $this->grapLastEmailText(), $codeMatch)
+            ? $codeMatch[1]
+            : '';
+    }
 }
