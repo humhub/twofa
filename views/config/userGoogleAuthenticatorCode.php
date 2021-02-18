@@ -14,8 +14,8 @@ use humhub\libs\Html;
 use humhub\modules\twofa\helpers\TwofaHelper;
 
 ?>
-<p><?= Yii::t('TwofaModule.config', 'Install an application that implements a time-based one-time password (TOTP) algorithm, such as <a{docLinkAttrs}>Google Authenticator</a>, and use it to scan the QR code shown below.',
-        ['{docLinkAttrs}' => ' href="https://support.google.com/accounts/answer/1066447" target="_blank"']); ?></p>
+<p><?= Yii::t('TwofaModule.config', 'Install an application that implements a time-based one-time password (TOTP) algorithm, such as {googleAuthenticatorLink}, and use it to scan the QR code shown below.',
+        ['{googleAuthenticatorLink}' => '<a href="https://support.google.com/accounts/answer/1066447" target="_blank">' . Yii::t('TwofaModule.config', 'Google Authenticator'). '</a>']); ?></p>
 
 <div class="row">
     <div class="col-md-6">

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.1 (Unreleased)
+------------------------
+- Fix: Link in translatable string
+
 1.0.0 (February 9, 2021)
 ------------------------
 - Enh: Initial release
