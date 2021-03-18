@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.0  (Unreleased)
+--------------------------
+- Enh: Use controller config for not intercepted actions
+
 1.0.1 (Unreleased)
 ------------------------
 - Fix: Link in translatable string
