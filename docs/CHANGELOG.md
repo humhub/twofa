@@ -4,7 +4,7 @@ Changelog
 1.0.1 (Unreleased)
 ------------------------
 - Fix: Link in translatable string
-- Enh: Use controller config for not intercepted actions
+- Enh: Use controller config for not intercepted actions (HumHub 1.9+)
 
 1.0.0 (February 9, 2021)
 ------------------------
