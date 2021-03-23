@@ -18,6 +18,11 @@ class CheckController extends Controller
     /**
      * @inheritdoc
      */
+    protected $doNotInterceptActionIds = ['*'];
+
+    /**
+     * @inheritdoc
+     */
     public $layout = "@user/views/layouts/main";
 
     /**
