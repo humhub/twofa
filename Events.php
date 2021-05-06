@@ -53,6 +53,10 @@ class Events
             return false;
         }
 
+        if (Yii::$app->user->mustChangePassword()) {
+            return false;
+        }
+
         if (TwofaHelper::isVerifyingRequired() &&
             !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
             return Yii::$app->getResponse()->redirect(TwofaUrl::toCheck());
