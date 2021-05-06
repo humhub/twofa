@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0.1 (Unreleased)
-------------------------
+1.0.1 (May 6, 2021)
+-------------------
 - Fix: Link in translatable string
 - Enh: Use controller config for not intercepted actions (HumHub 1.9+)
 - Fix: Don't verify code if user must change password
