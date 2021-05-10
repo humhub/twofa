@@ -22,6 +22,7 @@ class Assets extends AssetBundle
      */
     public $js = [
         'js/humhub.twofa.js',
+        'js/qrcode.min.js',
     ];
 
     /**
