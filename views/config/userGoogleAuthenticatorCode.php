@@ -6,11 +6,10 @@
  * @license https://www.humhub.com/licences
  */
 
-/* @var $qrCodeUrl string */
+/* @var $qrCodeText string */
 /* @var $secret string */
 /* @var $requirePinCode boolean */
 
-use humhub\libs\Html;
 use humhub\modules\twofa\helpers\TwofaHelper;
 
 ?>
@@ -20,7 +19,7 @@ use humhub\modules\twofa\helpers\TwofaHelper;
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <?= Html::img($qrCodeUrl, ['alt' => Yii::t('TwofaModule.config', 'QR Code')]) ?>
+            <div id="twofa-google-auth-qrcode"></div>
             <div class="help-block"></div>
         </div>
     </div>
@@ -42,11 +41,17 @@ use humhub\modules\twofa\helpers\TwofaHelper;
 
 </div>
 
-<?php if ($requirePinCode) : ?>
 <script>
 $(document).ready(function(){
+    new QRCode('twofa-google-auth-qrcode', {
+        text: '<?= $qrCodeText ?>',
+        width: 300,
+        height: 300,
+        correctLevel: QRCode.CorrectLevel.L
+    });
+<?php if ($requirePinCode) : ?>
     $('#twofaGoogleAuthPinCode').show();
     $('input[name="GoogleAuthenticatorUserSettings[changeSecretCode]"]').val(1);
+<?php endif; ?>
 })
 </script>
-<?php endif; ?>

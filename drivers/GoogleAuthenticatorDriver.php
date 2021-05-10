@@ -10,7 +10,6 @@ namespace humhub\modules\twofa\drivers;
 
 use humhub\modules\twofa\helpers\TwofaHelper;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
-use Sonata\GoogleAuthenticator\GoogleQrUrl;
 use Yii;
 
 class GoogleAuthenticatorDriver extends BaseDriver
@@ -144,7 +143,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
         }
 
         return $this->renderFile([
-            'qrCodeUrl' => GoogleQrUrl::generate(TwofaHelper::getAccountName(), $secret, Yii::$app->request->hostName, 300),
+            'qrCodeText' => 'otpauth://totp/' . Yii::$app->request->hostName . ':' . TwofaHelper::getAccountName() . '?secret=' . $secret . '&issuer=' . Yii::$app->request->hostName,
             'secret' => $secret,
             'requirePinCode' => $requirePinCode,
         ], ['suffix' => 'Code']);
