@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.3 (May 11, 2021)
+--------------------
+- Fix #22: Composer dependencies for Google Auth missing in marketplace package 
+
 1.0.2 (May 10, 2021)
 --------------------
 - Enh #18: Generate QR code for Google authenticator by local JS script (Don't send TOTP key to Google)
