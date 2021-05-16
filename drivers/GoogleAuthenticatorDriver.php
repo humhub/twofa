@@ -143,7 +143,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
         }
 
         return $this->renderFile([
-            'qrCodeText' => 'otpauth://totp/' . Yii::$app->request->hostName . ':' . TwofaHelper::getAccountName() . '?secret=' . $secret . '&issuer=' . Yii::$app->request->hostName,
+            'qrCodeText' => 'otpauth://totp/' . Yii::$app->request->hostName . ':' . urlencode(TwofaHelper::getAccountName()) . '?secret=' . $secret . '&issuer=' . Yii::$app->request->hostName,
             'secret' => $secret,
             'requirePinCode' => $requirePinCode,
         ], ['suffix' => 'Code']);
