@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.4 (Unreleased)
+--------------------
+- Fix #23: Urlencode account name in otpauth URL 
+
 1.0.3 (May 11, 2021)
 --------------------
 - Fix #22: Composer dependencies for Google Auth missing in marketplace package 
