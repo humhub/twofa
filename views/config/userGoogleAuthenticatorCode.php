@@ -43,12 +43,14 @@ use humhub\modules\twofa\helpers\TwofaHelper;
 
 <script>
 $(document).ready(function(){
-    new QRCode('twofa-google-auth-qrcode', {
-        text: '<?= $qrCodeText ?>',
-        width: 300,
-        height: 300,
-        correctLevel: QRCode.CorrectLevel.L
-    });
+    if ($('#twofa-google-auth-qrcode').html() === '') {
+        new QRCode('twofa-google-auth-qrcode', {
+            text: '<?= $qrCodeText ?>',
+            width: 300,
+            height: 300,
+            correctLevel: QRCode.CorrectLevel.L
+        });
+    }
 <?php if ($requirePinCode) : ?>
     $('#twofaGoogleAuthPinCode').show();
     $('input[name="GoogleAuthenticatorUserSettings[changeSecretCode]"]').val(1);
