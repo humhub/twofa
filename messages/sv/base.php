@@ -10,7 +10,7 @@ return array (
   'Disable two-factor authentication (not recommended)' => '',
   'Email' => 'E-post',
   'Hello {displayName}!' => '',
-  'Log out' => '',
+  'Log out' => 'Logga ut',
   'Open the two-factor authentication app on your device to view your authentication code and verify your identity.' => '',
   'Pin code' => '',
   'Please enter your verifying code.' => '',

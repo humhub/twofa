@@ -14,7 +14,6 @@ return [
     'Length of verifying code' => '',
     'Mandatory for the following groups' => '',
     'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.' => '',
-    'QR Code' => '',
     'Request new code' => '',
     'Secret:' => '',
     'This module is disabled because no drivers are selected, however users from the enforced groups always fallback to {defaultDriverName} driver by default.' => '',
