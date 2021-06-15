@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0.4 (Unreleased)
---------------------
+1.0.4 (15 June, 2021)
+---------------------
 - Fix #23: Urlencode account name in otpauth URL 
 - Fix #25: Fix double rendering QR code after cancel of requesting new code
 
