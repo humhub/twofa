@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.5 (Unreleased)
+---------------------
+- Fix #29: Fix button "Log out" to prevent pjax
+
 1.0.4 (15 June, 2021)
 ---------------------
 - Fix #23: Urlencode account name in otpauth URL 
