@@ -4,6 +4,7 @@ Changelog
 1.0.5 (Unreleased)
 ---------------------
 - Fix #29: Fix button "Log out" to prevent pjax
+- Fix #31: Don't require 2FA on administration action "Impersonate"
 
 1.0.4 (15 June, 2021)
 ---------------------

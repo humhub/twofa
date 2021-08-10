@@ -8,6 +8,7 @@
 
 namespace humhub\modules\twofa\helpers;
 
+use humhub\modules\admin\Module as AdminModule;
 use humhub\modules\content\components\ContentContainerSettingsManager;
 use humhub\modules\twofa\drivers\BaseDriver;
 use humhub\modules\twofa\Module as TwofaModule;
@@ -230,7 +231,37 @@ class TwofaHelper
      */
     public static function isVerifyingRequired()
     {
-        return self::getDriver() && self::getCode() !== null;
+        return !self::isImpersonateMode() && self::getDriver() && self::getCode() !== null;
+    }
+
+    /**
+     * Check if current User was logged in from administration action "Impersonate"
+     *
+     * @return bool
+     */
+    protected static function isImpersonateMode(): bool
+    {
+        $switchedUserId = Yii::$app->session->get('twofa.switchedUserId');
+        if (empty($switchedUserId)) {
+            return false;
+        }
+
+        if (Yii::$app->user->isGuest) {
+            return false;
+        }
+
+        /* @var $adminModule AdminModule */
+        $adminModule = Yii::$app->getModule('admin');
+        if (!$adminModule->allowUserImpersonate) {
+            return false;
+        }
+
+        /* @var $switchedUser User */
+        if (!($switchedUser = User::findOne(['id' => $switchedUserId]))) {
+            return false;
+        }
+
+        return $switchedUser->id != Yii::$app->user->id;
     }
 
     /**

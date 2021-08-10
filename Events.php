@@ -8,9 +8,13 @@
 
 namespace humhub\modules\twofa;
 
+use humhub\components\Controller;
+use humhub\modules\admin\controllers\UserController as AdminUserController;
+use humhub\modules\admin\permissions\ManageUsers;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\ui\menu\MenuLink;
+use humhub\modules\user\controllers\AuthController;
 use humhub\modules\user\events\UserEvent;
 use humhub\modules\user\widgets\AccountMenu;
 use Yii;
@@ -57,9 +61,39 @@ class Events
             return false;
         }
 
+        if (self::isImpersonateAction($event->sender)) {
+            Yii::$app->session->set('twofa.switchedUserId', Yii::$app->user->id);
+        }
+
         if (TwofaHelper::isVerifyingRequired() &&
             !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
             return Yii::$app->getResponse()->redirect(TwofaUrl::toCheck());
+        }
+    }
+
+    /**
+     * Check if currently action "Impersonate" is called
+     *
+     * @param $controller Controller
+     * @return bool
+     */
+    protected static function isImpersonateAction(Controller $controller): bool
+    {
+        return ($controller instanceof AdminUserController) &&
+            isset($controller->action) &&
+            $controller->action->id == 'impersonate' &&
+            Yii::$app->user->can(ManageUsers::class);
+    }
+
+    /**
+     * Clear temp user ID which was used for administration action "Impersonate"
+     *
+     * @param $event
+     */
+    public static function onAfterAction($event)
+    {
+        if ($event->sender instanceof AuthController && $event->sender->action->id == 'logout') {
+            Yii::$app->session->remove('twofa.switchedUserId');
         }
     }
 
