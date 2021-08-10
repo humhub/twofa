@@ -20,6 +20,7 @@ return [
         [Application::class, Application::EVENT_BEFORE_REQUEST, [Events::class, 'onBeforeRequest']],
         [AuthController::class, AuthController::EVENT_AFTER_LOGIN, [Events::class, 'onAfterLogin']],
         [Controller::class, Controller::EVENT_BEFORE_ACTION, [Events::class, 'onBeforeAction']],
+        [Controller::class, Controller::EVENT_AFTER_ACTION, [Events::class, 'onAfterAction']],
         [AccountSettingsMenu::class, AccountSettingsMenu::EVENT_INIT, [Events::class, 'onProfileSettingMenuInit']],
     ],
 ];
