@@ -61,7 +61,7 @@ class Events
             return false;
         }
 
-        if (self::isImpersonateAction($event->sender)) {
+        if ($event->sender instanceof Controller && self::isImpersonateAction($event->sender)) {
             Yii::$app->session->set('twofa.switchedUserId', Yii::$app->user->id);
         }
 
