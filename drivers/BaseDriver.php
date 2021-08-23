@@ -72,7 +72,7 @@ abstract class BaseDriver extends BaseObject
         }
 
         // Switch to users language - if specified
-        if ($user->language !== '') {
+        if (!empty($user->language)) {
             Yii::$app->language = $user->language;
         }
 
