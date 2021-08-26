@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.6  (Unreleased)
+-----------------------
+- Enh: Update logout url
+
 1.0.5 (10 August, 2021)
 -----------------------
 - Fix #29: Fix button "Log out" to prevent pjax
