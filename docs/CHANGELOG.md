@@ -1,11 +1,11 @@
 Changelog
 =========
 
-1.0.6  (Unreleased)
+1.0.6 (Unreleased)
 -----------------------
-- Enh: Update logout url
+- Enh #36: Update logout url to POST method
 
-1.0.5 (10 August, 2021)
+1.0.5 (August 10 , 2021)
 -----------------------
 - Fix #29: Fix button "Log out" to prevent pjax
 - Fix #31: Don't require 2FA on administration action "Impersonate"
