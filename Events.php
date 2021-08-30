@@ -77,7 +77,7 @@ class Events
      * @param $controller Controller
      * @return bool
      */
-    protected static function isImpersonateAction(Controller $controller): bool
+    protected static function isImpersonateAction($controller): bool
     {
         return ($controller instanceof AdminUserController) &&
             isset($controller->action) &&
