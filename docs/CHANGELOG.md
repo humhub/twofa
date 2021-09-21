@@ -4,6 +4,7 @@ Changelog
 1.0.6 (Unreleased)
 -----------------------
 - Enh #36: Update logout url to POST method
+- Enh: Added French translations
 
 1.0.5 (August 10 , 2021)
 -----------------------
