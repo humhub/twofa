@@ -5,6 +5,7 @@ Changelog
 -----------------------
 - Enh #36: Update logout url to POST method
 - Enh: Added French translations
+- Enh #33: Added trusted network functionality
 
 1.0.5 (August 10 , 2021)
 -----------------------

@@ -228,10 +228,21 @@ class TwofaHelper
 
     /**
      * Check if verifying by 2fa is required for current User
+     * @return bool
      */
     public static function isVerifyingRequired()
     {
-        return !self::isImpersonateMode() && self::getDriver() && self::getCode() !== null;
+        // if impersonate mode of driver is not set up
+        if (self::isImpersonateMode() || !self::getDriver()) {
+            return false;
+        }
+
+        // if code is missing for a user, or user is trusted (ip whitelist)
+        if (self::getCode() === null || self::isTrusted()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -291,5 +302,15 @@ class TwofaHelper
     public static function getAccountName()
     {
         return Yii::$app->name . ' - ' . Yii::$app->user->getIdentity()->username;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isTrusted()
+    {
+        /** @var TwofaModule $module */
+        $module = Yii::$app->getModule('twofa');
+        return in_array(Yii::$app->request->userIP, $module->getTrustedNetworks());
     }
 }
