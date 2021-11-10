@@ -45,7 +45,7 @@ use yii\bootstrap\ActiveForm;
         <?= $form->field($model, 'codeLength'); ?>
         <?= $form->field($model, 'trustedNetworks')->textarea() ?>
         <div class="help-block">
-            <?= Yii::t('TwofaModule.config', 'List of IPs to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"', [Yii::$app->request->userIP]) ?>
+            <?= Yii::t('TwofaModule.config', 'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"', [Yii::$app->request->userIP]) ?>
         </div>
 
         <?= Button::save()->submit() ?>

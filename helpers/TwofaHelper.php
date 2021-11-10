@@ -15,6 +15,7 @@ use humhub\modules\twofa\Module as TwofaModule;
 use humhub\modules\user\models\User;
 use humhub\modules\user\Module as UserModule;
 use Yii;
+use yii\helpers\BaseIpHelper;
 
 class TwofaHelper
 {
@@ -306,11 +307,18 @@ class TwofaHelper
 
     /**
      * @return bool
+     * @throws \yii\base\NotSupportedException
      */
     public static function isTrusted()
     {
         /** @var TwofaModule $module */
         $module = Yii::$app->getModule('twofa');
-        return in_array(Yii::$app->request->userIP, $module->getTrustedNetworks());
+        foreach ($module->getTrustedNetworks() as $trustedNet) {
+            if (BaseIpHelper::inRange(Yii::$app->request->userIP, $trustedNet)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
