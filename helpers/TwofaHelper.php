@@ -15,6 +15,7 @@ use humhub\modules\twofa\Module as TwofaModule;
 use humhub\modules\user\models\User;
 use humhub\modules\user\Module as UserModule;
 use Yii;
+use yii\helpers\BaseIpHelper;
 
 class TwofaHelper
 {
@@ -228,10 +229,21 @@ class TwofaHelper
 
     /**
      * Check if verifying by 2fa is required for current User
+     * @return bool
      */
     public static function isVerifyingRequired()
     {
-        return !self::isImpersonateMode() && self::getDriver() && self::getCode() !== null;
+        // if impersonate mode of driver is not set up
+        if (self::isImpersonateMode() || !self::getDriver()) {
+            return false;
+        }
+
+        // if code is missing for a user, or user is trusted (ip whitelist)
+        if (self::getCode() === null || self::isTrusted()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -291,5 +303,22 @@ class TwofaHelper
     public static function getAccountName()
     {
         return Yii::$app->name . ' - ' . Yii::$app->user->getIdentity()->username;
+    }
+
+    /**
+     * @return bool
+     * @throws \yii\base\NotSupportedException
+     */
+    public static function isTrusted()
+    {
+        /** @var TwofaModule $module */
+        $module = Yii::$app->getModule('twofa');
+        foreach ($module->getTrustedNetworks() as $trustedNet) {
+            if (BaseIpHelper::inRange(Yii::$app->request->userIP, $trustedNet)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

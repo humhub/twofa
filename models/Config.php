@@ -11,7 +11,6 @@ use yii\base\Model;
  */
 class Config extends Model
 {
-
     /**
      * @var Module
      */
@@ -33,15 +32,22 @@ class Config extends Model
     public $codeLength;
 
     /**
+     * @var string of trusted networks
+     */
+    public $trustedNetworks;
+
+    /**
      * @inheritDoc
      */
     public function init()
     {
         parent::init();
+
         $this->module = Yii::$app->getModule('twofa');
         $this->enabledDrivers = $this->module->getEnabledDrivers();
         $this->codeLength = $this->module->getCodeLength();
         $this->enforcedGroups = $this->module->getEnforcedGroups();
+        $this->trustedNetworks = implode(', ', $this->module->getTrustedNetworks());
     }
 
     /**
@@ -52,7 +58,8 @@ class Config extends Model
         return [
             ['enabledDrivers', 'in', 'range' => array_keys($this->module->getDriversOptions()), 'allowArray' => true],
             ['codeLength', 'integer', 'min' => 4],
-            ['enforcedGroups', 'in', 'range' => array_keys($this->module->getGroupsOptions()), 'allowArray' => true]
+            ['enforcedGroups', 'in', 'range' => array_keys($this->module->getGroupsOptions()), 'allowArray' => true],
+            ['trustedNetworks', 'string']
         ];
     }
 
@@ -67,6 +74,7 @@ class Config extends Model
             'enabledDrivers' => Yii::t('TwofaModule.config', 'Enabled methods'),
             'codeLength' => Yii::t('TwofaModule.config', 'Length of verifying code'),
             'enforcedGroups' => Yii::t('TwofaModule.config', 'Mandatory for the following groups'),
+            'trustedNetworks' => Yii::t('TwofaModule.config', 'Trusted networks list'),
         ];
     }
 
@@ -82,6 +90,34 @@ class Config extends Model
         $this->module->settings->set('enabledDrivers', empty($this->enabledDrivers) ? '' : implode(',', $this->enabledDrivers));
         $this->module->settings->set('enforcedGroups', empty($this->enforcedGroups) ? '' : implode(',', $this->enforcedGroups));
         $this->module->settings->set('codeLength', $this->codeLength);
+        $this->module->settings->set('trustedNetworks', json_encode($this->getTrustedNetworksArray()));
+
         return true;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getTrustedNetworksArray()
+    {
+        if (is_array($this->trustedNetworks)) {
+            return $this->trustedNetworks;
+        }
+
+        $networks = explode(',', $this->trustedNetworks);
+        foreach ($networks as &$network) {
+            $this->trimTrustedNetwork($network);
+        }
+
+        return $networks;
+    }
+
+    /**
+     * @param $network
+     */
+    protected function trimTrustedNetwork(&$network)
+    {
+        $network = trim($network);
+        // perform other actions if required
     }
 }

@@ -155,4 +155,12 @@ class Module extends BaseModule
 
         return empty($enforcedGroups) ? [] : explode(',', $enforcedGroups);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTrustedNetworks()
+    {
+        return json_decode($this->settings->get('trustedNetworks', '[]'));
+    }
 }
