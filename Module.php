@@ -135,7 +135,7 @@ class Module extends BaseModule
      */
     public function getRememberMeDays()
     {
-        return intval($this->settings->get('rememberMeDays', 7));
+        return $this->settings->get('rememberMeDays', 7);
     }
 
     /**

@@ -354,6 +354,10 @@ class TwofaHelper
      */
     public static function isBrowserRemembered()
     {
+        if (empty(Yii::$app->getModule('twofa')->getRememberMeDays())) {
+            return false;
+        }
+
         if ($cookie = Yii::$app->request->cookies->get('twofa_remember')) {
             return in_array(Yii::$app->user->id, (array)$cookie->value);
         }
