@@ -8,6 +8,7 @@
 
 namespace humhub\modules\twofa\helpers;
 
+use DateTime;
 use humhub\modules\admin\Module as AdminModule;
 use humhub\modules\content\components\ContentContainerSettingsManager;
 use humhub\modules\twofa\drivers\BaseDriver;
@@ -16,6 +17,7 @@ use humhub\modules\user\models\User;
 use humhub\modules\user\Module as UserModule;
 use Yii;
 use yii\helpers\BaseIpHelper;
+use yii\web\Cookie;
 
 class TwofaHelper
 {
@@ -229,7 +231,9 @@ class TwofaHelper
 
     /**
      * Check if verifying by 2fa is required for current User
+     *
      * @return bool
+     * @throws \yii\base\NotSupportedException
      */
     public static function isVerifyingRequired()
     {
@@ -240,6 +244,11 @@ class TwofaHelper
 
         // if code is missing for a user, or user is trusted (ip whitelist)
         if (self::getCode() === null || self::isTrusted()) {
+            return false;
+        }
+
+        // if user's ticked remember browser
+        if (self::isBrowserRemembered()) {
             return false;
         }
 
@@ -317,6 +326,36 @@ class TwofaHelper
             if (BaseIpHelper::inRange(Yii::$app->request->userIP, $trustedNet)) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param int $days
+     */
+    public static function rememberBrowser($days = null)
+    {
+        // calculate expiration date
+        $days = $days ?? Yii::$app->getModule('twofa')->getRememberMeDays();
+        $expire = (new DateTime())->modify("+$days DAYS")->getTimestamp();
+
+        // calculate array of remembered user's
+        $value = Yii::$app->request->cookies->get('twofa_remember') ?? [];
+        $value[] = Yii::$app->user->id;
+
+        // remember browser
+        $cookie = new Cookie(['name' => 'twofa_remember', 'value' => $value, 'expire' => $expire]);
+        Yii::$app->response->cookies->add($cookie);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isBrowserRemembered()
+    {
+        if ($cookie = Yii::$app->request->cookies->get('twofa_remember')) {
+            return in_array(Yii::$app->user->id, (array)$cookie->value);
         }
 
         return false;

@@ -129,6 +129,16 @@ class Module extends BaseModule
     }
 
     /**
+     * Get length in days of remember me option
+     *
+     * @return integer
+     */
+    public function getRememberMeDays()
+    {
+        return intval($this->settings->get('rememberMeDays', 7));
+    }
+
+    /**
      * Get groups options for the 2fa module settings
      *
      * @return array

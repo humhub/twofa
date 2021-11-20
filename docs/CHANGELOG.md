@@ -6,6 +6,7 @@ Changelog
 - Enh #36: Update logout url to POST method
 - Enh: Added French translations
 - Enh #33: Added trusted network functionality
+- Enh #16: Added remember browser for X days
 
 1.0.5 (August 10 , 2021)
 -----------------------
