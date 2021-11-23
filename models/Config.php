@@ -32,6 +32,11 @@ class Config extends Model
     public $codeLength;
 
     /**
+     * @var int Length in days of remember me option
+     */
+    public $rememberMeDays;
+
+    /**
      * @var string of trusted networks
      */
     public $trustedNetworks;
@@ -46,6 +51,7 @@ class Config extends Model
         $this->module = Yii::$app->getModule('twofa');
         $this->enabledDrivers = $this->module->getEnabledDrivers();
         $this->codeLength = $this->module->getCodeLength();
+        $this->rememberMeDays = $this->module->getRememberMeDays();
         $this->enforcedGroups = $this->module->getEnforcedGroups();
         $this->trustedNetworks = implode(', ', $this->module->getTrustedNetworks());
     }
@@ -58,6 +64,7 @@ class Config extends Model
         return [
             ['enabledDrivers', 'in', 'range' => array_keys($this->module->getDriversOptions()), 'allowArray' => true],
             ['codeLength', 'integer', 'min' => 4],
+            ['rememberMeDays', 'integer', 'max' => 365],
             ['enforcedGroups', 'in', 'range' => array_keys($this->module->getGroupsOptions()), 'allowArray' => true],
             ['trustedNetworks', 'string']
         ];
@@ -73,6 +80,7 @@ class Config extends Model
         return [
             'enabledDrivers' => Yii::t('TwofaModule.config', 'Enabled methods'),
             'codeLength' => Yii::t('TwofaModule.config', 'Length of verifying code'),
+            'rememberMeDays' => Yii::t('TwofaModule.config', 'Remember browser option amount of days'),
             'enforcedGroups' => Yii::t('TwofaModule.config', 'Mandatory for the following groups'),
             'trustedNetworks' => Yii::t('TwofaModule.config', 'Trusted networks list'),
         ];
@@ -90,6 +98,7 @@ class Config extends Model
         $this->module->settings->set('enabledDrivers', empty($this->enabledDrivers) ? '' : implode(',', $this->enabledDrivers));
         $this->module->settings->set('enforcedGroups', empty($this->enforcedGroups) ? '' : implode(',', $this->enforcedGroups));
         $this->module->settings->set('codeLength', $this->codeLength);
+        $this->module->settings->set('rememberMeDays', $this->rememberMeDays);
         $this->module->settings->set('trustedNetworks', json_encode($this->getTrustedNetworksArray()));
 
         return true;

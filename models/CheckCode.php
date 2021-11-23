@@ -14,10 +14,17 @@ use yii\base\Model;
 
 /**
  * This is the model class for form to check code of Two-Factor Authentication
+ *
+ * Class CheckCode
+ * @package humhub\modules\twofa\models
  */
 class CheckCode extends Model
 {
+    /** @var string|null */
     public $code;
+
+    /** @var string|null */
+    public $rememberBrowser;
 
     /**
      * @inheritdoc
@@ -28,6 +35,7 @@ class CheckCode extends Model
             ['code', 'required'],
             ['code', 'string'],
             ['code', 'verifyCode'],
+            ['rememberBrowser', 'boolean']
         ];
     }
 
@@ -38,6 +46,7 @@ class CheckCode extends Model
     {
         return [
             'code' => Yii::t('TwofaModule.base', 'Code'),
+            'rememberBrowser' => Yii::t('TwofaModule.base', 'Code'),
         ];
     }
 
@@ -54,4 +63,20 @@ class CheckCode extends Model
         }
     }
 
+    /**
+     * @param bool $validate
+     * @return bool|string|null
+     */
+    public function save($validate = true)
+    {
+        if ($validate && !$this->validate()) {
+            return false;
+        }
+
+        if ($this->rememberBrowser) {
+            TwofaHelper::rememberBrowser();
+        }
+
+        return TwofaHelper::disableVerifying();
+    }
 }

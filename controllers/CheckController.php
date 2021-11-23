@@ -13,6 +13,10 @@ use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\models\CheckCode;
 use Yii;
 
+/**
+ * Class CheckController
+ * @package humhub\modules\twofa\controllers
+ */
 class CheckController extends Controller
 {
     /**
@@ -28,7 +32,7 @@ class CheckController extends Controller
     /**
      * Renders a form to check user after log in by two-factor authentication
      *
-     * @return string
+     * @return string|\yii\web\Response
      */
     public function actionIndex()
     {
@@ -41,17 +45,13 @@ class CheckController extends Controller
         }
 
         $model = new CheckCode();
-
-        if ($model->load(Yii::$app->request->post()) &&
-            $model->validate() &&
-            TwofaHelper::disableVerifying()) {
-            //$this->view->success(Yii::t('TwofaModule.base', 'Two-factor authentication code is validated!'));
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->goHome();
         }
 
         return $this->render('index', [
-            'model' => $model,
-            'driver' => TwofaHelper::getDriver(),
+            'model' => $model, 'driver' => TwofaHelper::getDriver(),
+            'rememberDays' => Yii::$app->getModule('twofa')->getRememberMeDays()
         ]);
     }
 
