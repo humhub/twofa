@@ -21,4 +21,8 @@ return [
     'To connect the app manually, provide the following details to the TOTP app (e.g. Google Authenticator).' => 'Om de app handmatig te verbinden, geeft u de volgende details op aan de TOTP-app (bijvoorbeeld Google Authenticator).',
     'Two-Factor Authentication' => 'Twee-factorenauthenticatie',
     'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.' => 'Tweefactorauthenticatie (2FA) biedt een extra beveiligingsniveau voor uw account. Eenmaal ingeschakeld, wordt u gevraagd om naast uw gebruikersnaam en wachtwoord ook een code in te voeren.',
+    'Leave empty to disable this feature.' => '',
+    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"' => '',
+    'Remember browser option amount of days' => '',
+    'Trusted networks list' => '',
 ];

@@ -15,6 +15,7 @@ return [
     'Open the two-factor authentication app on your device to view your authentication code and verify your identity.' => '',
     'Pin code' => '',
     'Please enter your verifying code.' => '',
+    'Remember this browser for {0} days' => '',
     'Time-based one-time passwords (e.g. Google Authenticator)' => '',
     'Two-Factor Authentication' => '',
     'Verify' => '',

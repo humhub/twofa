@@ -21,4 +21,8 @@ return [
     'To connect the app manually, provide the following details to the TOTP app (e.g. Google Authenticator).' => 'Az alkalmazás manuális csatlakoztatásához add meg a következő részleteket a TOTP alkalmazáshoz (pl.: Google Authenticator).',
     'Two-Factor Authentication' => 'Kétlépcsős azonosítás',
     'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.' => 'A kétlépcsős azonosítás (2FA) nagyobb biztonságot nyújt a fiókod számára. Az engedélyezés után a rendszer kéri a kód megadását a felhasználónév és jelszó azonosítása után.',
+    'Leave empty to disable this feature.' => '',
+    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"' => '',
+    'Remember browser option amount of days' => '',
+    'Trusted networks list' => '',
 ];

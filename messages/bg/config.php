@@ -21,4 +21,8 @@ return [
     'To connect the app manually, provide the following details to the TOTP app (e.g. Google Authenticator).' => 'За да свържете приложението ръчно, предоставете следните подробности на приложението TOTP (напр. Google Authenticator).',
     'Two-Factor Authentication' => 'Двуфакторно удостоверяване',
     'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.' => 'Двуфакторното удостоверяване (2FA) осигурява допълнително ниво на сигурност за вашия акаунт. След като бъдете активирани, ще бъдете подканени да въведете код в допълнение към въвеждането на вашето потребителско име и парола.',
+    'Leave empty to disable this feature.' => '',
+    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"' => '',
+    'Remember browser option amount of days' => '',
+    'Trusted networks list' => '',
 ];

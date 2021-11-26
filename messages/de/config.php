@@ -21,4 +21,8 @@ return [
     'To connect the app manually, provide the following details to the TOTP app (e.g. Google Authenticator).' => 'Um die App manuell zu verbinden, gib bitte in der TOTP-App (z. B. Google Authenticator) die folgenden Details an.',
     'Two-Factor Authentication' => 'Zwei-Faktor-Authentifizierung',
     'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.' => 'Die Zwei-Faktor-Authentifizierung (2FA) bietet eine zusätzliche Sicherheitsstufe für Dein Konto. Sobald sie aktiviert ist, wirst Du aufgefordert, zusätzlich zur Eingabe Deines Benutzernamens und Passworts einen Code einzugeben.',
+    'Leave empty to disable this feature.' => '',
+    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"' => '',
+    'Remember browser option amount of days' => '',
+    'Trusted networks list' => '',
 ];
