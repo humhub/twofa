@@ -97,9 +97,10 @@ class Module extends BaseModule
     /**
      * Get enabled drivers
      *
+     * @param bool $checkActive
      * @return array
      */
-    public function getEnabledDrivers()
+    public function getEnabledDrivers(bool $checkActive = true): array
     {
         $enabledDrivers = $this->settings->get('enabledDrivers', implode(',', $this->drivers));
 
@@ -110,7 +111,8 @@ class Module extends BaseModule
         // Check if each enabled Driver is properly installed:
         $enabledDrivers = explode(',', $enabledDrivers);
         foreach ($enabledDrivers as $d => $enabledDriverClassName) {
-            if (!TwofaHelper::getDriverByClassName($enabledDriverClassName)->isInstalled()) {
+            $enabledDriver = TwofaHelper::getDriverByClassName($enabledDriverClassName);
+            if (!$enabledDriver->isInstalled() || ($checkActive && !$enabledDriver->isActive())) {
                 unset($enabledDrivers[$d]);
             }
         }

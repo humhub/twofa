@@ -59,15 +59,27 @@ abstract class BaseDriver extends BaseObject
     }
 
     /**
+     * Check if this Driver is active for current User
+     *
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        if (Yii::$app->user->isGuest) {
+            return false;
+        }
+
+        return Yii::$app->user->getIdentity() instanceof User;
+    }
+
+    /**
      * Action before send/generate code
      *
      * @return bool
      */
     protected function beforeSend()
     {
-        /** @var User $user */
-        $user = Yii::$app->user->getIdentity();
-        if (!$user) {
+        if (!$this->isActive()) {
             return false;
         }
 

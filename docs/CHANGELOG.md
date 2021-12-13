@@ -7,6 +7,7 @@ Changelog
 - Enh: Added French translations
 - Enh #33: Added trusted network functionality
 - Enh #16: Added remember browser for X days
+- Fix #41: Fix error for user without email address
 
 1.0.5 (August 10 , 2021)
 -----------------------
