@@ -9,8 +9,9 @@
 namespace humhub\modules\twofa\drivers;
 
 use humhub\modules\user\models\User;
-use yii\mail\BaseMessage;
 use Yii;
+use yii\mail\BaseMessage;
+use yii\validators\EmailValidator;
 
 class EmailDriver extends BaseDriver
 {
@@ -27,6 +28,11 @@ class EmailDriver extends BaseDriver
     /**
      * @inheritdoc
      */
+    public function isActive(): bool
+    {
+        return parent::isActive() && $this->isValidUserEmail();
+    }
+
     public function send()
     {
         if (!$this->beforeSend()) {
@@ -48,5 +54,13 @@ class EmailDriver extends BaseDriver
         $mail->setSubject(Yii::t('TwofaModule.base', 'Your login verification code'));
 
         return $mail->send();
+    }
+
+    protected function isValidUserEmail(): bool
+    {
+        /* @var User $user */
+        $user = Yii::$app->user->getIdentity();
+
+        return !empty($user->email) && (new EmailValidator)->validate($user->email);
     }
 }

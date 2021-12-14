@@ -49,7 +49,7 @@ class Config extends Model
         parent::init();
 
         $this->module = Yii::$app->getModule('twofa');
-        $this->enabledDrivers = $this->module->getEnabledDrivers();
+        $this->enabledDrivers = $this->module->getEnabledDrivers(false);
         $this->codeLength = $this->module->getCodeLength();
         $this->rememberMeDays = $this->module->getRememberMeDays();
         $this->enforcedGroups = $this->module->getEnforcedGroups();
