@@ -15,10 +15,10 @@ return array (
   'Pin code' => 'Codice PIN',
   'Please enter your verifying code.' => 'Inserisci il tuo codice di verifica.',
   'Remember this browser for {0} days' => 'Ricorda questo browser per {0} giorni',
-  'Time-based one-time passwords (e.g. Google Authenticator)' => 'Password monouso basate sul tempo (ad es. Google Authenticator)',
+  'Time-based one-time passwords (e.g. Google Authenticator)' => 'Password monouso temporanea  (ad es. Google Authenticator)',
   'Two-Factor Authentication' => 'Autenticazione a due fattori',
   'Verify' => 'Verifica',
   'Verifying code is not valid!' => 'Il codice di verifica non è valido!',
   'Your account is secured by a two-factor authentication system. Please use the following code to proceed.' => 'Il tuo account è protetto da un sistema di autenticazione a due fattori. Si prega di utilizzare il seguente codice per procedere.',
-  'Your login verification code' => 'Il tuo codice di verifica per entrare.',
+  'Your login verification code' => 'Il tuo codice di verifica per accedere',
 );
