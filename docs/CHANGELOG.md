@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0.6 (Unreleased)
------------------------
+1.0.6 (Februrary 2, 2022)
+-------------------------
 - Enh #36: Update logout url to POST method
 - Enh: Added French translations
 - Enh #33: Added trusted network functionality
