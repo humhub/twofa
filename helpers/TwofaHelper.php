@@ -341,7 +341,8 @@ class TwofaHelper
         $expire = (new DateTime())->modify("+$days DAYS")->getTimestamp();
 
         // calculate array of remembered user's
-        $value = Yii::$app->request->cookies->get('twofa_remember') ?? [];
+        $twofaRememberCookie = Yii::$app->request->cookies->get('twofa_remember');
+        $value = $twofaRememberCookie instanceof Cookie ? $twofaRememberCookie->value : [];
         $value[] = Yii::$app->user->id;
 
         // remember browser
