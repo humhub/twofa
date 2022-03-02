@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0.7 (Unreleased)
--------------------------
+1.0.7 (March 2, 2022)
+---------------------
 - Fix #45: Fix remember browser
 
 1.0.6 (Februrary 2, 2022)
