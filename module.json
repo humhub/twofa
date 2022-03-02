@@ -12,7 +12,7 @@
     "resources/screen2.png",
     "resources/screen3.png"
   ],
-  "version": "1.0.6",
+  "version": "1.0.7",
   "humhub": {
     "minVersion": "1.8"
   }
