@@ -36,11 +36,7 @@ use yii\bootstrap\ActiveForm;
 
         <?= $form->field($model, 'enforcedGroups')->checkboxList($model->module->getGroupsOptions()); ?>
 
-        <div class="help-block">
-            <?= Yii::t('TwofaModule.config', 'By default, the method "{defaultDriverName}" is used.', [
-                'defaultDriverName' => $defaultDriverName
-            ]) ?></div>
-        <br/>
+        <?= $form->field($model, 'enforcedMethod')->dropDownList($model->module->getDriversOptions()); ?>
 
         <?= $form->field($model, 'codeLength'); ?>
 
