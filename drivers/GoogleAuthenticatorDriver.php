@@ -77,9 +77,13 @@ class GoogleAuthenticatorDriver extends BaseDriver
             ]
         ]);
 
+        $model = $this->getUserSettings();
+
         $this->renderUserSettingsFile(array_merge($params, [
             'driver' => $this,
-            'model' => $this->getUserSettings(),
+            'model' => $model,
+            'requestPinCode' => $model->hasErrors('pinCode')
+                || (TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_SETTING) === null),
         ]));
     }
 
