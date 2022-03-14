@@ -79,11 +79,18 @@ class GoogleAuthenticatorDriver extends BaseDriver
 
         $model = $this->getUserSettings();
 
+        if (TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_SETTING) === null) {
+            // Display a form to request new code when current user group is forced for this Driver
+            $requestPinCode = true;
+            $this->generateTempSecretCode();
+        } else {
+            $requestPinCode = $model->hasErrors('pinCode');
+        }
+
         $this->renderUserSettingsFile(array_merge($params, [
             'driver' => $this,
             'model' => $model,
-            'requestPinCode' => $model->hasErrors('pinCode')
-                || (TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_SETTING) === null),
+            'requestPinCode' => $requestPinCode,
         ]));
     }
 
@@ -115,18 +122,29 @@ class GoogleAuthenticatorDriver extends BaseDriver
     }
 
     /**
-     * Request code by AJAX request on user settings form
+     * Generate new secret code and store for current User
      *
-     * @param array Params
      * @return string
      */
-    public function actionRequestCode($params)
+    protected function generateTempSecretCode(): string
     {
-        // Generate new secret code and store for current User:
         $secret = $this->getGoogleAuthenticator()->generateSecret();
 
         // Save new generated secret in temporary setting before confirm by pin code:
         TwofaHelper::setSetting(self::SECRET_TEMP_SETTING, $secret);
+
+        return $secret;
+    }
+
+    /**
+     * Request code by AJAX request on user settings form
+     *
+     * @return string
+     */
+    public function actionRequestCode()
+    {
+        // Save new generated secret in temporary setting before confirm by pin code:
+        $this->generateTempSecretCode();
 
         return $this->getQrCodeSecretKeyFile(true);
     }
