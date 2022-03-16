@@ -8,9 +8,12 @@
 
 namespace humhub\modules\twofa\drivers;
 
+use humhub\modules\twofa\assets\Assets;
 use humhub\modules\twofa\helpers\TwofaHelper;
+use humhub\modules\twofa\models\CheckCode;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 use Yii;
+use yii\bootstrap\ActiveForm;
 
 class GoogleAuthenticatorDriver extends BaseDriver
 {
@@ -47,18 +50,43 @@ class GoogleAuthenticatorDriver extends BaseDriver
      */
     public function send()
     {
+        if (parent::isActive() && TwofaHelper::isEnforcedUser()) {
+            return true;
+        }
+
         if (!$this->beforeSend()) {
             return false;
         }
 
         $secret = TwofaHelper::getSetting(self::SECRET_SETTING);
-        if (empty($secret))
-        {   // If secret code is empty then QR code was not generated,
+        if (empty($secret)) {
+            // If secret code is empty then QR code was not generated,
             // so current User cannot use this Driver for 2FA
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeCheckCodeFormInput(ActiveForm $form, CheckCode $model)
+    {
+        if ($this->isActive() && !empty(TwofaHelper::getSetting(self::SECRET_SETTING))) {
+            parent::beforeCheckCodeFormInput($form, $model);
+            return;
+        }
+
+        Assets::register(Yii::$app->view);
+
+        $this->generateTempSecretCode();
+        echo $this->getQrCodeSecretKeyFile([
+            'requirePinCode' => true,
+            'columnLeftClass' => 'col-md-12',
+            'columnRightClass' => 'col-md-12',
+            'codeSize' => 370,
+        ]);
     }
 
     /**
@@ -81,16 +109,16 @@ class GoogleAuthenticatorDriver extends BaseDriver
 
         if (TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_SETTING) === null) {
             // Display a form to request new code when current user group is forced for this Driver
-            $requestPinCode = true;
+            $requirePinCode = true;
             $this->generateTempSecretCode();
         } else {
-            $requestPinCode = $model->hasErrors('pinCode');
+            $requirePinCode = $model->hasErrors('pinCode');
         }
 
         $this->renderUserSettingsFile(array_merge($params, [
             'driver' => $this,
             'model' => $model,
-            'requestPinCode' => $requestPinCode,
+            'requirePinCode' => $requirePinCode,
         ]));
     }
 
@@ -103,11 +131,24 @@ class GoogleAuthenticatorDriver extends BaseDriver
      */
     public function checkCode($verifyingCode, $correctCode = null)
     {
+        $isNewCodeAfterLogin = false;
         if ($correctCode === null) {
             $correctCode = TwofaHelper::getSetting(self::SECRET_SETTING);
+            if ($correctCode === null && TwofaHelper::isEnforcedUser()) {
+                $correctCode = TwofaHelper::getSetting(self::SECRET_TEMP_SETTING);
+                $isNewCodeAfterLogin = true;
+            }
         }
 
-        return $this->getGoogleAuthenticator()->checkCode($correctCode, $verifyingCode);
+        $result = $this->getGoogleAuthenticator()->checkCode($correctCode, $verifyingCode);
+
+        if ($result && $isNewCodeAfterLogin) {
+            TwofaHelper::setSetting(TwofaHelper::USER_SETTING, self::class);
+            TwofaHelper::setSetting(self::SECRET_SETTING, $correctCode);
+            TwofaHelper::setSetting(self::SECRET_TEMP_SETTING);
+        }
+
+        return $result;
     }
 
     /**
@@ -146,28 +187,34 @@ class GoogleAuthenticatorDriver extends BaseDriver
         // Save new generated secret in temporary setting before confirm by pin code:
         $this->generateTempSecretCode();
 
-        return $this->getQrCodeSecretKeyFile(true);
+        return $this->getQrCodeSecretKeyFile(['requirePinCode' => true]);
     }
 
     /**
      * Get file with QR code and secret key
      *
-     * @param boolean Require pin code?
+     * @param array $params
      * @return string|void
      * @throws \Throwable
      */
-    public function getQrCodeSecretKeyFile($requirePinCode = false)
+    public function getQrCodeSecretKeyFile($params = [])
     {
-        $secret = TwofaHelper::getSetting($requirePinCode ? self::SECRET_TEMP_SETTING : self::SECRET_SETTING);
+        $params = array_merge([
+            'requirePinCode' => false,
+            'columnLeftClass' => 'col-md-6',
+            'columnRightClass' => 'col-md-6',
+            'codeSize' => 300,
+        ], $params);
+
+        $secret = TwofaHelper::getSetting($params['requirePinCode'] ? self::SECRET_TEMP_SETTING : self::SECRET_SETTING);
 
         if (empty($secret)) {
             return '';
         }
 
-        return $this->renderFile([
-            'qrCodeText' => 'otpauth://totp/' . Yii::$app->request->hostName . ':' . rawurlencode(TwofaHelper::getAccountName()) . '?secret=' . $secret . '&issuer=' . Yii::$app->request->hostName,
-            'secret' => $secret,
-            'requirePinCode' => $requirePinCode,
-        ], ['suffix' => 'Code']);
+        $params['qrCodeText'] = 'otpauth://totp/' . Yii::$app->request->hostName . ':' . rawurlencode(TwofaHelper::getAccountName()) . '?secret=' . $secret . '&issuer=' . Yii::$app->request->hostName;
+        $params['secret'] = $secret;
+
+        return $this->renderFile($params, ['suffix' => 'Code']);
     }
 }

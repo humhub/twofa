@@ -40,7 +40,6 @@ $this->pageTitle = Yii::t('TwofaModule.base', 'Two-Factor Authentication');
                 <?php if ($rememberDays): ?>
                     <?= $form->field($model, 'rememberBrowser')->checkbox()
                         ->label(Yii::t('TwofaModule.base', 'Remember this browser for {0} days', [$rememberDays])) ?>
-
                 <?php endif; ?>
 
                 <br/>
