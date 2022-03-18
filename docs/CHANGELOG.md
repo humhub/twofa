@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.0 (Unreleased)
+---------------------
+- Enh #41: Added Option to use Google Authentication as Default
+
 1.0.7 (March 2, 2022)
 ---------------------
 - Fix #45: Fix remember browser
