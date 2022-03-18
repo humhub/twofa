@@ -91,7 +91,7 @@ class TwofaHelper
         }
 
         if (empty($driverClass) && self::isEnforcedUser()) {
-            return $module->defaultDriver;
+            return $module->getEnforcedMethod();
         }
 
         return $driverClass;

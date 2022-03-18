@@ -169,6 +169,16 @@ class Module extends BaseModule
     }
 
     /**
+     * Get default method for the mandatory/enforced groups
+     *
+     * @return string
+     */
+    public function getEnforcedMethod(): string
+    {
+        return $this->settings->get('enforcedMethod', $this->defaultDriver);
+    }
+
+    /**
      * @return mixed
      */
     public function getTrustedNetworks()
