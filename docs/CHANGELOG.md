@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.1.0 (Unreleased)
----------------------
+1.1.0 (November 9, 2022)
+------------------------
 - Enh #41: Added Option to use Google Authentication as Default
 - Fix #50: Don't send a verification code when browser was remembered
 
