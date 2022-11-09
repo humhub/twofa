@@ -79,6 +79,10 @@ abstract class BaseDriver extends BaseObject
      */
     protected function beforeSend()
     {
+        if (TwofaHelper::isBrowserRemembered()) {
+            return false;
+        }
+
         if (!$this->isActive()) {
             return false;
         }
