@@ -3,7 +3,7 @@ Changelog
 
 1.1.1 (Unreleased)
 ------------------------
-- Fix: Fix checking of current IP address by trusted networks list
+- Fix #52: Fix checking of current IP address by trusted networks list
 
 1.1.0 (November 9, 2022)
 ------------------------
