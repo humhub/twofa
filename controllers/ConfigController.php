@@ -36,9 +36,15 @@ class ConfigController extends Controller
             $this->view->saved();
         }
 
+        $ip = Yii::$app->request->userIP;
+        if ($ip !== Yii::$app->request->remoteIP) {
+            $ip .= ', ' . Yii::$app->request->remoteIP;
+        }
+
         return $this->render('module', [
             'model' => $model,
             'defaultDriverName' => TwofaHelper::getDriverByClassName($model->module->defaultDriver)->name,
+            'ip' => $ip,
         ]);
     }
 }
