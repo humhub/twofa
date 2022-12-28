@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.1.1 (Unreleased)
-------------------------
+1.1.1 (December 28, 2022)
+-------------------------
 - Fix #52: Fix checking of current IP address by trusted networks list
 
 1.1.0 (November 9, 2022)
