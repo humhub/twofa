@@ -22,7 +22,7 @@ return [
     'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.' => 'การรับรองความถูกต้องด้วยสองปัจจัย (2FA) ให้ระดับความปลอดภัยเพิ่มเติมสำหรับบัญชีของคุณ เมื่อเปิดใช้งานแล้ว คุณจะได้รับแจ้งให้ป้อนรหัสนอกเหนือจากการป้อนชื่อผู้ใช้และรหัสผ่านของคุณ',
     'Default method for the mandatory groups' => '',
     'Leave empty to disable this feature.' => '',
-    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"' => '',
+    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, 127.0.0.1"' => '',
     'Remember browser option amount of days' => '',
     'Trusted networks list' => '',
 ];

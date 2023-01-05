@@ -22,7 +22,7 @@ return [
     'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.' => 'A kétlépcsős azonosítás (2FA) nagyobb biztonságot nyújt a fiókod számára. Az engedélyezés után a rendszer kéri a kód megadását a felhasználónév és jelszó azonosítása után.',
     'Default method for the mandatory groups' => '',
     'Leave empty to disable this feature.' => '',
-    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"' => '',
+    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, 127.0.0.1"' => '',
     'Remember browser option amount of days' => '',
     'Trusted networks list' => '',
 ];
