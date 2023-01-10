@@ -1,4 +1,4 @@
-[![PHP Codeception Tests](https://github.com/humhub/humhub-modules-twofa/actions/workflows/php-test.yml/badge.svg)](https://github.com/humhub/humhub-modules-twofa/actions/workflows/php-test.yml)
+[![PHP Codeception Tests - master](https://github.com/humhub/twofa/actions/workflows/php-test-master.yml/badge.svg)](https://github.com/humhub/twofa/actions/workflows/php-test-master.yml)
 
 # Two-Factor Authentication (2FA)
 

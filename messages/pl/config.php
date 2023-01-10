@@ -22,7 +22,7 @@ return [
     'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.' => 'Uwierzytelnianie dwuskładnikowe (2FA) dostarcza dodatkowego poziomu zabezpieczeń Twojego konta. Po włączeniu, przy logowaniu będziesz proszony o wpisanie kodu oprócz loginu i hasła.',
     'Default method for the mandatory groups' => '',
     'Leave empty to disable this feature.' => '',
-    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"' => '',
+    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, 127.0.0.1"' => '',
     'Remember browser option amount of days' => '',
     'Trusted networks list' => '',
 ];

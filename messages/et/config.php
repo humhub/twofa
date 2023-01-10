@@ -13,7 +13,7 @@ return [
     'Install an application that implements a time-based one-time password (TOTP) algorithm, such as {googleAuthenticatorLink}, and use it to scan the QR code shown below.' => '',
     'Leave empty to disable this feature.' => '',
     'Length of verifying code' => '',
-    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, 127.0.0.1"' => '',
+    'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"' => '',
     'Mandatory for the following groups' => '',
     'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.' => '',
     'Remember browser option amount of days' => '',

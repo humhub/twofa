@@ -12,7 +12,7 @@ return array (
   'Install an application that implements a time-based one-time password (TOTP) algorithm, such as {googleAuthenticatorLink}, and use it to scan the QR code shown below.' => 'Installeer een applicatie die een op tijd gebaseerd eenmalig wachtwoord (TOTP) -algoritme implementeert, zoals {googleAuthenticatorLink}, en gebruik dit om de onderstaande QR-code te scannen.',
   'Leave empty to disable this feature.' => 'Laat leeg om deze functie uit te schakelen.',
   'Length of verifying code' => 'Lengte van de verificatiecode',
-  'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"' => 'Lijst met IP\'s of subnetten die op de vertrouwde lijst moeten worden gezet, momenteel is de jouwe {0}. Gebruik een kommascheidingsteken om een lijst te maken, bijvoorbeeld: "{0}, {0}, {0}"',
+  'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, 127.0.0.1"' => 'Lijst met IP\'s of subnetten die op de vertrouwde lijst moeten worden gezet, momenteel is de jouwe {0}. Gebruik een kommascheidingsteken om een lijst te maken, bijvoorbeeld: "{0}, 127.0.0.1"',
   'Mandatory for the following groups' => 'Verplicht voor de volgende groepen',
   'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.' => '<strong> de code in uw authenticator-app bij te werken! Als u dit niet doet, kunt u niet inloggen.</strong>',
   'Remember browser option amount of days' => 'Onthoud browseroptie aantal dagen',

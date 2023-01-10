@@ -12,7 +12,7 @@ return array (
   'Install an application that implements a time-based one-time password (TOTP) algorithm, such as {googleAuthenticatorLink}, and use it to scan the QR code shown below.' => 'Installez une application qui implémente un algorithme de mot de passe à usage unique basé sur le temps (TOTP), tel que par exemple {googleAuthenticatorLink}, et utilisez-la pour scanner le code QR affiché ci-dessous.',
   'Leave empty to disable this feature.' => 'Laissez le champ vide pour désactiver cette fonction.',
   'Length of verifying code' => 'Longueur du code de vérification',
-  'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, {0}, {0}"' => 'Liste des adresses IP ou des sous-réseaux à autoriser, le vôtre est actuellement {0}. Séparez les éléments par des virgules pour créer une liste, par exemple : "{0}, {0}, {0}"',
+  'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, 127.0.0.1"' => 'Liste des adresses IP ou des sous-réseaux à autoriser, le vôtre est actuellement {0}. Séparez les éléments par des virgules pour créer une liste, par exemple : "{0}, 127.0.0.1"',
   'Mandatory for the following groups' => 'Obligatoire pour les groupes suivants',
   'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.' => 'Merci de <strong>ne pas oublier</strong> de mettre à jour le code dans votre application d\'authentification ! Si vous ne le faites pas, vous ne pourrez pas vous connecter.',
   'Remember browser option amount of days' => 'Nombre de jours pour l’option « Se souvenir de ce navigateur »',
