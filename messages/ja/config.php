@@ -14,7 +14,7 @@ return array (
   'Length of verifying code' => '検証コードの長さ',
   'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, 127.0.0.1"' => 'ホワイトリストに登録する IP またはサブネットのリスト。現在、あなたのものは {0} です。カンマ区切りを使用してリストを作成します。例： "{0}, 127.0.0.1"',
   'Mandatory for the following groups' => '以下の団体は必須',
-  'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.' => '認証アプリのコードを<strong>忘れずに</strong>更新して下さい。そうしないとログインできません。',
+  'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.' => '認証アプリのコードを<strong>忘れずに</strong>更新してください。そうしないとログインできません。',
   'Remember browser option amount of days' => 'ブラウザ オプションの日数を記憶する',
   'Request new code' => '新しいコードをリクエストする',
   'Secret:' => 'シークレット：',
