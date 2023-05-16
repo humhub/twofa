@@ -72,6 +72,26 @@ abstract class BaseDriver extends BaseObject
         return Yii::$app->user->getIdentity() instanceof User;
     }
 
+    public function canSend(): bool
+    {
+        // if impersonate mode
+        if (TwofaHelper::isImpersonateMode()) {
+            return false;
+        }
+
+        // if user is trusted (ip whitelist)
+        if (TwofaHelper::isTrusted()) {
+            return false;
+        }
+
+        // if user's ticked remember browser
+        if (TwofaHelper::isBrowserRemembered()) {
+            return false;
+        }
+
+        return $this->isActive();
+    }
+
     /**
      * Action before send/generate code
      *
@@ -79,11 +99,7 @@ abstract class BaseDriver extends BaseObject
      */
     protected function beforeSend()
     {
-        if (TwofaHelper::isBrowserRemembered()) {
-            return false;
-        }
-
-        if (!$this->isActive()) {
+        if (!$this->canSend()) {
             return false;
         }
 
