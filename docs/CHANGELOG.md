@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.1.2 (Unreleased)
------------------------
+1.1.2 (May 5, 2023)
+-------------------
 - Fix #55: Don't send a verification code when trusted IP address
 
 1.1.1 (January 3, 2023)
