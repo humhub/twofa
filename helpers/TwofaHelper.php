@@ -237,18 +237,15 @@ class TwofaHelper
      */
     public static function isVerifyingRequired()
     {
-        // if impersonate mode of driver is not set up
-        if (self::isImpersonateMode() || !self::getDriver()) {
+        $driver = self::getDriver();
+
+        // if driver is not set up or impossible to send/generate a code
+        if (!$driver || !$driver->canSend()) {
             return false;
         }
 
-        // if code is missing for a user, or user is trusted (ip whitelist)
-        if (self::getCode() === null || self::isTrusted()) {
-            return false;
-        }
-
-        // if user's ticked remember browser
-        if (self::isBrowserRemembered()) {
+        // if code is missing for a user
+        if (self::getCode() === null) {
             return false;
         }
 
@@ -260,7 +257,7 @@ class TwofaHelper
      *
      * @return bool
      */
-    protected static function isImpersonateMode(): bool
+    public static function isImpersonateMode(): bool
     {
         $switchedUserId = Yii::$app->session->get('twofa.switchedUserId');
         if (empty($switchedUserId)) {
@@ -318,7 +315,7 @@ class TwofaHelper
      * @return bool
      * @throws \yii\base\NotSupportedException
      */
-    public static function isTrusted()
+    public static function isTrusted(): bool
     {
         /** @var TwofaModule $module */
         $module = Yii::$app->getModule('twofa');
@@ -357,7 +354,7 @@ class TwofaHelper
     /**
      * @return bool
      */
-    public static function isBrowserRemembered()
+    public static function isBrowserRemembered(): bool
     {
         if (empty(Yii::$app->getModule('twofa')->getRememberMeDays())) {
             return false;

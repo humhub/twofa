@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.2 (Unreleased)
+-----------------------
+- Fix #55: Don't send a verification code when trusted IP address
+
 1.1.1 (January 3, 2023)
 -----------------------
 - Fix #52: Fix checking of current IP address by trusted networks list
@@ -52,4 +56,3 @@ Changelog
 - Init: Default driver to send code by e-mail
 - Enh: Driver "Google Authenticator"
 - Enh: Require pin code before enabling Google Authenticator
-
