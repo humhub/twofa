@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.3 (June 8, 2023)
+--------------------
+- Fix #53: Fix initialize of inline script of QR code
+
 1.1.2 (May 17, 2023)
 -------------------
 - Fix #55: Don't send a verification code when trusted IP address
