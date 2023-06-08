@@ -5,6 +5,7 @@
  * @license https://www.humhub.com/licences
  */
 
+use humhub\libs\Html;
 use humhub\modules\twofa\helpers\TwofaHelper;
 
 /* @var $qrCodeText string */
@@ -39,7 +40,7 @@ use humhub\modules\twofa\helpers\TwofaHelper;
     </div>
 </div>
 
-<script>
+<script <?= Html::nonce() ?>>
 $(document).ready(function(){
     if ($('#twofa-google-auth-qrcode').html() === '') {
         new QRCode('twofa-google-auth-qrcode', {
