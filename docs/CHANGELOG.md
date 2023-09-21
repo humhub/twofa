@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.4 (Unreleased)
+----------------------
+- Enh #58: Tests for `next` version
+
 1.1.3 (June 8, 2023)
 --------------------
 - Fix #53: Fix initialize of inline script of QR code
