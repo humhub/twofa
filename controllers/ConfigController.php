@@ -20,7 +20,7 @@ class ConfigController extends Controller
     /**
      * @inheritdoc
      */
-    protected function getAccessRules()
+    public function getAccessRules()
     {
         return [['permissions' => ManageModules::class]];
     }
