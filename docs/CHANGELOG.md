@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.0 (Unreleased)
+-------------------
+- Fix #61: Fix visibility of the method `Controller::getAccessRules()`
+
 1.1.4 (Unreleased)
 ----------------------
 - Enh #58: Tests for `next` version
