@@ -4,6 +4,7 @@ Changelog
 1.1.4 (Unreleased)
 ----------------------
 - Enh #58: Tests for `next` version
+- Enh #65: Use PHP CS Fixer
 
 1.1.3 (June 8, 2023)
 --------------------
