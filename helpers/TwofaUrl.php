@@ -15,17 +15,17 @@ class TwofaUrl extends Url
     /**
      * @var string Route to display a form to check user by two-factor authentication
      */
-    const ROUTE_CHECK = '/twofa/check';
+    public const ROUTE_CHECK = '/twofa/check';
 
     /**
      * @var string Route to configure general module settings by admin
      */
-    const ROUTE_CONFIG = '/twofa/config';
+    public const ROUTE_CONFIG = '/twofa/config';
 
     /**
      * @var string Route to configure user settings by current User
      */
-    const ROUTE_USER_SETTINGS = '/twofa/user-settings';
+    public const ROUTE_USER_SETTINGS = '/twofa/user-settings';
 
     public static function toCheck()
     {
