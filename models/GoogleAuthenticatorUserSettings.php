@@ -18,14 +18,13 @@ use yii\base\Model;
  */
 class GoogleAuthenticatorUserSettings extends Model
 {
-
     /**
      * @var string Pin code
      */
     public $pinCode;
 
     /**
-     * @var boolean Change secret code?
+     * @var bool Change secret code?
      */
     public $changeSecretCode;
 

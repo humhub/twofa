@@ -20,8 +20,8 @@ class GoogleAuthenticatorDriver extends BaseDriver
     /**
      * @var string Setting name for secret code per User
      */
-    const SECRET_SETTING = 'twofaGoogleAuthSecret';
-    const SECRET_TEMP_SETTING = 'twofaGoogleAuthSecretTemp';
+    public const SECRET_SETTING = 'twofaGoogleAuthSecret';
+    public const SECRET_TEMP_SETTING = 'twofaGoogleAuthSecretTemp';
 
     /**
      * @inheritdoc
@@ -102,7 +102,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
                 'confirm.action.question' => Yii::t('TwofaModule.config', 'Do you really want to request a new code?') . '<br><br>'
                     . Yii::t('TwofaModule.config', 'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.'),
                 'confirm.action.button' => Yii::t('TwofaModule.config', 'Request new code'),
-            ]
+            ],
         ]);
 
         $model = $this->getUserSettings();

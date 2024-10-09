@@ -35,7 +35,7 @@ class CheckCode extends Model
             ['code', 'required'],
             ['code', 'string'],
             ['code', 'verifyCode'],
-            ['rememberBrowser', 'boolean']
+            ['rememberBrowser', 'boolean'],
         ];
     }
 

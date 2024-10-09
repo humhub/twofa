@@ -34,6 +34,6 @@ class Assets extends AssetBundle
      * @inheritDoc
      */
     public $publishOptions = [
-        'forceCopy' => false
+        'forceCopy' => false,
     ];
 }

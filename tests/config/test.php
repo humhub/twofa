@@ -10,5 +10,5 @@ return [
     'fixtures' => [
         'default',
         //'twofa' => \tests\codeception\fixtures\TwofaFixture::class
-    ]
+    ],
 ];

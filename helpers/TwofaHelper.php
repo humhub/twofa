@@ -21,9 +21,9 @@ use yii\web\Cookie;
 
 class TwofaHelper
 {
-    const USER_SETTING = 'twofaDriver';
-    const CODE_SETTING = 'twofaCode';
-    const CODE_CHARS = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+    public const USER_SETTING = 'twofaDriver';
+    public const CODE_SETTING = 'twofaCode';
+    public const CODE_CHARS = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
 
     /**
      * Get settings manager of current User
@@ -131,7 +131,7 @@ class TwofaHelper
     /**
      * Check if at least one Group of the current User is enforced to 2fa
      *
-     * @return boolean
+     * @return bool
      */
     public static function isEnforcedUser()
     {

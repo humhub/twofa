@@ -20,7 +20,6 @@ use yii\base\Model;
  */
 class UserSettings extends Model
 {
-
     /**
      * @var Module
      */
