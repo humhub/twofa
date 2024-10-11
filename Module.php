@@ -61,7 +61,7 @@ class Module extends BaseModule
      * Get available drivers options for the 2fa module settings
      *
      * @param array|null Init options(Key - Driver class name, Value - Drive name), used to init None option and/or forced/default Driver
-     * @param boolean true - to load only enabled drivers, false - to load all implemented drivers for the module
+     * @param bool true - to load only enabled drivers, false - to load all implemented drivers for the module
      * @return array
      */
     public function getDriversOptions($driversOptions = [], $onlyEnabled = false)
@@ -123,7 +123,7 @@ class Module extends BaseModule
     /**
      * Get length of verifying code
      *
-     * @return integer
+     * @return int
      */
     public function getCodeLength()
     {
@@ -133,7 +133,7 @@ class Module extends BaseModule
     /**
      * Get length in days of remember me option
      *
-     * @return integer
+     * @return int
      */
     public function getRememberMeDays()
     {

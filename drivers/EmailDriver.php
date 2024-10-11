@@ -45,7 +45,7 @@ class EmailDriver extends BaseDriver
         /** @var BaseMessage $mail */
         $mail = Yii::$app->mailer->compose([
             'html' => '@twofa/views/mails/VerifyingCode',
-            'text' => '@twofa/views/mails/plaintext/VerifyingCode'
+            'text' => '@twofa/views/mails/plaintext/VerifyingCode',
         ], [
             'user' => $user,
             'code' => $this->getCode(),
@@ -61,6 +61,6 @@ class EmailDriver extends BaseDriver
         /* @var User $user */
         $user = Yii::$app->user->getIdentity();
 
-        return !empty($user->email) && (new EmailValidator)->validate($user->email);
+        return !empty($user->email) && (new EmailValidator())->validate($user->email);
     }
 }

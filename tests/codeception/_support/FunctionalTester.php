@@ -27,10 +27,10 @@ use humhub\modules\twofa\helpers\TwofaHelper;
 class FunctionalTester extends \FunctionalTester
 {
     use _generated\FunctionalTesterActions;
-    
-   /**
-    * Define custom actions here
-    */
+
+    /**
+     * Define custom actions here
+     */
 
     /**
      * @return string

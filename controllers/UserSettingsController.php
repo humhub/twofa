@@ -39,7 +39,7 @@ class UserSettingsController extends BaseAccountController
         Assets::register($this->view);
 
         return $this->render('@twofa/views/config/user', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 

@@ -73,7 +73,7 @@ class Config extends Model
             ['rememberMeDays', 'integer', 'max' => 365],
             ['enforcedGroups', 'in', 'range' => array_keys($this->module->getGroupsOptions()), 'allowArray' => true],
             ['enforcedMethod', 'in', 'range' => array_keys($this->module->getDriversOptions())],
-            ['trustedNetworks', 'string']
+            ['trustedNetworks', 'string'],
         ];
     }
 
