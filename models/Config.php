@@ -85,12 +85,12 @@ class Config extends Model
     public function attributeLabels()
     {
         return [
-            'enabledDrivers' => Yii::t('TwofaModule.config', 'Enabled methods'),
-            'codeLength' => Yii::t('TwofaModule.config', 'Length of verifying code'),
-            'rememberMeDays' => Yii::t('TwofaModule.config', 'Remember browser option amount of days'),
-            'enforcedGroups' => Yii::t('TwofaModule.config', 'Mandatory for the following groups'),
-            'enforcedMethod' => Yii::t('TwofaModule.config', 'Default method for the mandatory groups'),
-            'trustedNetworks' => Yii::t('TwofaModule.config', 'Trusted networks list'),
+            'enabledDrivers' => Yii::t('TwofaModule.base', 'Enabled methods'),
+            'codeLength' => Yii::t('TwofaModule.base', 'Length of verifying code'),
+            'rememberMeDays' => Yii::t('TwofaModule.base', 'Remember browser option amount of days'),
+            'enforcedGroups' => Yii::t('TwofaModule.base', 'Mandatory for the following groups'),
+            'enforcedMethod' => Yii::t('TwofaModule.base', 'Default method for the mandatory groups'),
+            'trustedNetworks' => Yii::t('TwofaModule.base', 'Trusted networks list'),
         ];
     }
 

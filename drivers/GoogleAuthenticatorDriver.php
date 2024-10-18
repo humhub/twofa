@@ -98,10 +98,10 @@ class GoogleAuthenticatorDriver extends BaseDriver
     {
         Yii::$app->getView()->registerJsConfig('twofa', [
             'text' => [
-                'confirm.action.header' => Yii::t('TwofaModule.config', '<strong>Request</strong> new code'),
-                'confirm.action.question' => Yii::t('TwofaModule.config', 'Do you really want to request a new code?') . '<br><br>'
-                    . Yii::t('TwofaModule.config', 'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.'),
-                'confirm.action.button' => Yii::t('TwofaModule.config', 'Request new code'),
+                'confirm.action.header' => Yii::t('TwofaModule.base', '<strong>Request</strong> new code'),
+                'confirm.action.question' => Yii::t('TwofaModule.base', 'Do you really want to request a new code?') . '<br><br>'
+                    . Yii::t('TwofaModule.base', 'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.'),
+                'confirm.action.button' => Yii::t('TwofaModule.base', 'Request new code'),
             ],
         ]);
 

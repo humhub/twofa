@@ -16,14 +16,14 @@ use humhub\widgets\Button;
 ?>
 
 <div class="panel-heading">
-    <?= Yii::t('TwofaModule.config', '<strong>Two-Factor Authentication</strong> settings'); ?>
+    <?= Yii::t('TwofaModule.base', '<strong>Two-Factor Authentication</strong> settings'); ?>
 </div>
 
 <?= AccountSettingsMenu::widget(); ?>
 
 <div class="panel-body">
     <div class="help-block">
-        <?= Yii::t('TwofaModule.config', 'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.'); ?>
+        <?= Yii::t('TwofaModule.base', 'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.'); ?>
     </div>
     <br/>
 

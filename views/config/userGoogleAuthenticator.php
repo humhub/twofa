@@ -26,7 +26,7 @@ use yii\bootstrap\ActiveForm;
 </div>
 
 <div class="form-group">
-    <?= Button::asLink(Yii::t('TwofaModule.config', 'Request new code'))
+    <?= Button::asLink(Yii::t('TwofaModule.base', 'Request new code'))
         ->icon('fa-qrcode')
         ->right()
         ->action('twofa.callDriverAction', Yii::$app->user->identity->createUrl('/twofa/user-settings/driver-action'))
