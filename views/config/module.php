@@ -16,7 +16,7 @@ use yii\bootstrap\ActiveForm;
 <div class="panel panel-default">
 
     <div class="panel-heading">
-        <?= Yii::t('TwofaModule.config', '<strong>Two-Factor Authentication</strong> module configuration'); ?>
+        <?= Yii::t('TwofaModule.base', '<strong>Two-Factor Authentication</strong> module configuration'); ?>
     </div>
 
     <div class="panel-body">
@@ -25,7 +25,7 @@ use yii\bootstrap\ActiveForm;
         <div id="disabledDriversInfo"
              class="alert alert-warning"<?= empty($model->enabledDrivers) ? '' : ' style="display:none"' ?>>
             <i class="fa fa-info-circle"></i>
-            <?= Yii::t('TwofaModule.config', 'This module is disabled because no drivers are selected, however users from the enforced groups always fallback to {defaultDriverName} driver by default.', [
+            <?= Yii::t('TwofaModule.base', 'This module is disabled because no drivers are selected, however users from the enforced groups always fallback to {defaultDriverName} driver by default.', [
                 'defaultDriverName' => $defaultDriverName
             ]) ?>
         </div>
@@ -43,12 +43,12 @@ use yii\bootstrap\ActiveForm;
 
         <?= $form->field($model, 'rememberMeDays'); ?>
         <div class="help-block">
-            <?= Yii::t('TwofaModule.config', 'Leave empty to disable this feature.') ?>
+            <?= Yii::t('TwofaModule.base', 'Leave empty to disable this feature.') ?>
         </div>
 
         <?= $form->field($model, 'trustedNetworks')->textarea() ?>
         <div class="help-block">
-            <?= Yii::t('TwofaModule.config', 'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, 127.0.0.1"', [$ip]) ?>
+            <?= Yii::t('TwofaModule.base', 'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, 127.0.0.1"', [$ip]) ?>
         </div>
 
         <?= Button::save()->submit() ?>

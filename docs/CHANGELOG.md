@@ -5,6 +5,7 @@ Changelog
 ----------------------
 - Enh #58: Tests for `next` version
 - Enh #65: Use PHP CS Fixer
+- Enh #66: Reduce translation message categories
 
 1.1.3 (June 8, 2023)
 --------------------
