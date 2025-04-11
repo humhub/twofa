@@ -6,7 +6,7 @@ Changelog
 - Enh #58: Tests for `next` version
 - Enh #65: Use PHP CS Fixer
 - Enh #66: Reduce translation message categories
-- Enh #: Add ability to skip 2FA for specific actions using `\humhub\components\Controller::skip2faCheck`
+- Enh #70: Add ability to skip 2FA for specific actions using `\humhub\components\Controller::skip2faCheck`
 
 1.1.3 (June 8, 2023)
 --------------------
