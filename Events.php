@@ -52,8 +52,10 @@ class Events
      */
     public static function onBeforeAction($event)
     {
-        if (Yii::$app->request->isAjax) {
-            // TODO: maybe it should be restricted better, but we don't need to call this for PollController from live module indeed
+        if (
+            property_exists($event->sender, 'skip2faCheck') && !empty($event->sender->skip2faCheck) &&
+            ($event->sender->skip2faCheck[0] === '*' || in_array($event->sender->action->id, $event->sender->skip2faCheck))
+        ) {
             return false;
         }
 

@@ -171,14 +171,7 @@ class TwofaHelper
      */
     public static function generateCode($len)
     {
-        // To complex: return Yii::$app->security->generateRandomString($len);
-        $noChars = strlen(static::CODE_CHARS);
-
-        $code = '';
-        for ($i = 0; $i < $len; $i++) {
-            $code .= static::CODE_CHARS[rand(0, $noChars - 1)];
-        }
-        return $code;
+        return Yii::$app->security->generateRandomString($len);
     }
 
     /**
