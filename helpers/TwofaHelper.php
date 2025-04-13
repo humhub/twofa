@@ -280,7 +280,7 @@ class TwofaHelper
         }
 
         // if code is missing for a user
-        if (empty(self::getCode())) {
+        if (empty(self::getCode()) && !self::isTtlCodeAvailable()) {
             return false;
         }
 
