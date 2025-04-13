@@ -131,6 +131,16 @@ class Module extends BaseModule
     }
 
     /**
+     * Get length of verifying code
+     *
+     * @return int
+     */
+    public function getCodeTtl()
+    {
+        return intval($this->settings->get('codeTtl', 30 * 60));
+    }
+
+    /**
      * Get length in days of remember me option
      *
      * @return int

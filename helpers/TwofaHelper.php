@@ -12,10 +12,12 @@ use DateTime;
 use humhub\modules\admin\Module as AdminModule;
 use humhub\modules\content\components\ContentContainerSettingsManager;
 use humhub\modules\twofa\drivers\BaseDriver;
+use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\Module as TwofaModule;
 use humhub\modules\user\models\User;
 use humhub\modules\user\Module as UserModule;
 use Yii;
+use yii\caching\DummyCache;
 use yii\helpers\BaseIpHelper;
 use yii\web\Cookie;
 
@@ -160,6 +162,10 @@ class TwofaHelper
      */
     public static function getCode()
     {
+        if (self::isCacheCodeAvailable()) {
+            return self::getCacheCode();
+        }
+
         return self::getSetting(self::CODE_SETTING);
     }
 
@@ -182,7 +188,7 @@ class TwofaHelper
      */
     public static function hashCode($code)
     {
-        return md5($code);
+        return Yii::$app->security->generatePasswordHash($code);
     }
 
     /**
@@ -201,14 +207,50 @@ class TwofaHelper
             return false;
         }
 
-        // Store the sending verifying code in DB to use this as flag to display a form to check the code
-        if (!self::setSetting(self::CODE_SETTING, self::hashCode($driver->getCode()))) {
+        if (self::isCacheCodeAvailable()) {
+            if (!self::setCacheCode()) {
+                return false;
+            }
+        } elseif (!self::setSetting(self::CODE_SETTING, self::hashCode($driver->getCode()))) {
             return false;
         }
 
         // TODO: Inform user about way of sending the verifying code
 
         return true;
+    }
+
+    /**
+     * Check if cache code is available
+     *
+     * @return bool
+     */
+    private static function isCacheCodeAvailable()
+    {
+        return !Yii::$app->cache instanceof DummyCache && self::getDriver() instanceof EmailDriver;
+    }
+
+    /**
+     * Set code for current User in cache with specified TTL
+     *
+     * @return bool
+     */
+    private static function setCacheCode()
+    {
+        /** @var TwofaModule $module */
+        $module = Yii::$app->getModule('twofa');
+
+        return Yii::$app->cache->set(self::CODE_SETTING . '_' . Yii::$app->user->id, self::getDriver()->getCode(), $module->getCodeTtl());
+    }
+
+    /**
+     * Get code for current User from cache
+     *
+     * @return string|null
+     */
+    private static function getCacheCode()
+    {
+        return Yii::$app->cache->get(self::CODE_SETTING . '_' . Yii::$app->user->id);
     }
 
     /**

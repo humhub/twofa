@@ -4,6 +4,7 @@ use humhub\libs\Html;
 use humhub\modules\twofa\models\Config;
 use humhub\widgets\Button;
 use yii\bootstrap\ActiveForm;
+use yii\caching\DummyCache;
 
 /**
  * @var $model Config
@@ -40,6 +41,10 @@ use yii\bootstrap\ActiveForm;
         <?= $form->field($model, 'enforcedMethod')->dropDownList($model->module->getDriversOptions()); ?>
 
         <?= $form->field($model, 'codeLength'); ?>
+
+        <?php if (!Yii::$app->cache instanceof DummyCache) : ?>
+            <?= $form->field($model, 'codeTtl'); ?>
+        <?php endif; ?>
 
         <?= $form->field($model, 'rememberMeDays'); ?>
         <div class="help-block">
