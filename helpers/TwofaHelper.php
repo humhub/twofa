@@ -162,7 +162,7 @@ class TwofaHelper
      */
     public static function getCode()
     {
-        if (self::isCacheCodeAvailable()) {
+        if (self::isTtlCodeAvailable()) {
             return self::getCacheCode();
         }
 
@@ -207,7 +207,7 @@ class TwofaHelper
             return false;
         }
 
-        if (self::isCacheCodeAvailable()) {
+        if (self::isTtlCodeAvailable()) {
             if (!self::setCacheCode()) {
                 return false;
             }
@@ -225,7 +225,7 @@ class TwofaHelper
      *
      * @return bool
      */
-    public static function isCacheCodeAvailable()
+    public static function isTtlCodeAvailable()
     {
         return !Yii::$app->cache instanceof DummyCache && self::getDriver() instanceof EmailDriver;
     }
@@ -280,7 +280,7 @@ class TwofaHelper
         }
 
         // if code is missing for a user
-        if (empty(self::getCode()) && !self::isCacheCodeAvailable()) {
+        if (empty(self::getCode())) {
             return false;
         }
 
@@ -370,16 +370,20 @@ class TwofaHelper
     /**
      * @param int $days
      */
-    public static function rememberBrowser($days = null)
+    public static function rememberBrowser($days = null, $session = false)
     {
-        // calculate expiration date
-        $days = $days ?? Yii::$app->getModule('twofa')->getRememberMeDays();
-        $expire = (new DateTime())->modify("+$days DAYS")->getTimestamp();
-
         // calculate array of remembered user's
         $twofaRememberCookie = Yii::$app->request->cookies->get('twofa_remember');
         $value = $twofaRememberCookie instanceof Cookie ? $twofaRememberCookie->value : [];
         $value[] = Yii::$app->user->id;
+
+        if ($session) {
+            $expire = 0;
+        } else {
+            // Calculate expiration date for persistent cookie
+            $days = $days ?? Yii::$app->getModule('twofa')->getRememberMeDays();
+            $expire = (new DateTime())->modify("+$days DAYS")->getTimestamp();
+        }
 
         // remember browser
         $cookie = new Cookie(['name' => 'twofa_remember', 'value' => $value, 'expire' => $expire]);

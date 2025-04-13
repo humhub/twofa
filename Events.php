@@ -68,7 +68,7 @@ class Events
         }
 
         if (TwofaHelper::isVerifyingRequired() && !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
-            if (TwofaHelper::isCacheCodeAvailable() && empty(TwofaHelper::getCode())) {
+            if (TwofaHelper::isTtlCodeAvailable() && empty(TwofaHelper::getCode())) {
                 // If code is expired send it again
                 TwofaHelper::enableVerifying();
             }

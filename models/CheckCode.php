@@ -75,6 +75,9 @@ class CheckCode extends Model
 
         if ($this->rememberBrowser) {
             TwofaHelper::rememberBrowser();
+        } elseif (TwofaHelper::isTtlCodeAvailable()) {
+            // Create cookie for 2fa for current session
+            TwofaHelper::rememberBrowser(null, true);
         }
 
         return TwofaHelper::disableVerifying();
