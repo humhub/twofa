@@ -211,7 +211,11 @@ abstract class BaseDriver extends BaseObject
             $correctCode = TwofaHelper::getCode();
         }
 
-        return TwofaHelper::hashCode($verifyingCode) === $correctCode;
+        if (empty($correctCode)) {
+            return false;
+        }
+
+        return Yii::$app->security->validatePassword($correctCode, TwofaHelper::hashCode($verifyingCode));
     }
 
     /**

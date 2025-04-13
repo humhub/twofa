@@ -225,7 +225,7 @@ class TwofaHelper
      *
      * @return bool
      */
-    private static function isCacheCodeAvailable()
+    public static function isCacheCodeAvailable()
     {
         return !Yii::$app->cache instanceof DummyCache && self::getDriver() instanceof EmailDriver;
     }
@@ -280,7 +280,7 @@ class TwofaHelper
         }
 
         // if code is missing for a user
-        if (self::getCode() === null) {
+        if (empty(self::getCode()) && !self::isCacheCodeAvailable()) {
             return false;
         }
 
