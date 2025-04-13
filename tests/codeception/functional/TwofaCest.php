@@ -46,6 +46,8 @@ class TwofaCest
         $I->assertEqualsLastEmailSubject('Your login verification code');
         $code = $I->fetchCodeFromLastEmail();
 
+        var_dump($code);die;
+
         $twofaAuthPage = TwofaAuthPage::openBy($I);
         $twofaAuthPage->verify($code);
         $I->expectTo('see dashboard');
