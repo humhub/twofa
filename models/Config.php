@@ -37,6 +37,11 @@ class Config extends Model
     public $codeLength;
 
     /**
+     * @var int TTL of verifying code
+     */
+    public $codeTtl;
+
+    /**
      * @var int Length in days of remember me option
      */
     public $rememberMeDays;
@@ -56,6 +61,7 @@ class Config extends Model
         $this->module = Yii::$app->getModule('twofa');
         $this->enabledDrivers = $this->module->getEnabledDrivers(false);
         $this->codeLength = $this->module->getCodeLength();
+        $this->codeTtl = $this->module->getCodeTtl();
         $this->rememberMeDays = $this->module->getRememberMeDays();
         $this->enforcedGroups = $this->module->getEnforcedGroups();
         $this->enforcedMethod = $this->module->getEnforcedMethod();
@@ -70,6 +76,7 @@ class Config extends Model
         return [
             ['enabledDrivers', 'in', 'range' => array_keys($this->module->getDriversOptions()), 'allowArray' => true],
             ['codeLength', 'integer', 'min' => 4],
+            ['codeTtl', 'integer', 'min' => 60],
             ['rememberMeDays', 'integer', 'max' => 365],
             ['enforcedGroups', 'in', 'range' => array_keys($this->module->getGroupsOptions()), 'allowArray' => true],
             ['enforcedMethod', 'in', 'range' => array_keys($this->module->getDriversOptions())],
@@ -87,6 +94,7 @@ class Config extends Model
         return [
             'enabledDrivers' => Yii::t('TwofaModule.base', 'Enabled methods'),
             'codeLength' => Yii::t('TwofaModule.base', 'Length of verifying code'),
+            'codeTtl' => Yii::t('TwofaModule.base', 'TTL of verifying code in seconds'),
             'rememberMeDays' => Yii::t('TwofaModule.base', 'Remember browser option amount of days'),
             'enforcedGroups' => Yii::t('TwofaModule.base', 'Mandatory for the following groups'),
             'enforcedMethod' => Yii::t('TwofaModule.base', 'Default method for the mandatory groups'),
@@ -107,6 +115,7 @@ class Config extends Model
         $this->module->settings->set('enforcedGroups', empty($this->enforcedGroups) ? '' : implode(',', $this->enforcedGroups));
         $this->module->settings->set('enforcedMethod', $this->enforcedMethod);
         $this->module->settings->set('codeLength', $this->codeLength);
+        $this->module->settings->set('codeTtl', $this->codeTtl);
         $this->module->settings->set('rememberMeDays', $this->rememberMeDays);
         $this->module->settings->set('trustedNetworks', json_encode($this->getTrustedNetworksArray()));
 

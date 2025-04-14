@@ -65,8 +65,12 @@ class Events
             Yii::$app->session->set('twofa.switchedUserId', Yii::$app->user->id);
         }
 
-        if (TwofaHelper::isVerifyingRequired() &&
-            !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
+        if (TwofaHelper::isVerifyingRequired() && !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
+            if (TwofaHelper::isCodeExpired()) {
+                // If code is expired send it again
+                TwofaHelper::enableVerifying();
+            }
+
             return Yii::$app->getResponse()->redirect(TwofaUrl::toCheck());
         }
     }

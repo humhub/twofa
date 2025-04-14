@@ -23,6 +23,7 @@ class TwofaHelper
 {
     public const USER_SETTING = 'twofaDriver';
     public const CODE_SETTING = 'twofaCode';
+    public const CODE_EXPIRATION_SETTING = 'twofaCodeExpiration';
     public const CODE_CHARS = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
 
     /**
@@ -164,6 +165,16 @@ class TwofaHelper
     }
 
     /**
+     * Check if verifying code is expired
+     *
+     * @return bool
+     */
+    public static function isCodeExpired()
+    {
+        return self::getSetting(self::CODE_EXPIRATION_SETTING) < time();
+    }
+
+    /**
      * Returns a random code
      *
      * @param $len
@@ -171,25 +182,7 @@ class TwofaHelper
      */
     public static function generateCode($len)
     {
-        // To complex: return Yii::$app->security->generateRandomString($len);
-        $noChars = strlen(static::CODE_CHARS);
-
-        $code = '';
-        for ($i = 0; $i < $len; $i++) {
-            $code .= static::CODE_CHARS[rand(0, $noChars - 1)];
-        }
-        return $code;
-    }
-
-    /**
-     * Hash code
-     *
-     * @param string $code Code value
-     * @return string Hashed code
-     */
-    public static function hashCode($code)
-    {
-        return md5($code);
+        return Yii::$app->security->generateRandomString($len);
     }
 
     /**
@@ -208,8 +201,22 @@ class TwofaHelper
             return false;
         }
 
-        // Store the sending verifying code in DB to use this as flag to display a form to check the code
-        if (!self::setSetting(self::CODE_SETTING, self::hashCode($driver->getCode()))) {
+        /** @var TwofaModule $module */
+        $module = Yii::$app->getModule('twofa');
+
+        $transaction = Yii::$app->db->beginTransaction();
+
+        try {
+            if (!self::setSetting(self::CODE_SETTING, Yii::$app->security->generatePasswordHash($driver->getCode()))) {
+                throw new \RuntimeException();
+            }
+            if (!self::setSetting(self::CODE_EXPIRATION_SETTING, time() + $module->getCodeTtl())) {
+                throw new \RuntimeException();
+            }
+
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
             return false;
         }
 
