@@ -38,8 +38,6 @@ class FunctionalTester extends \FunctionalTester
      */
     public function fetchCodeFromLastEmail()
     {
-        ;
-
         return preg_match('/(?<=Code: ).{6}\b/', $this->grapLastEmailText(), $codeMatch)
             ? $codeMatch[0]
             : '';
