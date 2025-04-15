@@ -24,7 +24,6 @@ class TwofaHelper
     public const USER_SETTING = 'twofaDriver';
     public const CODE_SETTING = 'twofaCode';
     public const CODE_EXPIRATION_SETTING = 'twofaCodeExpiration';
-    public const CODE_CHARS = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
 
     /**
      * Get settings manager of current User
