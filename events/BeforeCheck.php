@@ -9,7 +9,7 @@ use yii\base\Event;
  * It allows for custom logic to be executed before the verification process.
  * If `$handled` is set to `true`, the 2FA check will be skipped.
  */
-class BeforeTwoFaCheck extends Event
+class BeforeCheck extends Event
 {
     public $name = 'twofa.beforeCheck';
 }
