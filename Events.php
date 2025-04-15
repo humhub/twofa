@@ -65,12 +65,7 @@ class Events
         Yii::$app->trigger($beforeVerifying->name, $beforeVerifying);
 
         if (!$beforeVerifying->handled && TwofaHelper::isVerifyingRequired() && !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
-            if (TwofaHelper::isCodeExpired()) {
-                // If code is expired send it again
-                TwofaHelper::enableVerifying();
-            }
-
-            return Yii::$app->getResponse()->redirect(TwofaUrl::toCheck());
+            return Yii::$app->response->redirect(TwofaUrl::toCheck());
         }
     }
 

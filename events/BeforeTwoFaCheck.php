@@ -11,5 +11,5 @@ use yii\base\Event;
  */
 class BeforeTwoFaCheck extends Event
 {
-    public $name = 'beforeTwoFaCheck';
+    public $name = 'twofa.beforeCheck';
 }
