@@ -5,7 +5,7 @@ on:
 
 jobs:
   tests:
-    uses: humhub/actions/.github/workflows/module-tests-v1.8.yml@main
+    uses: humhub/actions/.github/workflows/module-tests-v1.11.yml@main
     with:
       module-id: twofa
       install-composer: true
