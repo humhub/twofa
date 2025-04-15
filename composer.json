@@ -3,6 +3,22 @@
   "description": "HumHub 2FA module",
   "type": "library",
   "require": {
-    "sonata-project/google-authenticator": "^2.2"
+    "sonata-project/google-authenticator": "^2.2",
+    "yiisoft/yii2": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/humhub/humhub"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true
+    }
   }
 }
