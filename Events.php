@@ -11,6 +11,7 @@ namespace humhub\modules\twofa;
 use humhub\components\Controller;
 use humhub\modules\admin\controllers\UserController as AdminUserController;
 use humhub\modules\admin\permissions\ManageUsers;
+use humhub\modules\twofa\events\BeforeCheck;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\ui\menu\MenuLink;
@@ -52,11 +53,6 @@ class Events
      */
     public static function onBeforeAction($event)
     {
-        if (Yii::$app->request->isAjax) {
-            // TODO: maybe it should be restricted better, but we don't need to call this for PollController from live module indeed
-            return false;
-        }
-
         if (Yii::$app->user->mustChangePassword()) {
             return false;
         }
@@ -65,9 +61,11 @@ class Events
             Yii::$app->session->set('twofa.switchedUserId', Yii::$app->user->id);
         }
 
-        if (TwofaHelper::isVerifyingRequired() &&
-            !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
-            return Yii::$app->getResponse()->redirect(TwofaUrl::toCheck());
+        $beforeVerifying = new BeforeCheck();
+        Yii::$app->trigger($beforeVerifying->name, $beforeVerifying);
+
+        if (!$beforeVerifying->handled && TwofaHelper::isVerifyingRequired() && !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
+            return Yii::$app->response->redirect(TwofaUrl::toCheck());
         }
     }
 

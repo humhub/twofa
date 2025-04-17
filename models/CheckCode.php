@@ -20,6 +20,8 @@ use yii\base\Model;
  */
 class CheckCode extends Model
 {
+    CONST ERROR_CODE_EXPIRED = 'ERROR_CODE_EXPIRED';
+
     /** @var string|null */
     public $code;
 
@@ -58,7 +60,9 @@ class CheckCode extends Model
      */
     public function verifyCode($attribute, $params)
     {
-        if (!TwofaHelper::isValidCode($this->code)) {
+        if (TwofaHelper::isCodeExpired()) {
+            $this->addError($attribute, self::ERROR_CODE_EXPIRED);
+        } elseif (!TwofaHelper::isValidCode($this->code)) {
             $this->addError($attribute, Yii::t('TwofaModule.base', 'Verifying code is not valid!'));
         }
     }

@@ -1,6 +1,7 @@
 <?php
 
 use humhub\libs\Html;
+use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\models\Config;
 use humhub\widgets\Button;
 use yii\bootstrap\ActiveForm;
@@ -40,6 +41,10 @@ use yii\bootstrap\ActiveForm;
         <?= $form->field($model, 'enforcedMethod')->dropDownList($model->module->getDriversOptions()); ?>
 
         <?= $form->field($model, 'codeLength'); ?>
+
+        <?php if (in_array(EmailDriver::class, $model->enabledDrivers)) : ?>
+            <?= $form->field($model, 'codeTtl'); ?>
+        <?php endif; ?>
 
         <?= $form->field($model, 'rememberMeDays'); ?>
         <div class="help-block">
