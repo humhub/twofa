@@ -20,7 +20,7 @@ use yii\base\Model;
  */
 class CheckCode extends Model
 {
-    CONST ERROR_CODE_EXPIRED = 'ERROR_CODE_EXPIRED';
+    public const ERROR_CODE_EXPIRED = 'ERROR_CODE_EXPIRED';
 
     /** @var string|null */
     public $code;
