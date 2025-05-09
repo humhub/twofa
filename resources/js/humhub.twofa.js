@@ -19,7 +19,7 @@ humhub.module('twofa', function (module, require, $) {
     };
 
     var selectDriver = function(evt) {
-        $('[data-driver-fields]').hide();
+        $('[data-driver-fields]').addClass('d-none');
         var configLayoutSelector = '[data-driver-fields="' + evt.$trigger.val().replaceAll('\\', '\\\\') + '"]';
 
         // Additional action per each Driver:
@@ -28,7 +28,7 @@ humhub.module('twofa', function (module, require, $) {
             module[driverSelectFunctionName](configLayoutSelector);
         }
 
-        $(configLayoutSelector).show();
+        $(configLayoutSelector).removeClass('d-none');
     };
 
     var callDriverAction = function(evt) {

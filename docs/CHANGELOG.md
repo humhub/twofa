@@ -1,12 +1,13 @@
 Changelog
 =========
 
-1.1.4 (Unreleased)
-----------------------
+1.2.0 (unreleased)
+-------------------------
 - Enh #58: Tests for `next` version
 - Enh #65: Use PHP CS Fixer
 - Enh #66: Reduce translation message categories
 - Enh #81: Time Based Code
+- Enh: Migration to Bootstrap 5 for HumHub 1.18
 
 1.1.3 (June 8, 2023)
 --------------------

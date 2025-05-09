@@ -15,7 +15,7 @@ use humhub\modules\user\models\User;
 use Yii;
 use yii\base\BaseObject;
 use yii\base\Model;
-use yii\bootstrap\ActiveForm;
+use humhub\widgets\form\ActiveForm;
 
 abstract class BaseDriver extends BaseObject
 {
