@@ -6,7 +6,8 @@ Changelog
 - Enh #58: Tests for `next` version
 - Enh #65: Use PHP CS Fixer
 - Enh #66: Reduce translation message categories
-- Enh #81: Time Based Code
+- Enh #71: Time Based Code
+- Fix #76: Fix timezone in email
 
 1.1.3 (June 8, 2023)
 --------------------
