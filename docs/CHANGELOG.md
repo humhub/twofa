@@ -7,7 +7,7 @@ Changelog
 - Enh #65: Use PHP CS Fixer
 - Enh #66: Reduce translation message categories
 - Enh #81: Time Based Code
-- Enh: Migration to Bootstrap 5 for HumHub 1.18
+- Enh #78: Migration to Bootstrap 5 for HumHub 1.18
 
 1.1.3 (June 8, 2023)
 --------------------
