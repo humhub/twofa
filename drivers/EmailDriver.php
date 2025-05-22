@@ -42,6 +42,8 @@ class EmailDriver extends BaseDriver
         /** @var User $user */
         $user = Yii::$app->user->getIdentity();
 
+        Yii::$app->i18n->setUserLocale($user);
+
         /** @var BaseMessage $mail */
         $mail = Yii::$app->mailer->compose([
             'html' => '@twofa/views/mails/VerifyingCode',
