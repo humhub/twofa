@@ -5,7 +5,7 @@
  * @license https://www.humhub.com/licences
  */
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\twofa\helpers\TwofaHelper;
 
 /* @var $qrCodeText string */
@@ -20,13 +20,13 @@ use humhub\modules\twofa\helpers\TwofaHelper;
 
 <div class="row">
     <div class="<?= $columnLeftClass ?>">
-        <div class="form-group">
+        <div class="mb-3">
             <div id="twofa-google-auth-qrcode"></div>
-            <div class="help-block"></div>
+            <div class="text-body-secondary"></div>
         </div>
     </div>
     <div class="<?= $columnRightClass ?>">
-        <div class="alert alert-default">
+        <div class="alert alert-light">
             <p><strong><?= Yii::t('TwofaModule.base', 'Can\'t scan the code?'); ?></strong></p>
             <br/>
             <p><?= Yii::t('TwofaModule.base', 'To connect the app manually, provide the following details to the TOTP app (e.g. Google Authenticator).'); ?></p>
@@ -51,7 +51,7 @@ $(document).ready(function(){
         });
     }
 <?php if ($requirePinCode) : ?>
-    $('#twofaGoogleAuthPinCode').show();
+    $('#twofaGoogleAuthPinCode').removeClass('d-none');
     $('input[name="GoogleAuthenticatorUserSettings[changeSecretCode]"]').val(1);
 <?php endif; ?>
 })
