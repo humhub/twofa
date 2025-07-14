@@ -8,6 +8,7 @@ Changelog
 - Enh #66: Reduce translation message categories
 - Enh #71: Time Based Code
 - Fix #76: Fix timezone in email
+- Fix #80: Update test user passwords
 
 1.1.3 (June 8, 2023)
 --------------------

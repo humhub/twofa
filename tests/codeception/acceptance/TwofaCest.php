@@ -28,7 +28,7 @@ class TwofaCest
         $I->wantTo('Ensure regular user login without 2FA');
         $loginPage = LoginPage::openBy($I);
         $I->amGoingTo('try to login with non-admin credentials');
-        $loginPage->login('User1', '123qwe');
+        $loginPage->login('User1', 'user^humhub@PASS%worD!');
         $I->expectTo('see dashboard');
         $I->waitForText('User 2 Space 2 Post Public');
     }
