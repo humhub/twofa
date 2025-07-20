@@ -10,6 +10,7 @@ Changelog
 - Enh #78: Migration to Bootstrap 5 for HumHub 1.18
 - Enh #71: Time Based Code
 - Fix #76: Fix timezone in email
+- Fix #80: Update test user passwords
 
 1.1.3 (June 8, 2023)
 --------------------
