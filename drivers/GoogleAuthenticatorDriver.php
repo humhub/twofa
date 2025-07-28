@@ -11,9 +11,9 @@ namespace humhub\modules\twofa\drivers;
 use humhub\modules\twofa\assets\Assets;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\models\CheckCode;
+use humhub\widgets\form\ActiveForm;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 use Yii;
-use yii\bootstrap\ActiveForm;
 
 class GoogleAuthenticatorDriver extends BaseDriver
 {
@@ -83,8 +83,8 @@ class GoogleAuthenticatorDriver extends BaseDriver
         $this->generateTempSecretCode();
         echo $this->getQrCodeSecretKeyFile([
             'requirePinCode' => true,
-            'columnLeftClass' => 'col-md-12',
-            'columnRightClass' => 'col-md-12',
+            'columnLeftClass' => 'col-lg-12',
+            'columnRightClass' => 'col-lg-12',
             'codeSize' => 370,
         ]);
     }
@@ -201,8 +201,8 @@ class GoogleAuthenticatorDriver extends BaseDriver
     {
         $params = array_merge([
             'requirePinCode' => false,
-            'columnLeftClass' => 'col-md-6',
-            'columnRightClass' => 'col-md-6',
+            'columnLeftClass' => 'col-lg-6',
+            'columnRightClass' => 'col-lg-6',
             'codeSize' => 300,
         ], $params);
 

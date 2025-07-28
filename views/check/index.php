@@ -6,11 +6,11 @@
  * @license https://www.humhub.com/licences
  */
 
+use humhub\helpers\Html;
 use humhub\modules\twofa\drivers\BaseDriver;
 use humhub\modules\twofa\models\CheckCode;
+use humhub\widgets\form\ActiveForm;
 use humhub\widgets\SiteLogo;
-use yii\bootstrap\ActiveForm;
-use yii\helpers\Html;
 
 /**
  * @var $model CheckCode
@@ -48,13 +48,13 @@ $this->pageTitle = Yii::t('TwofaModule.base', 'Two-Factor Authentication');
                 <?php ActiveForm::end(); ?>
 
                 <?= Html::a(Yii::t('TwofaModule.base', 'Log out'), ['/user/auth/logout'],
-                    ['data-method' => 'POST', 'class' => 'pull-right', 'data-pjax-prevent' => true]) ?>
+                    ['data-method' => 'POST', 'class' => 'float-end', 'data-pjax-prevent' => true]) ?>
             </div>
         </div>
     </div>
 </div>
 
-<script <?= \humhub\libs\Html::nonce() ?>>
+<script <?= Html::nonce() ?>>
     $(function () {
         // set cursor to code field
         $('#checkcode-code').focus();

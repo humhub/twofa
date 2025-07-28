@@ -1,10 +1,10 @@
 <?php
 
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\models\Config;
-use humhub\widgets\Button;
-use yii\bootstrap\ActiveForm;
+use humhub\widgets\bootstrap\Button;
+use humhub\widgets\form\ActiveForm;
 
 /**
  * @var $model Config
@@ -47,12 +47,12 @@ use yii\bootstrap\ActiveForm;
         <?php endif; ?>
 
         <?= $form->field($model, 'rememberMeDays'); ?>
-        <div class="help-block">
+        <div class="text-body-secondary">
             <?= Yii::t('TwofaModule.base', 'Leave empty to disable this feature.') ?>
         </div>
 
         <?= $form->field($model, 'trustedNetworks')->textarea() ?>
-        <div class="help-block">
+        <div class="text-body-secondary">
             <?= Yii::t('TwofaModule.base', 'List of IPs or subnets to whitelist, currently yours is {0}. Use coma separator to create a list, example: "{0}, 127.0.0.1"', [$ip]) ?>
         </div>
 
