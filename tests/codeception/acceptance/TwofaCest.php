@@ -18,7 +18,7 @@ class TwofaCest
         $I->wantTo('Ensure admin user login with 2FA');
         $loginPage = LoginPage::openBy($I);
         $I->amGoingTo('try to login with admin credentials');
-        $loginPage->login('Admin', 'test');
+        $loginPage->login('Admin', 'admin&humhub@PASS%worD!');
         $I->expectTo('See Two Factor Auth');
         $I->waitForText('Two-factor authentication');
     }

@@ -19,7 +19,7 @@ class TwofaCest
         $I->wantTo('check wrong verifying code');
         $loginPage = LoginPage::openBy($I);
         $I->amGoingTo('try to login with admin credentials');
-        $loginPage->login('Admin', 'test');
+        $loginPage->login('Admin', 'admin&humhub@PASS%worD!');
         $I->expectTo('See Two Factor Auth');
         $I->see('Two-factor authentication');
 
@@ -34,7 +34,7 @@ class TwofaCest
         $I->wantTo('verify code from email');
         $loginPage = LoginPage::openBy($I);
         $I->amGoingTo('try to login with admin credentials');
-        $loginPage->login('Admin', 'test');
+        $loginPage->login('Admin', 'admin&humhub@PASS%worD!');
         $I->expectTo('See Two Factor Auth');
         $I->see('Two-factor authentication');
 
