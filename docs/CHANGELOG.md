@@ -1,9 +1,10 @@
 Changelog
 =========
 
-1.2.0 (unreleased)
--------------------------
+1.2.0 (August 27, 2025)
+-----------------------
 - Enh #58: Tests for `next` version
+- Fix #63: Update module resources path
 - Enh #65: Use PHP CS Fixer
 - Enh #66: Reduce translation message categories
 - Enh #81: Time Based Code
