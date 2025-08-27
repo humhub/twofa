@@ -147,10 +147,10 @@ class UserSettings extends Model
      */
     public function validatedSave()
     {
-        return $this->load(Yii::$app->request->post()) &&
-            $this->validate() &&
-            $this->driverValidatedSave() &&
-            $this->save();
+        return $this->load(Yii::$app->request->post())
+            && $this->validate()
+            && $this->driverValidatedSave()
+            && $this->save();
     }
 
     /**
@@ -166,9 +166,9 @@ class UserSettings extends Model
             return true;
         }
 
-        return $driverSettings->load(Yii::$app->request->post()) &&
-            $driverSettings->validate() &&
-            $driverSettings->save();
+        return $driverSettings->load(Yii::$app->request->post())
+            && $driverSettings->validate()
+            && $driverSettings->save();
     }
 
 }
