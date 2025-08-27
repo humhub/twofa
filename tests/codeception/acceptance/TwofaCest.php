@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2020 HumHub GmbH & Co. KG
@@ -17,7 +18,7 @@ class TwofaCest
         $I->wantTo('Ensure admin user login with 2FA');
         $loginPage = LoginPage::openBy($I);
         $I->amGoingTo('try to login with admin credentials');
-        $loginPage->login('Admin', 'test');
+        $loginPage->login('Admin', 'admin&humhub@PASS%worD!');
         $I->expectTo('See Two Factor Auth');
         $I->waitForText('Two-factor authentication');
     }
@@ -27,7 +28,7 @@ class TwofaCest
         $I->wantTo('Ensure regular user login without 2FA');
         $loginPage = LoginPage::openBy($I);
         $I->amGoingTo('try to login with non-admin credentials');
-        $loginPage->login('User1', '123qwe');
+        $loginPage->login('User1', 'user^humhub@PASS%worD!');
         $I->expectTo('see dashboard');
         $I->waitForText('User 2 Space 2 Post Public');
     }

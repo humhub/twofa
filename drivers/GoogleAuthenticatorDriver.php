@@ -11,17 +11,17 @@ namespace humhub\modules\twofa\drivers;
 use humhub\modules\twofa\assets\Assets;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\models\CheckCode;
+use humhub\widgets\form\ActiveForm;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 use Yii;
-use yii\bootstrap\ActiveForm;
 
 class GoogleAuthenticatorDriver extends BaseDriver
 {
     /**
      * @var string Setting name for secret code per User
      */
-    const SECRET_SETTING = 'twofaGoogleAuthSecret';
-    const SECRET_TEMP_SETTING = 'twofaGoogleAuthSecretTemp';
+    public const SECRET_SETTING = 'twofaGoogleAuthSecret';
+    public const SECRET_TEMP_SETTING = 'twofaGoogleAuthSecretTemp';
 
     /**
      * @inheritdoc
@@ -83,8 +83,8 @@ class GoogleAuthenticatorDriver extends BaseDriver
         $this->generateTempSecretCode();
         echo $this->getQrCodeSecretKeyFile([
             'requirePinCode' => true,
-            'columnLeftClass' => 'col-md-12',
-            'columnRightClass' => 'col-md-12',
+            'columnLeftClass' => 'col-lg-12',
+            'columnRightClass' => 'col-lg-12',
             'codeSize' => 370,
         ]);
     }
@@ -98,11 +98,11 @@ class GoogleAuthenticatorDriver extends BaseDriver
     {
         Yii::$app->getView()->registerJsConfig('twofa', [
             'text' => [
-                'confirm.action.header' => Yii::t('TwofaModule.config', '<strong>Request</strong> new code'),
-                'confirm.action.question' => Yii::t('TwofaModule.config', 'Do you really want to request a new code?') . '<br><br>'
-                    . Yii::t('TwofaModule.config', 'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.'),
-                'confirm.action.button' => Yii::t('TwofaModule.config', 'Request new code'),
-            ]
+                'confirm.action.header' => Yii::t('TwofaModule.base', '<strong>Request</strong> new code'),
+                'confirm.action.question' => Yii::t('TwofaModule.base', 'Do you really want to request a new code?') . '<br><br>'
+                    . Yii::t('TwofaModule.base', 'Please <strong>do not forget</strong> to update the code in your authenticator app! If you do not do so, you will not be able to login.'),
+                'confirm.action.button' => Yii::t('TwofaModule.base', 'Request new code'),
+            ],
         ]);
 
         $model = $this->getUserSettings();
@@ -201,8 +201,8 @@ class GoogleAuthenticatorDriver extends BaseDriver
     {
         $params = array_merge([
             'requirePinCode' => false,
-            'columnLeftClass' => 'col-md-6',
-            'columnRightClass' => 'col-md-6',
+            'columnLeftClass' => 'col-lg-6',
+            'columnRightClass' => 'col-lg-6',
             'codeSize' => 300,
         ], $params);
 

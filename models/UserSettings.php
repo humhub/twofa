@@ -11,7 +11,7 @@ namespace humhub\modules\twofa\models;
 use humhub\modules\twofa\drivers\BaseDriver;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\Module;
-use humhub\modules\ui\form\widgets\ActiveForm;
+use humhub\widgets\form\ActiveForm;
 use Yii;
 use yii\base\Model;
 
@@ -20,7 +20,6 @@ use yii\base\Model;
  */
 class UserSettings extends Model
 {
-
     /**
      * @var Module
      */

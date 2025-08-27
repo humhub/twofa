@@ -9,7 +9,7 @@
 namespace humhub\modules\twofa;
 
 use humhub\components\Module as BaseModule;
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\admin\models\forms\UserEditForm;
 use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\drivers\GoogleAuthenticatorDriver;
@@ -56,7 +56,7 @@ class Module extends BaseModule
      * Get available drivers options for the 2fa module settings
      *
      * @param array|null Init options(Key - Driver class name, Value - Drive name), used to init None option and/or forced/default Driver
-     * @param boolean true - to load only enabled drivers, false - to load all implemented drivers for the module
+     * @param bool true - to load only enabled drivers, false - to load all implemented drivers for the module
      * @return array
      */
     public function getDriversOptions($driversOptions = [], $onlyEnabled = false)
@@ -118,7 +118,7 @@ class Module extends BaseModule
     /**
      * Get length of verifying code
      *
-     * @return integer
+     * @return int
      */
     public function getCodeLength()
     {
@@ -126,9 +126,19 @@ class Module extends BaseModule
     }
 
     /**
+     * Get TTL of verifying code
+     *
+     * @return int
+     */
+    public function getCodeTtl()
+    {
+        return intval($this->settings->get('codeTtl', 30 * 60));
+    }
+
+    /**
      * Get length in days of remember me option
      *
-     * @return integer
+     * @return int
      */
     public function getRememberMeDays()
     {

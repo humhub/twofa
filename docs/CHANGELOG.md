@@ -1,13 +1,17 @@
 Changelog
 =========
 
-1.2.0 (Unreleased)
--------------------------
-- Fix #63: Update module resources path
-
-1.1.4 (Unreleased)
-----------------------
+1.2.0 (August 27, 2025)
+-----------------------
 - Enh #58: Tests for `next` version
+- Fix #63: Update module resources path
+- Enh #65: Use PHP CS Fixer
+- Enh #66: Reduce translation message categories
+- Enh #81: Time Based Code
+- Enh #78: Migration to Bootstrap 5 for HumHub 1.18
+- Enh #71: Time Based Code
+- Fix #76: Fix timezone in email
+- Fix #80: Update test user passwords
 
 1.1.3 (June 8, 2023)
 --------------------

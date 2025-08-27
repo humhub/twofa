@@ -9,21 +9,21 @@
 /* @var $model UserSettings */
 
 use humhub\modules\twofa\models\UserSettings;
-use humhub\modules\ui\form\widgets\ActiveForm;
 use humhub\modules\user\widgets\AccountSettingsMenu;
-use humhub\widgets\Button;
+use humhub\widgets\bootstrap\Button;
+use humhub\widgets\form\ActiveForm;
 
 ?>
 
 <div class="panel-heading">
-    <?= Yii::t('TwofaModule.config', '<strong>Two-Factor Authentication</strong> settings'); ?>
+    <?= Yii::t('TwofaModule.base', '<strong>Two-Factor Authentication</strong> settings'); ?>
 </div>
 
 <?= AccountSettingsMenu::widget(); ?>
 
 <div class="panel-body">
-    <div class="help-block">
-        <?= Yii::t('TwofaModule.config', 'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.'); ?>
+    <div class="text-body-secondary">
+        <?= Yii::t('TwofaModule.base', 'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.'); ?>
     </div>
     <br/>
 

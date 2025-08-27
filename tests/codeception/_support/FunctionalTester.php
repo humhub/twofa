@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2020 HumHub GmbH & Co. KG
@@ -27,18 +28,18 @@ use humhub\modules\twofa\helpers\TwofaHelper;
 class FunctionalTester extends \FunctionalTester
 {
     use _generated\FunctionalTesterActions;
-    
-   /**
-    * Define custom actions here
-    */
+
+    /**
+     * Define custom actions here
+     */
 
     /**
      * @return string
      */
     public function fetchCodeFromLastEmail()
     {
-        return preg_match('/Code: ([' . preg_quote(TwofaHelper::CODE_CHARS) . ']+)/', $this->grapLastEmailText(), $codeMatch)
-            ? $codeMatch[1]
+        return preg_match('/(?<=Code: ).{6}\b/', $this->grapLastEmailText(), $codeMatch)
+            ? $codeMatch[0]
             : '';
     }
 }

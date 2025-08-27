@@ -23,7 +23,7 @@ class UserSettingsController extends BaseAccountController
     public function init()
     {
         $this->setActionTitles([
-            'index' => Yii::t('TwofaModule.config', 'Two-Factor Authentication'),
+            'index' => Yii::t('TwofaModule.base', 'Two-Factor Authentication'),
         ]);
         return parent::init();
     }
@@ -39,7 +39,7 @@ class UserSettingsController extends BaseAccountController
         Assets::register($this->view);
 
         return $this->render('@twofa/views/config/user', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 

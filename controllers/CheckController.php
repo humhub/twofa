@@ -45,15 +45,24 @@ class CheckController extends Controller
         }
 
         $model = new CheckCode();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->goHome();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->validate();
+
+            if ($model->getFirstError('code') === CheckCode::ERROR_CODE_EXPIRED) {
+                Yii::$app->user->logout();
+                TwofaHelper::disableVerifying();
+                Yii::$app->session->setFlash('error', Yii::t('TwofaModule.base', 'Two-factor authentication code is expired. Please try again.'));
+
+                return $this->refresh();
+            } elseif (!$model->hasErrors() && $model->save(false)) {
+                return $this->goHome();
+            }
         }
 
         return $this->render('index', [
             'model' => $model, 'driver' => TwofaHelper::getDriver(),
-            'rememberDays' => Yii::$app->getModule('twofa')->getRememberMeDays()
+            'rememberDays' => Yii::$app->getModule('twofa')->getRememberMeDays(),
         ]);
     }
 
 }
-

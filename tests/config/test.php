@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2020 HumHub GmbH & Co. KG
@@ -10,5 +11,5 @@ return [
     'fixtures' => [
         'default',
         //'twofa' => \tests\codeception\fixtures\TwofaFixture::class
-    ]
+    ],
 ];
