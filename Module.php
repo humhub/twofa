@@ -9,7 +9,7 @@
 namespace humhub\modules\twofa;
 
 use humhub\components\Module as BaseModule;
-use humhub\libs\Html;
+use humhub\helpers\Html;
 use humhub\modules\admin\models\forms\UserEditForm;
 use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\drivers\GoogleAuthenticatorDriver;
