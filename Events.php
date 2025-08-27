@@ -77,10 +77,10 @@ class Events
      */
     protected static function isImpersonateAction($controller): bool
     {
-        return ($controller instanceof AdminUserController) &&
-            isset($controller->action) &&
-            $controller->action->id == 'impersonate' &&
-            Yii::$app->user->can(ManageUsers::class);
+        return ($controller instanceof AdminUserController)
+            && isset($controller->action)
+            && $controller->action->id == 'impersonate'
+            && Yii::$app->user->can(ManageUsers::class);
     }
 
     /**

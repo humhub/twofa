@@ -329,8 +329,8 @@ class TwofaHelper
             if (BaseIpHelper::inRange(Yii::$app->request->userIP, $trustedNet)) {
                 return true;
             }
-            if (Yii::$app->request->userIP !== Yii::$app->request->remoteIP &&
-                BaseIpHelper::inRange(Yii::$app->request->remoteIP, $trustedNet)) {
+            if (Yii::$app->request->userIP !== Yii::$app->request->remoteIP
+                && BaseIpHelper::inRange(Yii::$app->request->remoteIP, $trustedNet)) {
                 return true;
             }
         }
