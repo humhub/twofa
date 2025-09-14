@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.1 (Unreleased)
+-----------------------
+- Fix #85: Use Return URL after code verification instead of redirecting to home
+
 1.2.0 (August 27, 2025)
 -----------------------
 - Enh #58: Tests for `next` version
