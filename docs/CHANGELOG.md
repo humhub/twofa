@@ -3,7 +3,7 @@ Changelog
 
 1.2.1 (Unreleased)
 -----------------------
-- Fix: Use Return URL after code verification instead of redirecting to home
+- Fix #85: Use Return URL after code verification instead of redirecting to home
 
 1.2.0 (August 27, 2025)
 -----------------------
