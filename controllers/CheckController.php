@@ -36,8 +36,10 @@ class CheckController extends Controller
      */
     public function actionIndex()
     {
+        $redirectUrl = Yii::$app->user->getReturnUrl();
+
         if (!TwofaHelper::isVerifyingRequired()) {
-            return $this->goHome();
+            return $this->response->redirect($redirectUrl);
         }
 
         if (isset(Yii::$app->getModule('live')->isActive)) {
@@ -54,8 +56,10 @@ class CheckController extends Controller
                 Yii::$app->session->setFlash('error', Yii::t('TwofaModule.base', 'Two-factor authentication code is expired. Please try again.'));
 
                 return $this->refresh();
-            } elseif (!$model->hasErrors() && $model->save(false)) {
-                return $this->goHome();
+            }
+
+            if (!$model->hasErrors() && $model->save(false)) {
+                return $this->response->redirect($redirectUrl);
             }
         }
 
