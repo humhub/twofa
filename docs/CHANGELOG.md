@@ -5,6 +5,7 @@ Changelog
 -----------------------
 - Fix #85: Use Return URL after code verification instead of redirecting to home
 - Enh #86: Improved Module Test GitHub Actions
+- Enh #87: Implemented `module-coding-standards`
 
 1.2.0 (August 27, 2025)
 -----------------------
