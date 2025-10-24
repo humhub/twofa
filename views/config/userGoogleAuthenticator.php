@@ -31,7 +31,7 @@ use humhub\widgets\form\ActiveForm;
         ->right()
         ->action('twofa.callDriverAction', Yii::$app->user->identity->createUrl('/twofa/user-settings/driver-action'))
         ->options([
-            'data-driver-class' => get_class($driver),
+            'data-driver-class' => $driver::class,
             'data-driver-action' => 'requestCode',
             'data-driver-confirm' => 1,
             'data-container' => '#twofaGoogleAuthCode',

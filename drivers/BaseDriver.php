@@ -224,7 +224,7 @@ abstract class BaseDriver extends BaseObject
      */
     public function callAction($action, $params = [])
     {
-        $methodName = 'action' . ucfirst($action);
+        $methodName = 'action' . ucfirst((string) $action);
         if (empty($action) || !method_exists($this, $methodName)) {
             return;
         }
@@ -238,7 +238,7 @@ abstract class BaseDriver extends BaseObject
     public function getUserSettings()
     {
         if (!isset($this->userSettings)) {
-            $className = preg_replace('/^.+?\\\\([^\\\\]+)Driver$/', '$1', get_class($this));
+            $className = preg_replace('/^.+?\\\\([^\\\\]+)Driver$/', '$1', static::class);
             $userSettingsClassName = '\\humhub\\modules\\twofa\\models\\' . $className . 'UserSettings';
             $this->userSettings = (class_exists($userSettingsClassName) ? new $userSettingsClassName() : false);
         }

@@ -188,6 +188,6 @@ class Module extends BaseModule
      */
     public function getTrustedNetworks()
     {
-        return json_decode($this->settings->get('trustedNetworks', '[]'));
+        return json_decode((string) $this->settings->get('trustedNetworks', '[]'));
     }
 }

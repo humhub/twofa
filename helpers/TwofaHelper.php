@@ -109,7 +109,7 @@ class TwofaHelper
             return false;
         }
 
-        $driverClassName = '\\' . trim($driverClassName, '\\');
+        $driverClassName = '\\' . trim((string) $driverClassName, '\\');
 
         if (class_exists($driverClassName)) {
             return new $driverClassName();
@@ -214,7 +214,7 @@ class TwofaHelper
             }
 
             $transaction->commit();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $transaction->rollBack();
             return false;
         }
@@ -344,7 +344,7 @@ class TwofaHelper
     public static function rememberBrowser($days = null)
     {
         // calculate expiration date
-        $days = $days ?? Yii::$app->getModule('twofa')->getRememberMeDays();
+        $days ??= Yii::$app->getModule('twofa')->getRememberMeDays();
         $expire = (new DateTime())->modify("+$days DAYS")->getTimestamp();
 
         // calculate array of remembered user's
