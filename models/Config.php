@@ -144,7 +144,7 @@ class Config extends Model
      */
     protected function trimTrustedNetwork(&$network)
     {
-        $network = trim($network);
+        $network = trim((string) $network);
         // perform other actions if required
     }
 }
