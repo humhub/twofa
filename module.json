@@ -16,6 +16,6 @@
   ],
   "version": "1.2.1",
   "humhub": {
-    "minVersion": "1.18"
+    "minVersion": "1.18-beta.6"
   }
 }
