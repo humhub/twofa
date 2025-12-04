@@ -1,13 +1,13 @@
 <?php
 
-use humhub\modules\ui\mail\DefaultMailStyle;
+use humhub\helpers\MailStyleHelper;
 use humhub\modules\user\models\User;
 use yii\helpers\Html;
 
 /** @var string $code */
 /** @var User $user */
 
-$colorPrimary = Yii::$app->view->theme->variable('primary', '#708fa0')
+$colorPrimary = MailStyleHelper::getColorPrimary();
 
 ?>
 
@@ -16,14 +16,14 @@ $colorPrimary = Yii::$app->view->theme->variable('primary', '#708fa0')
 
         <!-- start  container width 600px -->
         <table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="container"
-               style="background-color: <?= Yii::$app->view->theme->variable('background-color-main', '#fff') ?>; ">
+               style="background-color: <?= MailStyleHelper::getBackgroundColorMain() ?>; ">
 
             <tr>
                 <td valign="top">
 
                     <!-- start container width 560px -->
                     <table width="540" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
-                           style="background-color:<?= Yii::$app->view->theme->variable('background-color-main', '#fff') ?>;">
+                           style="background-color:<?= MailStyleHelper::getBackgroundColorMain() ?>;">
 
                         <!-- start text content -->
                         <tr>
@@ -35,8 +35,8 @@ $colorPrimary = Yii::$app->view->theme->variable('primary', '#708fa0')
                                             <table border="0" align="center" cellpadding="0" cellspacing="0">
                                                 <tr>
                                                     <td width="auto" align="center" valign="middle" height="28"
-                                                        style="background-color: <?= Yii::$app->view->theme->variable('background-color-main', '#fff') ?>; background-clip: padding-box; font-size: 26px; font-family: <?= Yii::$app->view->theme->variable('mail-font-family', DefaultMailStyle::DEFAULT_FONT_FAMILY) ?>; text-align: center; font-weight: 300; padding-left: 18px; padding-right: 18px; ">
-                                                        <span style="color: <?= Yii::$app->view->theme->variable('text-color-highlight', '#555') ?>; font-weight: 300;">
+                                                        style="background-color: <?= MailStyleHelper::getBackgroundColorMain() ?>; background-clip: padding-box; font-size: 26px; font-family: <?= MailStyleHelper::getFontFamily() ?>; text-align: center; font-weight: 300; padding-left: 18px; padding-right: 18px; ">
+                                                        <span style="color: <?= MailStyleHelper::getTextColorHighlight() ?>; font-weight: 300;">
                                                             <?= Yii::t('TwofaModule.base', 'Your login verification code'); ?>
                                                         </span>
                                                     </td>
@@ -65,14 +65,14 @@ $colorPrimary = Yii::$app->view->theme->variable('primary', '#708fa0')
 
         <!-- start  container width 600px -->
         <table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="container"
-               style="background-color: <?= Yii::$app->view->theme->variable('background-color-main', '#fff') ?>; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;">
+               style="background-color: <?= MailStyleHelper::getBackgroundColorMain() ?>; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;">
 
             <tr>
                 <td valign="top">
 
                     <!-- start container width 560px -->
                     <table width="540" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
-                           style="background-color:<?= Yii::$app->view->theme->variable('background-color-main', '#fff') ?>;">
+                           style="background-color:<?= MailStyleHelper::getBackgroundColorMain() ?>;">
 
                         <!-- start text content -->
                         <tr>
@@ -92,7 +92,7 @@ $colorPrimary = Yii::$app->view->theme->variable('primary', '#708fa0')
                                                 <!--end space height -->
 
                                                 <tr>
-                                                    <td style="font-size: 14px; line-height: 22px; font-family: <?= Yii::$app->view->theme->variable('mail-font-family', DefaultMailStyle::DEFAULT_FONT_FAMILY) ?>; color: <?= Yii::$app->view->theme->variable('text-color-main', '#777') ?>; font-weight: 300; text-align: left; ">
+                                                    <td style="font-size: 14px; line-height: 22px; font-family: <?= MailStyleHelper::getFontFamily() ?>; color: <?= MailStyleHelper::getTextColorMain() ?>; font-weight: 300; text-align: left; ">
                                                         <?= Yii::t('TwofaModule.base', 'Hello {displayName}!', ['{displayName}' => Html::encode($user->displayName)]) ?>
                                                         <br><br>
                                                         <?= Yii::t('TwofaModule.base', 'Your account is secured by a two-factor authentication system. Please use the following code to proceed.'); ?>
@@ -131,4 +131,3 @@ $colorPrimary = Yii::$app->view->theme->variable('primary', '#708fa0')
         <!-- end  container width 600px -->
     </td>
 </tr>
-
