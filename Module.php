@@ -196,6 +196,6 @@ class Module extends BaseModule
      */
     public function getHelpText(): string
     {
-        return trim($this->settings->get('helpText', ''));
+        return trim((string) $this->settings->get('helpText', ''));
     }
 }
