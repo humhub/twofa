@@ -8,21 +8,21 @@
 
 namespace humhub\modules\twofa;
 
-use humhub\components\Controller;
 use humhub\helpers\ControllerHelper;
-use humhub\modules\admin\grid\UserActionColumn;
 use humhub\modules\admin\controllers\UserController as AdminUserController;
+use humhub\modules\admin\grid\UserActionColumn;
 use humhub\modules\admin\permissions\ManageUsers;
 use humhub\modules\twofa\events\BeforeCheck;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\ui\menu\MenuLink;
-use humhub\modules\user\models\User;
 use humhub\modules\user\controllers\AuthController;
 use humhub\modules\user\events\UserEvent;
+use humhub\modules\user\models\User;
 use humhub\modules\user\widgets\AccountMenu;
 use humhub\modules\user\widgets\AccountSettingsMenu;
 use Yii;
+use yii\web\Controller;
 
 class Events
 {
@@ -61,8 +61,19 @@ class Events
             return false;
         }
 
-        if (self::isImpersonateAction($event->sender)) {
+        /** @var Controller $controller */
+        $controller = $event->sender;
+
+        if (self::isImpersonateAction($controller)) {
             Yii::$app->session->set('twofa.switchedUserId', Yii::$app->user->id);
+        }
+
+        if (
+            $controller->module->id === 'fcm-push'
+            && $controller->id === 'token'
+            && $controller->action->id === 'update'
+        ) {
+            return false;
         }
 
         $beforeVerifying = new BeforeCheck();
@@ -83,7 +94,7 @@ class Events
     {
         return ($controller instanceof AdminUserController)
             && isset($controller->action)
-            && $controller->action->id == 'impersonate'
+            && $controller->action->id === 'impersonate'
             && Yii::$app->user->can(ManageUsers::class);
     }
 
