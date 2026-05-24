@@ -7,6 +7,7 @@
  */
 
 use humhub\helpers\Html;
+use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\twofa\models\GoogleAuthenticatorUserSettings;
 use humhub\widgets\bootstrap\Button;
 use humhub\widgets\bootstrap\Link;
@@ -31,7 +32,7 @@ use yii\helpers\Json;
     <?= Link::to(Yii::t('TwofaModule.base', 'Request new code'))
         ->icon('fa-qrcode')
         ->right()
-        ->action('twofa.callDriverAction', Yii::$app->user->identity->createUrl('/twofa/user-settings/driver-action'))
+        ->action('twofa.callDriverAction', [TwofaUrl::ROUTE_USER_SETTINGS . '/driver-action'])
         ->options([
             'data-driver-class' => $driver::class,
             'data-driver-action' => 'requestCode',

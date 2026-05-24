@@ -142,7 +142,7 @@ class Events
 
         $menu->addEntry(new MenuLink([
             'label' => Yii::t('TwofaModule.base', 'Two-Factor Authentication'),
-            'url' => Yii::$app->user->identity->createUrl(TwofaUrl::ROUTE_USER_SETTINGS),
+            'url' => [TwofaUrl::ROUTE_USER_SETTINGS],
             'isActive' => $isActiveMenu,
             'sortOrder' => 300,
         ]));

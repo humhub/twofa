@@ -11,6 +11,7 @@ namespace humhub\modules\twofa\controllers;
 use humhub\modules\twofa\assets\Assets;
 use humhub\modules\twofa\drivers\BaseDriver;
 use humhub\modules\twofa\helpers\TwofaHelper;
+use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\twofa\models\UserSettings;
 use humhub\modules\user\components\BaseAccountController;
 use Yii;
@@ -30,6 +31,14 @@ class UserSettingsController extends BaseAccountController
 
     public function actionIndex()
     {
+        if (Yii::$app->request->get('cguid') !== null) {
+            $params = Yii::$app->request->get();
+            unset($params['cguid']);
+            array_unshift($params, TwofaUrl::ROUTE_USER_SETTINGS);
+
+            return $this->redirect($params);
+        }
+
         $model = new UserSettings();
 
         if ($model->validatedSave()) {
