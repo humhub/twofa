@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.3.0 (Unreleased)
+------------------
+- Enh #111: Update for HumHub 1.19
+
 1.2.2 (Unreleased)
 ------------------
 - Enh: Automated code refactoring for HumHub 1.18.0-beta.6 using Rector
