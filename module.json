@@ -14,7 +14,7 @@
         "resources/screenshot3.png",
         "resources/screenshot4.png"
     ],
-    "version": "1.2.2",
+    "version": "1.2.3",
     "humhub": {
         "minVersion": "1.18.0-beta.6",
         "maxVersion": "1.18"

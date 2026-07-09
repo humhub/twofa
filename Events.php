@@ -8,6 +8,7 @@
 
 namespace humhub\modules\twofa;
 
+use humhub\components\Controller as BaseController;
 use humhub\helpers\ControllerHelper;
 use humhub\modules\admin\controllers\UserController as AdminUserController;
 use humhub\modules\admin\grid\UserActionColumn;
@@ -22,6 +23,7 @@ use humhub\modules\user\models\User;
 use humhub\modules\user\widgets\AccountMenu;
 use humhub\modules\user\widgets\AccountSettingsMenu;
 use Yii;
+use yii\base\ActionEvent;
 use yii\web\Controller;
 
 class Events
@@ -52,13 +54,12 @@ class Events
     /**
      * Check if current User has been verified by 2fa if it is required
      *
-     * @param $event
-     * @return false|\yii\console\Response|\yii\web\Response
+     * @param ActionEvent $event
      */
     public static function onBeforeAction($event)
     {
         if (Yii::$app->user->mustChangePassword()) {
-            return false;
+            return;
         }
 
         /** @var Controller $controller */
@@ -68,19 +69,34 @@ class Events
             Yii::$app->session->set('twofa.switchedUserId', Yii::$app->user->id);
         }
 
+        // Actions marked as not interceptable (e.g. the 2fa check page itself, which sets
+        // `$doNotInterceptActionIds = ['*']`) must never be redirected, otherwise the check
+        // page could redirect to itself in an infinite loop
+        if ($controller instanceof BaseController && $controller->isNotInterceptedAction($event->action->id)) {
+            return;
+        }
+
         if (
             $controller->module->id === 'fcm-push'
             && $controller->id === 'token'
             && $controller->action->id === 'update'
         ) {
-            return false;
+            return;
+        }
+
+        // Another event handler (e.g. from a module intercepting the same action) has already
+        // canceled or redirected the current action; overriding its redirect could produce a
+        // redirect loop between the two modules
+        if (!$event->isValid || Yii::$app->response->getIsRedirection()) {
+            return;
         }
 
         $beforeVerifying = new BeforeCheck();
         Yii::$app->trigger($beforeVerifying->name, $beforeVerifying);
 
         if (!$beforeVerifying->handled && TwofaHelper::isVerifyingRequired() && !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
-            return Yii::$app->response->redirect(TwofaUrl::toCheck());
+            $event->isValid = false;
+            $event->result = Yii::$app->response->redirect(TwofaUrl::toCheck());
         }
     }
 
@@ -105,7 +121,7 @@ class Events
      */
     public static function onAfterAction($event)
     {
-        if ($event->sender instanceof AuthController && $event->sender->action->id == 'logout') {
+        if ($event->sender instanceof AuthController && $event->sender->action->id === 'logout') {
             TwofaHelper::resetSessionStatus();
             Yii::$app->session->remove('twofa.switchedUserId');
         }

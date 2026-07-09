@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.3 (Unreleased)
+------------------
+- Fix: Infinite redirect loop to the 2FA check page when another module intercepts the current action
+
 1.2.2 (June 18, 2026)
 ---------------------
 - Enh: Automated code refactoring for HumHub 1.18.0-beta.6 using Rector
