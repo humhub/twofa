@@ -37,6 +37,22 @@ class TwofaGateCest
         $I->see('twofa');
     }
 
+    public function testSessionRequestCannotEscapeViaAcceptHeader(FunctionalTester $I)
+    {
+        $I->wantTo('ensure a pending session cannot escape the 2FA check by faking a JSON Accept header');
+
+        $this->loginPendingAdmin($I);
+
+        // A cookie-authenticated (session) request that fakes a non-HTML Accept header must
+        // stay subject to the gate — the API exemption only covers stateless token requests,
+        // which are determined server-side (see core GateFilter::getRequestClass()).
+        $I->haveHttpHeader('Accept', 'application/json');
+        $I->amOnPage('/index-test.php?r=dashboard%2Fdashboard');
+
+        $I->seeResponseCodeIs(403);
+        $I->see('twofa');
+    }
+
     public function testAccountDeleteStaysIntercepted(FunctionalTester $I)
     {
         $I->wantTo('ensure that account deletion is not reachable while 2FA is pending');
