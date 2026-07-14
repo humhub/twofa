@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.4.0 (Unreleased)
+------------------
+- Enh: Migrated the request interception to the core user gate system (`TwofaGate`, requires humhub/humhub#8291) — deterministic ordering towards other intercepting modules (password change → 2FA → terms), no more redirect loops, and `user/auth` (login/logout) stays reachable while verification is pending
+- Enh: AJAX requests now receive `401` + JSON `{gate, url}` and API requests `403` + JSON while verification is pending, instead of a HTML redirect
+- Enh: `TwofaHelper::isVerifyingRequired()` was split into the side-effect free `isVerificationPending()` and `sendCodeIfNeeded()` — the verification code is delivered at interception time (`TwofaGate::onIntercept()`) instead of as a side effect of a check; a failed code delivery no longer skips the verification (fail-closed)
+- Chg: Removed the unused `BeforeCheck` event, `Module::isTwofaCheckUrl()` and the `doNotInterceptActionIds` usage
+
 1.3.0 (June 5, 2026)
 --------------------
 - Enh #111: Update for HumHub 1.19

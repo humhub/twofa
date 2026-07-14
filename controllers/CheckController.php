@@ -22,11 +22,6 @@ class CheckController extends Controller
     /**
      * @inheritdoc
      */
-    protected $doNotInterceptActionIds = ['*'];
-
-    /**
-     * @inheritdoc
-     */
     public $layout = "@user/views/layouts/main";
 
     /**
@@ -38,9 +33,13 @@ class CheckController extends Controller
     {
         $redirectUrl = Yii::$app->user->getReturnUrl();
 
-        if (!TwofaHelper::isVerifyingRequired()) {
+        if (!TwofaHelper::isVerificationPending()) {
             return $this->response->redirect($redirectUrl);
         }
+
+        // Ensure a code is on its way even when the page is opened directly
+        // (interception delivers it via TwofaGate::onIntercept() already)
+        TwofaHelper::sendCodeIfNeeded();
 
         if (isset(Yii::$app->getModule('live')->isActive)) {
             Yii::$app->getModule('live')->isActive = false;

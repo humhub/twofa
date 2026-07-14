@@ -8,11 +8,12 @@
 
 namespace humhub\modules\twofa;
 
+use humhub\components\gates\GateInitEvent;
 use humhub\helpers\ControllerHelper;
 use humhub\modules\admin\controllers\UserController as AdminUserController;
 use humhub\modules\admin\grid\UserActionColumn;
 use humhub\modules\admin\permissions\ManageUsers;
-use humhub\modules\twofa\events\BeforeCheck;
+use humhub\modules\twofa\components\TwofaGate;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\ui\menu\MenuLink;
@@ -50,37 +51,29 @@ class Events
     }
 
     /**
-     * Check if current User has been verified by 2fa if it is required
+     * Registers the user gates of this module (see core docs/develop/user-gates.md).
+     * The gate replaces the former request interception of this handler.
+     *
+     * @since 1.4
+     */
+    public static function onGateInit(GateInitEvent $event): void
+    {
+        $event->manager->register(new TwofaGate());
+    }
+
+    /**
+     * Remembers the originating user of an admin "Impersonate" action, so the 2FA
+     * session state can be restored correctly.
      *
      * @param $event
-     * @return false|\yii\console\Response|\yii\web\Response
      */
-    public static function onBeforeAction($event)
+    public static function onBeforeAction($event): void
     {
-        if (Yii::$app->user->mustChangePassword()) {
-            return false;
-        }
-
         /** @var Controller $controller */
         $controller = $event->sender;
 
         if (self::isImpersonateAction($controller)) {
             Yii::$app->session->set('twofa.switchedUserId', Yii::$app->user->id);
-        }
-
-        if (
-            $controller->module->id === 'fcm-push'
-            && $controller->id === 'token'
-            && $controller->action->id === 'update'
-        ) {
-            return false;
-        }
-
-        $beforeVerifying = new BeforeCheck();
-        Yii::$app->trigger($beforeVerifying->name, $beforeVerifying);
-
-        if (!$beforeVerifying->handled && TwofaHelper::isVerifyingRequired() && !Yii::$app->getModule('twofa')->isTwofaCheckUrl()) {
-            return Yii::$app->response->redirect(TwofaUrl::toCheck());
         }
     }
 
