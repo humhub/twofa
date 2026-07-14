@@ -316,24 +316,34 @@ class TwofaHelper
     }
 
     /**
-     * Check if verifying by 2fa is required for current User
+     * Check if the current User still has to pass the two-factor verification.
+     *
+     * Free of side effects — delivering the verification code is handled separately
+     * by [[sendCodeIfNeeded()]] (invoked when the TwofaGate intercepts a request).
      *
      * @return bool
-     * @throws \yii\base\NotSupportedException
+     * @since 1.4
      */
-    public static function isVerifyingRequired()
+    public static function isVerificationPending(): bool
     {
         $driver = self::getDriver();
 
-        if (!$driver || self::isSessionVerified() || !$driver->canSend()) {
-            return false;
+        return $driver && $driver->canSend() && !self::isSessionVerified();
+    }
+
+    /**
+     * Delivers a verification code unless a valid one is already pending.
+     *
+     * @return bool whether a valid code is available (already pending or newly sent)
+     * @since 1.4
+     */
+    public static function sendCodeIfNeeded(): bool
+    {
+        if (self::isPendingVerification() && self::getCode() !== null) {
+            return true;
         }
 
-        if (!self::isPendingVerification()) {
-            return self::enableVerifying() || self::getCode() !== null;
-        }
-
-        return self::getCode() !== null || self::enableVerifying();
+        return self::enableVerifying();
     }
 
     /**
