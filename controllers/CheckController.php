@@ -58,7 +58,7 @@ class CheckController extends Controller
             }
 
             if (!$model->hasErrors() && $model->save(false)) {
-                return $this->response->redirect($redirectUrl);
+                return $this->redirect($redirectUrl);
             }
         }
 

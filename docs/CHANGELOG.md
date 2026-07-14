@@ -12,10 +12,15 @@ Changelog
 --------------------
 - Enh #111: Update for HumHub 1.19
 
-1.2.2 (Unreleased)
+1.2.3 (Unreleased)
 ------------------
+- Fix: Infinite redirect loop to the 2FA check page when another module intercepts the current action — the handler now yields when another interceptor already redirected the request, cancels the action via `$event->isValid` and uses a twofa-own, security-reviewed exemption list (check page, login/logout, push token update) instead of a generic opt-out flag
+
+1.2.2 (June 18, 2026)
+---------------------
 - Enh: Automated code refactoring for HumHub 1.18.0-beta.6 using Rector
 - Fix #109: Infinite loop of code verification when Push Notifications module is enabled
+- Fix #114: Fix redirect on check verification
 
 1.2.1 (April 24, 2026)
 ----------------------
