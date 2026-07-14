@@ -69,16 +69,16 @@ class TwofaGate extends UserGate
     }
 
     /**
-     * A stolen password must not give access through any channel, so the gate also
-     * applies to API requests (answered with 403). Sessions authenticated per request
-     * (e.g. REST tokens) can therefore not be used by users with active 2FA until the
-     * verification is enforced at credential issuance.
+     * The verification is a session-based, interactive flow, so the gate does not apply
+     * to token-authenticated API requests: a REST token is issued through its own flow
+     * and stands on its own, and per-request gating a stateless request would only ever
+     * report "pending". API authentication is handled by the REST module.
      *
      * @inheritdoc
      */
     public function appliesTo(RequestClass $requestClass): bool
     {
-        return true;
+        return $requestClass !== RequestClass::Api;
     }
 
     /**

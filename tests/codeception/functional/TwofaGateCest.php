@@ -37,6 +37,19 @@ class TwofaGateCest
         $I->see('twofa');
     }
 
+    public function testApiRequestIsNotIntercepted(FunctionalTester $I)
+    {
+        $I->wantTo('ensure that token-authenticated API requests are not intercepted while 2FA is pending');
+
+        $this->loginPendingAdmin($I);
+
+        // A REST-style request negotiates JSON and is neither a browser navigation nor XHR
+        $I->haveHttpHeader('Accept', 'application/json');
+        $I->amOnPage('/index-test.php?r=dashboard%2Fdashboard');
+
+        $I->dontSee('twofa');
+    }
+
     public function testAccountDeleteStaysIntercepted(FunctionalTester $I)
     {
         $I->wantTo('ensure that account deletion is not reachable while 2FA is pending');
