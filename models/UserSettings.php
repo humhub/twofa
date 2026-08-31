@@ -112,13 +112,9 @@ class UserSettings extends Model
      */
     protected function getDriver($driverClassName = null)
     {
-        if ($driverClassName === null) {
-            $driverClassName = $this->driver;
-        }
+        $driverClassName ??= $this->driver;
 
-        if (!isset($this->driverObjects[$driverClassName])) {
-            $this->driverObjects[$driverClassName] = TwofaHelper::getDriverByClassName($driverClassName);
-        }
+        $this->driverObjects[$driverClassName] ??= TwofaHelper::getDriverByClassName($driverClassName);
 
         return $this->driverObjects[$driverClassName];
     }
