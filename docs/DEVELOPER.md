@@ -18,23 +18,18 @@ Default driver `humhub\modules\twofa\Module->defaultDriver` is used for Users fr
 ```php
 public $defaultDriver = EmailDriver::class;
 ```
-## Events
+## Interception
 
-### `twofa.beforeCheck`
+Since 1.4 the verification is enforced through the core user gate system
+(`TwofaGate`, see the core `docs/develop/user-gates.md`) instead of a
+`Controller::EVENT_BEFORE_ACTION` handler. The former `twofa.beforeCheck` event
+has been removed.
 
-The `twofa.beforeCheck` event is triggered before a Two-Factor Authentication (2FA) check is performed.
+The gate applies to full page navigation and AJAX/PJAX requests, but not to
+token-authenticated API requests — REST, CalDAV and similar endpoints are
+therefore not intercepted and do not need to opt out. Login and logout
+(`user/auth`) as well as the mobile push token update stay reachable while
+verification is pending.
 
-Other modules can listen to this event and set `$handled = true` to skip the 2FA check.
-
-This mechanism allows disabling 2FA:
-
-- Globally for a module via its `beforeAction()` method
-- For specific controllers via their `beforeAction()` method
-- For specific actions within a controller via conditional logic in `beforeAction()`
-
-Example:
-```php
-Yii::$app->on('twofa.beforeCheck', function (Event $event) use ($action) {
-    $event->handled = $action->controller->id === 'some-controller'; // Will disable 2FA for `some-controller`
-});
-```
+There is no longer a per-controller opt-out: the gate intercepts every full
+page request of a user with pending verification until the check is completed.
