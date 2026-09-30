@@ -80,7 +80,7 @@ class GoogleAuthenticatorUserSettings extends Model
     public function save()
     {
         $generateInitialRecoveryCodes = $this->changeSecretCode
-            && empty(TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_SETTING));
+            && (new GoogleAuthenticatorDriver())->getSecret() === null;
 
         return $this->updateSecretCode()
             && $this->updateRecoveryCodes($generateInitialRecoveryCodes);

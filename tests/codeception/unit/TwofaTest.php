@@ -8,7 +8,10 @@
 
 namespace twofa;
 
+use humhub\modules\twofa\drivers\EmailDriver;
+use humhub\modules\twofa\drivers\GoogleAuthenticatorDriver;
 use humhub\modules\twofa\helpers\TwofaHelper;
+use humhub\modules\twofa\models\Config;
 use tests\codeception\_support\HumHubDbTestCase;
 
 class TwofaTest extends HumHubDbTestCase
@@ -47,5 +50,23 @@ class TwofaTest extends HumHubDbTestCase
         $this->assertNull(TwofaHelper::getCode());
         $this->assertNull(TwofaHelper::getSetting(TwofaHelper::CODE_EXPIRATION_SETTING));
         $this->assertFalse(TwofaHelper::isVerifyingRequired());
+    }
+
+    public function testEnforcedMethodMustBeEnabled()
+    {
+        $this->becomeUser('Admin');
+        $config = new Config();
+
+        $config->enabledDrivers = [GoogleAuthenticatorDriver::class];
+        $config->enforcedMethod = EmailDriver::class;
+        $this->assertFalse($config->validate(['enforcedMethod']));
+
+        $config->enforcedMethod = GoogleAuthenticatorDriver::class;
+        $this->assertTrue($config->validate(['enforcedMethod']));
+
+        // No enabled drivers: enforced method is still allowed as fallback for enforced groups
+        $config->enabledDrivers = [];
+        $config->enforcedMethod = EmailDriver::class;
+        $this->assertTrue($config->validate(['enforcedMethod']));
     }
 }

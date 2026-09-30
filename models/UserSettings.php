@@ -80,7 +80,8 @@ class UserSettings extends Model
     {
         if (TwofaHelper::isEnforcedUser()) {
             // User from enforced group should be denied to unselect 2fa driver
-            $noneOption = [$this->module->defaultDriver => TwofaHelper::getDriverByClassName($this->module->defaultDriver)->name];
+            $enforcedMethod = $this->module->getEnforcedMethod();
+            $noneOption = [$enforcedMethod => TwofaHelper::getDriverByClassName($enforcedMethod)->name];
         } else {
             $noneOption = ['' => Yii::t('TwofaModule.base', 'Disable two-factor authentication (not recommended)')];
         }
@@ -138,7 +139,10 @@ class UserSettings extends Model
             return false;
         }
 
-        if ($this->driver !== GoogleAuthenticatorDriver::class && !TwofaHelper::setSetting(GoogleAuthenticatorDriver::RECOVERY_CODES_SETTING)) {
+        // Delete the secret and recovery codes when switching to another method, so they are not reused later
+        if ($this->driver !== GoogleAuthenticatorDriver::class
+            && (!TwofaHelper::setSetting(GoogleAuthenticatorDriver::SECRET_SETTING)
+                || !TwofaHelper::setSetting(GoogleAuthenticatorDriver::RECOVERY_CODES_SETTING))) {
             return false;
         }
 

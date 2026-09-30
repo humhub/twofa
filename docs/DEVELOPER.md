@@ -13,7 +13,7 @@ public $drivers = [
 ];
 ```
 
-Default driver `humhub\modules\twofa\Module->defaultDriver` is used for Users from enforced Groups:
+Default driver `humhub\modules\twofa\Module->defaultDriver` is the default value of the setting "Default method for the mandatory groups", which is used for Users from enforced Groups:
 
 ```php
 public $defaultDriver = EmailDriver::class;

@@ -4,6 +4,7 @@ Changelog
 1.2.4 (Unreleased)
 ------------------
 - Enh: Automated code refactoring for HumHub 1.18.0-beta.6 using Rector
+- Fix #122: Mandatory groups default 2FA method must be enabled and is shown in account settings
 
 1.2.3 (July 16, 2026)
 ---------------------
