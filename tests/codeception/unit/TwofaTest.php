@@ -12,6 +12,7 @@ use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\drivers\GoogleAuthenticatorDriver;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\models\Config;
+use humhub\modules\twofa\models\UserSettings;
 use tests\codeception\_support\HumHubDbTestCase;
 
 class TwofaTest extends HumHubDbTestCase
@@ -68,5 +69,34 @@ class TwofaTest extends HumHubDbTestCase
         $config->enabledDrivers = [];
         $config->enforcedMethod = EmailDriver::class;
         $this->assertTrue($config->validate(['enforcedMethod']));
+    }
+
+    public function testLeftoverSecretIsIgnored()
+    {
+        $this->becomeUser('Admin');
+        TwofaHelper::setSetting(GoogleAuthenticatorDriver::SECRET_SETTING, 'TESTSECRET');
+
+        TwofaHelper::setSetting(TwofaHelper::USER_SETTING, GoogleAuthenticatorDriver::class);
+        $this->assertSame('TESTSECRET', (new GoogleAuthenticatorDriver())->getSecret());
+
+        // Secret from before switching to another method must not be used anymore
+        TwofaHelper::setSetting(TwofaHelper::USER_SETTING, EmailDriver::class);
+        $this->assertNull((new GoogleAuthenticatorDriver())->getSecret());
+    }
+
+    public function testSwitchingAwayFromTotpDeletesSecret()
+    {
+        $this->becomeUser('Admin');
+        TwofaHelper::setSetting(TwofaHelper::USER_SETTING, GoogleAuthenticatorDriver::class);
+        TwofaHelper::setSetting(GoogleAuthenticatorDriver::SECRET_SETTING, 'TESTSECRET');
+        TwofaHelper::setSetting(GoogleAuthenticatorDriver::RECOVERY_CODES_SETTING, 'TESTCODES');
+
+        $userSettings = new UserSettings();
+        $userSettings->driver = EmailDriver::class;
+        $this->assertTrue($userSettings->save());
+
+        $this->assertSame(EmailDriver::class, TwofaHelper::getSetting(TwofaHelper::USER_SETTING));
+        $this->assertNull(TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_SETTING));
+        $this->assertNull(TwofaHelper::getSetting(GoogleAuthenticatorDriver::RECOVERY_CODES_SETTING));
     }
 }
