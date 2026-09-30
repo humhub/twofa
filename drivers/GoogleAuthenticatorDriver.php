@@ -66,7 +66,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
             return false;
         }
 
-        $secret = TwofaHelper::getSetting(self::SECRET_SETTING);
+        $secret = $this->getSecret();
         if (empty($secret)) {
             // If secret code is empty then QR code was not generated,
             // so current User cannot use this Driver for 2FA
@@ -81,7 +81,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
      */
     public function beforeCheckCodeFormInput(ActiveForm $form, CheckCode $model)
     {
-        if ($this->isActive() && !empty(TwofaHelper::getSetting(self::SECRET_SETTING))) {
+        if ($this->isActive() && $this->getSecret() !== null) {
             parent::beforeCheckCodeFormInput($form, $model);
             if ($this->getRecoveryCodeCount() > 0) {
                 echo '<p class="text-body-secondary">'
@@ -120,7 +120,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
 
         $model = $this->getUserSettings();
 
-        if (TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_SETTING) === null) {
+        if ($this->getSecret() === null) {
             // Display a form to request new code when current user group is forced for this Driver
             $requirePinCode = true;
             $this->generateTempSecretCode();
@@ -146,7 +146,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
     {
         $isNewCodeAfterLogin = false;
         if ($correctCode === null) {
-            $correctCode = TwofaHelper::getSetting(self::SECRET_SETTING);
+            $correctCode = $this->getSecret();
             if ($correctCode === null && TwofaHelper::isEnforcedUser()) {
                 $correctCode = TwofaHelper::getSetting(self::SECRET_TEMP_SETTING);
                 $isNewCodeAfterLogin = true;
@@ -162,6 +162,25 @@ class GoogleAuthenticatorDriver extends BaseDriver
         }
 
         return $result;
+    }
+
+    /**
+     * Get the secret of the current User
+     *
+     * The secret is valid only while this Driver is the stored method of the User.
+     * A secret left over from switching to another method is ignored, so a new one must be set up.
+     *
+     * @return string|null
+     */
+    public function getSecret(): ?string
+    {
+        if (TwofaHelper::getSetting(TwofaHelper::USER_SETTING) !== self::class) {
+            return null;
+        }
+
+        $secret = TwofaHelper::getSetting(self::SECRET_SETTING);
+
+        return empty($secret) ? null : $secret;
     }
 
     /**

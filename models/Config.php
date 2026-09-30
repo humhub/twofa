@@ -86,10 +86,24 @@ class Config extends Model
             ['rememberMeDays', 'integer', 'max' => 365],
             ['enforcedGroups', 'in', 'range' => array_keys($this->module->getGroupsOptions()), 'allowArray' => true],
             ['enforcedMethod', 'in', 'range' => array_keys($this->module->getDriversOptions())],
+            ['enforcedMethod', 'validateEnforcedMethod'],
             ['trustedNetworks', 'string'],
             ['helpText', 'string'],
             ['helpText', 'filter', 'filter' => 'trim'],
         ];
+    }
+
+    /**
+     * Validates that the enforced method is one of the enabled drivers.
+     * When no drivers are enabled, the enforced method is still used as fallback for users from enforced groups.
+     *
+     * @param string $attribute
+     */
+    public function validateEnforcedMethod($attribute)
+    {
+        if (!empty($this->enabledDrivers) && !in_array($this->$attribute, (array)$this->enabledDrivers, true)) {
+            $this->addError($attribute, Yii::t('TwofaModule.base', 'The default method for the mandatory groups must be one of the enabled methods.'));
+        }
     }
 
     /**

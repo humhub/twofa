@@ -180,7 +180,10 @@ class Module extends BaseModule
      */
     public function getEnforcedMethod(): string
     {
-        return $this->settings->get('enforcedMethod', $this->defaultDriver);
+        $enforcedMethod = $this->settings->get('enforcedMethod');
+
+        // Fallback to the default driver if the stored method is empty or not an implemented driver anymore
+        return in_array($enforcedMethod, $this->drivers, true) ? $enforcedMethod : $this->defaultDriver;
     }
 
     /**

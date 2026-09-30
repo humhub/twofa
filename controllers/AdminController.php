@@ -50,7 +50,7 @@ class AdminController extends Controller
         return $this->render('tabs', [
             'tab' => $this->renderPartial('index', [
                 'model' => $model,
-                'defaultDriverName' => TwofaHelper::getDriverByClassName($model->module->defaultDriver)->name,
+                'enforcedMethodName' => TwofaHelper::getDriverByClassName($model->module->getEnforcedMethod())->name,
                 'ip' => $ip,
             ]),
         ]);

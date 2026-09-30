@@ -8,7 +8,7 @@ use humhub\widgets\form\ActiveForm;
 
 /**
  * @var $model Config
- * @var $defaultDriverName string
+ * @var $enforcedMethodName string
  * @var $ip string
  */
 
@@ -20,7 +20,7 @@ use humhub\widgets\form\ActiveForm;
      class="alert alert-warning<?= empty($model->enabledDrivers) ? '' : ' d-none' ?>">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
     <?= Yii::t('TwofaModule.base', 'This module is disabled because no drivers are selected, however users from the enforced groups always fallback to {defaultDriverName} driver by default.', [
-        'defaultDriverName' => $defaultDriverName
+        'defaultDriverName' => $enforcedMethodName
     ]) ?>
 </div>
 
@@ -58,9 +58,27 @@ use humhub\widgets\form\ActiveForm;
 
 <?php $form::end(); ?>
 
-<?= Html::script(<<<JS
+<script <?= Html::nonce() ?>>
+    function twofaUpdateEnforcedMethodOptions(autoSelect) {
+        const enabledDrivers = $('[name="Config[enabledDrivers][]"]:checked').get().map(el => el.value);
+        const select = $('[name="Config[enforcedMethod]"]');
+
+        select.find('option').each(function() {
+            $(this).prop('disabled', enabledDrivers.length > 0
+                && enabledDrivers.indexOf(this.value) === -1
+                // Keep the currently selected option on page load, so an invalid stored combination is reported by validation
+                && (autoSelect || !this.selected));
+        });
+
+        if (autoSelect && select.find('option:selected').prop('disabled')) {
+            select.val(select.find('option:not(:disabled)').first().val());
+        }
+    }
+
+    twofaUpdateEnforcedMethodOptions(false);
+
     $('[name="Config[enabledDrivers][]"]').on('click', function() {
-        $('#disabledDriversInfo').toggle($('[name="Config[enabledDrivers][]"]:checked').length === 0)
+        $('#disabledDriversInfo').toggle($('[name="Config[enabledDrivers][]"]:checked').length === 0);
+        twofaUpdateEnforcedMethodOptions(true);
     })
-JS
-); ?>
+</script>

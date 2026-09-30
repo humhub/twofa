@@ -49,6 +49,8 @@ $(document).ready(function(){
             height: <?= $codeSize ?>,
             correctLevel: QRCode.CorrectLevel.L
         });
+        // Don't exceed the container width on small screens
+        $('#twofa-google-auth-qrcode').children('canvas, img').addClass('img-fluid');
     }
 <?php if ($requirePinCode) : ?>
     $('#twofaGoogleAuthPinCode').removeClass('d-none');
