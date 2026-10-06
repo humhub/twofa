@@ -5,7 +5,7 @@ return [
   '<strong>Two-Factor Authentication</strong> administration' => '',
   '<strong>Two-Factor Authentication</strong> settings' => '<strong>Kétlépcsős azonosítás</strong> beállítások',
   '<strong>Two-factor</strong> authentication' => '<strong>Kétfaktoros</strong> hitelesítés',
-  'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.' => 'Egy megerősítő kód lett elküldve az e-mail címedre. Kérjük, add meg az e-mailben található kódot a folytatáshoz.',
+  'A confirmation code has just been sent to your email address. Please enter the code from the email in order to proceed.' => 'Egy megerősítő kód lett elküldve az e-mail címedre. Kérjük, add meg az e-mailben található kódot a folytatáshoz.',
   'Account:' => 'Fiók:',
   'Actions' => 'Műveletek',
   'Authentication method' => 'Hitelesítési módszer',

@@ -5,7 +5,7 @@ return [
   '<strong>Two-Factor Authentication</strong> administration' => '',
   '<strong>Two-Factor Authentication</strong> settings' => '',
   '<strong>Two-factor</strong> authentication' => '<strong>兩步驟</strong> 驗證',
-  'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.' => '',
+  'A confirmation code has just been sent to your email address. Please enter the code from the email in order to proceed.' => '',
   'Account:' => '',
   'Actions' => '操作',
   'Authentication method' => '',

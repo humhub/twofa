@@ -5,7 +5,7 @@ return [
   '<strong>Two-Factor Authentication</strong> administration' => '',
   '<strong>Two-Factor Authentication</strong> settings' => 'إعدادات <strong>المصادقة الثنائية</strong>',
   '<strong>Two-factor</strong> authentication' => 'المصادقة <strong>الثنائية</strong>',
-  'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.' => 'لقد تم للتو إرسال رمز التأكيد إلى عنوان بريدك الإلكتروني. الرجاء إدخال الرمز من البريد الإلكتروني للمتابعة.',
+  'A confirmation code has just been sent to your email address. Please enter the code from the email in order to proceed.' => 'لقد تم للتو إرسال رمز التأكيد إلى عنوان بريدك الإلكتروني. الرجاء إدخال الرمز من البريد الإلكتروني للمتابعة.',
   'Account:' => 'الحساب:',
   'Actions' => 'الإجراءات',
   'Authentication method' => 'طريقة المصادقة',

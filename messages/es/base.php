@@ -5,7 +5,7 @@ return [
   '<strong>Two-Factor Authentication</strong> administration' => '',
   '<strong>Two-Factor Authentication</strong> settings' => 'Configuración de <strong>autenticación de dos factores</strong>',
   '<strong>Two-factor</strong> authentication' => 'Autenticación de <strong>dos factores</strong>',
-  'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.' => 'Se acaba de enviar un código de confirmación a su dirección de correo electrónico. Ingrese el código del correo electrónico para continuar.',
+  'A confirmation code has just been sent to your email address. Please enter the code from the email in order to proceed.' => 'Se acaba de enviar un código de confirmación a su dirección de correo electrónico. Ingrese el código del correo electrónico para continuar.',
   'Account:' => 'Cuenta:',
   'Actions' => 'Acciones',
   'Authentication method' => 'Método de autentificación',

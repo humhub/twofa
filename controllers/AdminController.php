@@ -151,7 +151,10 @@ class AdminController extends Controller
         $this->view->success(Yii::t('TwofaModule.base', 'Two-factor authentication has been reset for this user.'));
 
         $returnUrl = Yii::$app->request->get('returnUrl');
-        if (is_string($returnUrl) && str_starts_with($returnUrl, '/')) {
+        if (is_string($returnUrl)
+            && str_starts_with($returnUrl, '/')
+            && !str_starts_with($returnUrl, '//')
+            && !str_contains($returnUrl, '\\')) {
             return $this->redirect($returnUrl);
         }
 

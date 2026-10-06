@@ -7,6 +7,7 @@ Changelog
 - Fix #122: Mandatory groups default 2FA method must be enabled and is shown in account settings
 - Fix #122: Ignore a leftover TOTP secret when TOTP is not the user's stored method, and delete the secret when switching to another method (TOTP must be set up again when switching back)
 - Fix #123: Commit `composer.lock` for reproducible Marketplace builds of dependencies
+- Fix #124: Open redirect via `returnUrl` in the "Reset 2FA" admin action; "hast" typo in the verification code message; Validation of the module settings form
 
 1.2.3 (July 16, 2026)
 ---------------------

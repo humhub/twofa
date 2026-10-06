@@ -5,6 +5,7 @@ namespace humhub\modules\twofa\models;
 use humhub\modules\twofa\Module;
 use Yii;
 use yii\base\Model;
+use yii\validators\IpValidator;
 
 /**
  * This is the form for Module Settings of Two-Factor Authentication
@@ -81,13 +82,14 @@ class Config extends Model
     {
         return [
             ['enabledDrivers', 'in', 'range' => array_keys($this->module->getDriversOptions()), 'allowArray' => true],
-            ['codeLength', 'integer', 'min' => 4],
+            ['codeLength', 'integer', 'min' => 4, 'max' => 512],
             ['codeTtl', 'integer', 'min' => 60],
-            ['rememberMeDays', 'integer', 'max' => 365],
+            ['rememberMeDays', 'integer', 'min' => 0, 'max' => 365],
             ['enforcedGroups', 'in', 'range' => array_keys($this->module->getGroupsOptions()), 'allowArray' => true],
             ['enforcedMethod', 'in', 'range' => array_keys($this->module->getDriversOptions())],
             ['enforcedMethod', 'validateEnforcedMethod'],
             ['trustedNetworks', 'string'],
+            ['trustedNetworks', 'validateTrustedNetworks'],
             ['helpText', 'string'],
             ['helpText', 'filter', 'filter' => 'trim'],
         ];
@@ -103,6 +105,21 @@ class Config extends Model
     {
         if (!empty($this->enabledDrivers) && !in_array($this->$attribute, (array)$this->enabledDrivers, true)) {
             $this->addError($attribute, Yii::t('TwofaModule.base', 'The default method for the mandatory groups must be one of the enabled methods.'));
+        }
+    }
+
+    /**
+     * Validates that each entry of the trusted networks list is an IP address or a network in CIDR notation
+     *
+     * @param string $attribute
+     */
+    public function validateTrustedNetworks($attribute)
+    {
+        $validator = new IpValidator(['subnet' => null]);
+        foreach ($this->getTrustedNetworksArray() as $network) {
+            if (!$validator->validate($network)) {
+                $this->addError($attribute, Yii::t('TwofaModule.base', '"{network}" is not a valid IP address or network.', ['network' => $network]));
+            }
         }
     }
 
@@ -160,7 +177,7 @@ class Config extends Model
             $this->trimTrustedNetwork($network);
         }
 
-        return $networks;
+        return array_values(array_filter($networks, static fn($network) => $network !== ''));
     }
 
     /**
