@@ -5,7 +5,7 @@ return [
   '<strong>Two-Factor Authentication</strong> administration' => '',
   '<strong>Two-Factor Authentication</strong> settings' => 'การตั้งค่า<strong>การตรวจสอบสิทธิ์สองปัจจัย</strong>',
   '<strong>Two-factor</strong> authentication' => 'การตรวจสอบสิทธิ์ <strong>สองปัจจัย</strong>',
-  'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.' => 'เพิ่งส่งรหัสยืนยันไปยังที่อยู่อีเมลของคุณ โปรดป้อนรหัสจากอีเมลเพื่อดำเนินการต่อ',
+  'A confirmation code has just been sent to your email address. Please enter the code from the email in order to proceed.' => 'เพิ่งส่งรหัสยืนยันไปยังที่อยู่อีเมลของคุณ โปรดป้อนรหัสจากอีเมลเพื่อดำเนินการต่อ',
   'Account:' => 'บัญชีผู้ใช้:',
   'Actions' => 'การกระทำ',
   'Authentication method' => 'วิธีการรับรองความถูกต้อง',

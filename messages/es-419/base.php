@@ -6,7 +6,7 @@ return [
     '<strong>Two-Factor Authentication</strong> administration' => '',
     '<strong>Two-Factor Authentication</strong> settings' => '',
     '<strong>Two-factor</strong> authentication' => '',
-    'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.' => '',
+    'A confirmation code has just been sent to your email address. Please enter the code from the email in order to proceed.' => '',
     'Account:' => '',
     'Actions' => '',
     'Authentication method' => '',

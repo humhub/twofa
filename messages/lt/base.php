@@ -5,7 +5,7 @@ return [
   '<strong>Two-Factor Authentication</strong> administration' => '',
   '<strong>Two-Factor Authentication</strong> settings' => '<strong>Dviejų žingsnių  patvirtinimo</strong> nustatymai',
   '<strong>Two-factor</strong> authentication' => '<strong>Dviejų žingsnių</strong> autentifikavimas',
-  'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.' => 'Patvirtinimo kodas ką tik buvo išsiųstas į jūsų el. pašto adresą. Norėdami tęsti, įveskite el. laiške nurodytą kodą.',
+  'A confirmation code has just been sent to your email address. Please enter the code from the email in order to proceed.' => 'Patvirtinimo kodas ką tik buvo išsiųstas į jūsų el. pašto adresą. Norėdami tęsti, įveskite el. laiške nurodytą kodą.',
   'Account:' => 'Paskyra:',
   'Actions' => 'Veiksmai',
   'Authentication method' => 'Patvirtinimo būdas',

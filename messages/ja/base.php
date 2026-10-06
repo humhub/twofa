@@ -5,7 +5,7 @@ return [
   '<strong>Two-Factor Authentication</strong> administration' => '',
   '<strong>Two-Factor Authentication</strong> settings' => '<strong>二段階認証</strong> の設定',
   '<strong>Two-factor</strong> authentication' => '<strong>二段階</strong> 認証',
-  'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.' => '確認コードがあなたのメール アドレスに送信されました。続行するにはメールに記載されているコードを入力してください。',
+  'A confirmation code has just been sent to your email address. Please enter the code from the email in order to proceed.' => '確認コードがあなたのメール アドレスに送信されました。続行するにはメールに記載されているコードを入力してください。',
   'Account:' => 'アカウント：',
   'Actions' => 'アクション',
   'Authentication method' => '認証方法',

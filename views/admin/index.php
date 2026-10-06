@@ -33,13 +33,13 @@ use humhub\widgets\form\ActiveForm;
 
 <?= $form->field($model, 'enforcedMethod')->dropDownList($model->module->getDriversOptions()); ?>
 
-<?= $form->field($model, 'codeLength'); ?>
+<?= $form->field($model, 'codeLength')->input('number', ['min' => 4, 'max' => 512]); ?>
 
 <?php if (in_array(EmailDriver::class, $model->enabledDrivers)) : ?>
-    <?= $form->field($model, 'codeTtl'); ?>
+    <?= $form->field($model, 'codeTtl')->input('number', ['min' => 60]); ?>
 <?php endif; ?>
 
-<?= $form->field($model, 'rememberMeDays'); ?>
+<?= $form->field($model, 'rememberMeDays')->input('number', ['min' => 0, 'max' => 365]); ?>
 <div class="text-body-secondary">
     <?= Yii::t('TwofaModule.base', 'Leave empty to disable this feature.') ?>
 </div>

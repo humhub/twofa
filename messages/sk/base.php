@@ -5,7 +5,7 @@ return [
   '<strong>Two-Factor Authentication</strong> administration' => '',
   '<strong>Two-Factor Authentication</strong> settings' => '',
   '<strong>Two-factor</strong> authentication' => '<strong>Dvojfaktorové</strong> overenie',
-  'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.' => 'Na vašu e-mailovú adresu bol práve odoslaný potvrdzovací kód. Ak chcete pokračovať, zadajte kód z e-mailu.',
+  'A confirmation code has just been sent to your email address. Please enter the code from the email in order to proceed.' => 'Na vašu e-mailovú adresu bol práve odoslaný potvrdzovací kód. Ak chcete pokračovať, zadajte kód z e-mailu.',
   'Account:' => '',
   'Actions' => 'Akcie',
   'Authentication method' => 'Spôsob overovania',

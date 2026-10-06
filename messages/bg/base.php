@@ -5,7 +5,7 @@ return [
   '<strong>Two-Factor Authentication</strong> administration' => '',
   '<strong>Two-Factor Authentication</strong> settings' => 'Настройки за <strong>двуфакторно удостоверяване</strong>',
   '<strong>Two-factor</strong> authentication' => '<strong>Двуфакторно</strong> удостоверяване',
-  'A confirmation code hast just been sent to your email address. Please enter the code from the email in order to proceed.' => 'На вашия имейл адрес току-що е изпратен код за потвърждение. Моля, въведете кода от имейла, за да продължите.',
+  'A confirmation code has just been sent to your email address. Please enter the code from the email in order to proceed.' => 'На вашия имейл адрес току-що е изпратен код за потвърждение. Моля, въведете кода от имейла, за да продължите.',
   'Account:' => 'Акаунт:',
   'Actions' => 'Действия',
   'Authentication method' => 'Метод за удостоверяване',
