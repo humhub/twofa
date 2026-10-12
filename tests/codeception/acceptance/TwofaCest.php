@@ -65,7 +65,7 @@ class TwofaCest
         $I->resetCookie('PHPSESSID');
         $I->executeJS('window.localStorage.clear(); window.sessionStorage.clear();');
         $I->amOnPage('/user/auth/login');
-        $I->waitForText('Please sign in');
+        $I->waitForText('Sign In');
 
         $I->amUser2();
         $I->amOnPage('/admin/user/list?UserSearch%5BfreeText%5D=User1');

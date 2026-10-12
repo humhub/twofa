@@ -39,7 +39,7 @@ class TwofaTest extends HumHubDbTestCase
     {
         $this->becomeUser('Admin');
         $this->assertTrue(TwofaHelper::enableVerifying());
-        $this->assertTrue(TwofaHelper::isVerifyingRequired());
+        $this->assertTrue(TwofaHelper::isVerificationPending());
         $this->assertFalse(TwofaHelper::isValidCode('test'));
     }
 
@@ -50,7 +50,24 @@ class TwofaTest extends HumHubDbTestCase
         $this->assertTrue(TwofaHelper::disableVerifying(true));
         $this->assertNull(TwofaHelper::getCode());
         $this->assertNull(TwofaHelper::getSetting(TwofaHelper::CODE_EXPIRATION_SETTING));
-        $this->assertFalse(TwofaHelper::isVerifyingRequired());
+        $this->assertFalse(TwofaHelper::isVerificationPending());
+    }
+
+    public function testVerificationPendingIsFreeOfSideEffects()
+    {
+        // 2FA is enforced for the Admin, but no code has been sent yet:
+        // the check must report pending without delivering a code itself
+        $this->becomeUser('Admin');
+        $this->assertTrue(TwofaHelper::isVerificationPending());
+        $this->assertNull(TwofaHelper::getCode());
+
+        // sendCodeIfNeeded() delivers once and keeps the pending code afterwards
+        $this->assertTrue(TwofaHelper::sendCodeIfNeeded());
+        $this->assertNotNull(TwofaHelper::getCode());
+
+        // users without a 2FA requirement are never pending
+        $this->becomeUser('User1');
+        $this->assertFalse(TwofaHelper::isVerificationPending());
     }
 
     public function testEnforcedMethodMustBeEnabled()

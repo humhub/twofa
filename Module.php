@@ -45,14 +45,6 @@ class Module extends BaseModule
     }
 
     /**
-     * @return bool Check if current page is already URL of 2fa
-     */
-    public function isTwofaCheckUrl()
-    {
-        return Yii::$app->getRequest()->getUrl() === TwofaUrl::toCheck();
-    }
-
-    /**
      * Get available drivers options for the 2fa module settings
      *
      * @param array|null Init options(Key - Driver class name, Value - Drive name), used to init None option and/or forced/default Driver
