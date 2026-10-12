@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.2.4 (Unreleased)
-------------------
+1.2.4 (October 12, 2026)
+------------------------
 - Enh: Automated code refactoring for HumHub 1.18.0-beta.6 using Rector
 - Fix #122: Mandatory groups default 2FA method must be enabled and is shown in account settings
 - Fix #122: Ignore a leftover TOTP secret when TOTP is not the user's stored method, and delete the secret when switching to another method (TOTP must be set up again when switching back)
