@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.4.1 (Unreleased)
-------------------
+1.4.1 (October 13, 2026)
+------------------------
 - Fix #122: Mandatory groups default 2FA method must be enabled and is shown in account settings
 - Fix #122: Ignore a leftover TOTP secret when TOTP is not the user's stored method, and delete the secret when switching to another method (TOTP must be set up again when switching back)
 - Fix #123: Commit `composer.lock` for reproducible Marketplace builds of dependencies
