@@ -1,6 +1,7 @@
 <?php
 
 return [
+    '"{network}" is not a valid IP address or network.' => '',
     '<strong>Confirm</strong> two-factor authentication reset' => '',
     '<strong>Request</strong> new code' => '',
     '<strong>Two-Factor Authentication</strong> administration' => '',
@@ -49,6 +50,7 @@ return [
     'Reset two-factor authentication' => '',
     'Secret:' => '',
     'TTL of verifying code in seconds' => '',
+    'The default method for the mandatory groups must be one of the enabled methods.' => '',
     'These recovery codes are shown only once.' => '',
     'This list shows users who currently have two-factor authentication configured.' => '',
     'This module is disabled because no drivers are selected, however users from the enforced groups always fallback to {defaultDriverName} driver by default.' => '',
