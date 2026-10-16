@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.4.2 (Unreleased)
+------------------
+- Fix #116: TOTP setup secret is no longer regenerated on every reload of the 2FA check page, so the QR code always matches the stored secret (iOS Safari's `/manifest.json` request triggered it); The PWA manifest is no longer intercepted by the 2FA gate
+
 1.4.1 (October 13, 2026)
 ------------------------
 - Fix #122: Mandatory groups default 2FA method must be enabled and is shown in account settings
