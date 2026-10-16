@@ -10,6 +10,7 @@ namespace twofa;
 
 use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\drivers\GoogleAuthenticatorDriver;
+use humhub\modules\twofa\Events;
 use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\models\Config;
 use humhub\modules\twofa\models\UserSettings;
@@ -115,5 +116,31 @@ class TwofaTest extends HumHubDbTestCase
         $this->assertSame(EmailDriver::class, TwofaHelper::getSetting(TwofaHelper::USER_SETTING));
         $this->assertNull(TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_SETTING));
         $this->assertNull(TwofaHelper::getSetting(GoogleAuthenticatorDriver::RECOVERY_CODES_SETTING));
+    }
+
+    public function testTempSecretIsNotRegeneratedOnRepeatedRequests()
+    {
+        Events::registerAutoloader();
+        $this->becomeUser('Admin');
+        $driver = new GoogleAuthenticatorDriver();
+
+        $this->assertNull(TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_TEMP_SETTING));
+
+        $secret = $driver->getTempSecretCode();
+        $this->assertNotEmpty($secret);
+        $this->assertSame($secret, TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_TEMP_SETTING));
+
+        // Reloading the setup page (or any other repeated request) must keep the secret of the displayed QR code
+        $this->assertSame($secret, $driver->getTempSecretCode());
+        $this->assertSame($secret, (new GoogleAuthenticatorDriver())->getTempSecretCode());
+    }
+
+    public function testExistingTempSecretIsReused()
+    {
+        $this->becomeUser('Admin');
+        TwofaHelper::setSetting(GoogleAuthenticatorDriver::SECRET_TEMP_SETTING, 'TESTTEMPSECRET');
+
+        $this->assertSame('TESTTEMPSECRET', (new GoogleAuthenticatorDriver())->getTempSecretCode());
+        $this->assertSame('TESTTEMPSECRET', TwofaHelper::getSetting(GoogleAuthenticatorDriver::SECRET_TEMP_SETTING));
     }
 }

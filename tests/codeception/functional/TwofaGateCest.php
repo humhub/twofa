@@ -53,6 +53,18 @@ class TwofaGateCest
         $I->see('twofa');
     }
 
+    public function testManifestIsNotInterceptedWhilePending(FunctionalTester $I)
+    {
+        $I->wantTo('ensure that the PWA manifest is not redirected to the 2FA check page while 2FA is pending');
+
+        $this->loginPendingAdmin($I);
+
+        $I->amOnPage('/index-test.php?r=web%2Fpwa-manifest%2Findex');
+
+        $I->seeResponseCodeIs(200);
+        $I->dontSee('Two-factor authentication');
+    }
+
     public function testAccountDeleteStaysIntercepted(FunctionalTester $I)
     {
         $I->wantTo('ensure that account deletion is not reachable while 2FA is pending');

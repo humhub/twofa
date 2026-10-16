@@ -93,7 +93,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
 
         Assets::register(Yii::$app->view);
 
-        $this->generateTempSecretCode();
+        $this->getTempSecretCode();
         echo $this->getQrCodeSecretKeyFile([
             'requirePinCode' => true,
             'columnLeftClass' => 'col-lg-12',
@@ -123,7 +123,7 @@ class GoogleAuthenticatorDriver extends BaseDriver
         if ($this->getSecret() === null) {
             // Display a form to request new code when current user group is forced for this Driver
             $requirePinCode = true;
-            $this->generateTempSecretCode();
+            $this->getTempSecretCode();
         } else {
             $requirePinCode = $model->hasErrors('pinCode');
         }
@@ -191,6 +191,25 @@ class GoogleAuthenticatorDriver extends BaseDriver
     protected function getGoogleAuthenticator()
     {
         return new Google2FA();
+    }
+
+    /**
+     * Get the temporary secret code of the current User, generate and store a new one only if there is none yet.
+     *
+     * Rendering the setup form is a plain GET request and must stay idempotent: the secret shown
+     * in the QR code has to equal the stored one, even when the page is requested more than once
+     * (reload, second tab, or a browser sub-request like iOS Safari asking for `/manifest.json`
+     * which was redirected to the check page). A new secret is generated only on an explicit
+     * request, see [[actionRequestCode()]].
+     *
+     * @return string
+     * @since 1.4.2
+     */
+    public function getTempSecretCode(): string
+    {
+        $secret = TwofaHelper::getSetting(self::SECRET_TEMP_SETTING);
+
+        return empty($secret) ? $this->generateTempSecretCode() : $secret;
     }
 
     /**
