@@ -11,7 +11,7 @@ use humhub\components\gates\GateManager;
 use humhub\modules\admin\grid\UserActionColumn;
 use humhub\modules\twofa\Events;
 use humhub\modules\user\controllers\AuthController;
-use humhub\modules\user\widgets\AccountSettingsMenu;
+use humhub\modules\user\widgets\SecuritySettingsMenu;
 use yii\web\Controller;
 
 return [
@@ -24,7 +24,7 @@ return [
         [AuthController::class, AuthController::EVENT_AFTER_LOGIN, [Events::class, 'onAfterLogin']],
         [Controller::class, Controller::EVENT_BEFORE_ACTION, [Events::class, 'onBeforeAction']],
         [Controller::class, Controller::EVENT_AFTER_ACTION, [Events::class, 'onAfterAction']],
-        [AccountSettingsMenu::class, AccountSettingsMenu::EVENT_INIT, [Events::class, 'onProfileSettingMenuInit']],
+        [SecuritySettingsMenu::class, SecuritySettingsMenu::EVENT_INIT, [Events::class, 'onSecuritySettingsMenuInit']],
         [UserActionColumn::class, UserActionColumn::EVENT_AFTER_INIT_ACTIONS, [Events::class, 'onUserActionColumnAfterInitActions']],
     ],
 ];

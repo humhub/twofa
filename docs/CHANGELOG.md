@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.5.0 (Unreleased)
+------------------
+- Enh: Two-factor authentication is a tab of the new "Security & Privacy" account settings (requires humhub/humhub#8611)
+
 1.4.2 (October 16, 2026)
 ------------------------
 - Fix #116: TOTP setup secret is no longer regenerated on every reload of the 2FA check page, so the QR code always matches the stored secret (iOS Safari's `/manifest.json` request triggered it); The PWA manifest is no longer intercepted by the 2FA gate

@@ -9,31 +9,24 @@
 /* @var $model UserSettings */
 
 use humhub\modules\twofa\models\UserSettings;
-use humhub\modules\user\widgets\AccountSettingsMenu;
 use humhub\widgets\bootstrap\Button;
 use humhub\widgets\form\ActiveForm;
 
 ?>
 
-<div class="panel-heading">
-    <?= Yii::t('TwofaModule.base', '<strong>Two-Factor Authentication</strong> settings'); ?>
+<?php $this->beginContent('@user/views/security/_layout.php') ?>
+<div class="text-body-secondary">
+    <?= Yii::t('TwofaModule.base', 'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.'); ?>
 </div>
+<br/>
 
-<?= AccountSettingsMenu::widget(); ?>
+<?php $form = ActiveForm::begin(); ?>
 
-<div class="panel-body">
-    <div class="text-body-secondary">
-        <?= Yii::t('TwofaModule.base', 'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.'); ?>
-    </div>
-    <br/>
+<?= $form->field($model, 'driver')->dropDownList($model->getDrivers(), ['data-action-change' => 'twofa.selectDriver']) ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $model->renderDriversFields($form) ?>
 
-    <?= $form->field($model, 'driver')->dropDownList($model->getDrivers(), ['data-action-change' => 'twofa.selectDriver']) ?>
+<?= Button::primary(Yii::t('base', 'Save'))->submit() ?>
 
-    <?php $model->renderDriversFields($form) ?>
-
-    <?= Button::primary(Yii::t('base', 'Save'))->submit() ?>
-
-    <?php ActiveForm::end(); ?>
-</div>
+<?php ActiveForm::end(); ?>
+<?php $this->endContent() ?>
