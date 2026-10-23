@@ -4,7 +4,7 @@ Changelog
 1.5.0 (Unreleased)
 ------------------
 - Enh: Two-factor authentication is a tab of the new "Security & Privacy" account settings (requires humhub/humhub#8611)
-- Enh: The HumHub app's WebView sessions don't ask for the second factor again (requires the core OAuth server, humhub/humhub#TBD)
+- Enh: The HumHub app's WebView sessions don't ask for the second factor again (requires the core OAuth server, humhub/humhub#8626)
 
 1.4.2 (October 16, 2026)
 ------------------------
