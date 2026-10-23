@@ -18,10 +18,8 @@ use humhub\modules\twofa\helpers\TwofaHelper;
 use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\ui\menu\MenuLink;
 use humhub\modules\user\controllers\AuthController;
-use humhub\modules\user\events\UserEvent;
 use humhub\modules\user\models\User;
-use humhub\modules\user\widgets\AccountMenu;
-use humhub\modules\user\widgets\AccountSettingsMenu;
+use humhub\modules\user\widgets\SecuritySettingsMenu;
 use Yii;
 use yii\web\Controller;
 
@@ -122,32 +120,25 @@ class Events
     }
 
     /**
-     * Add menu to edit module setting per current User
-     *
-     * @param UserEvent $event
+     * Adds the two-factor authentication tab to the security settings of the current user
      */
-    public static function onProfileSettingMenuInit($event)
+    public static function onSecuritySettingsMenuInit($event)
     {
         if (Yii::$app->user->isGuest) {
             return;
         }
 
         $menuRoute = explode('/', trim(TwofaUrl::ROUTE_USER_SETTINGS, '/'));
-        $isActiveMenu = ControllerHelper::isActivePath($menuRoute[0], $menuRoute[1]);
 
-        /* @var AccountSettingsMenu $menu */
+        /* @var SecuritySettingsMenu $menu */
         $menu = $event->sender;
 
         $menu->addEntry(new MenuLink([
             'label' => Yii::t('TwofaModule.base', 'Two-Factor Authentication'),
             'url' => Yii::$app->user->identity->createUrl(TwofaUrl::ROUTE_USER_SETTINGS),
-            'isActive' => $isActiveMenu,
-            'sortOrder' => 300,
+            'isActive' => ControllerHelper::isActivePath($menuRoute[0], $menuRoute[1]),
+            'sortOrder' => 200,
         ]));
-
-        if ($isActiveMenu) {
-            AccountMenu::markAsActive('account-settings-settings');
-        }
     }
 
     public static function onUserActionColumnAfterInitActions($event): void

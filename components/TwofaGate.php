@@ -8,6 +8,7 @@
 
 namespace humhub\modules\twofa\components;
 
+use humhub\components\gates\LoginVerificationGateInterface;
 use humhub\components\gates\RequestClass;
 use humhub\components\gates\UserGate;
 use humhub\modules\twofa\helpers\TwofaHelper;
@@ -20,9 +21,12 @@ use Yii;
  *
  * Replaces the module's former `Controller::EVENT_BEFORE_ACTION` interception.
  *
+ * A login verification gate: sessions established from an issued credential (the HumHub
+ * app's WebView) already passed it when the credential was issued.
+ *
  * @since 1.4
  */
-class TwofaGate extends UserGate
+class TwofaGate extends UserGate implements LoginVerificationGateInterface
 {
     /**
      * @inheritdoc
