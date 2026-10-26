@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.4.3 (Unreleased)
+1.4.3 (October 26, 2026)
 ------------------------
 - Fix #128: Infinite redirect loop on /twofa/check when the return URL is the check page itself
 
