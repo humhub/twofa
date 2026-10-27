@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.4.3 (October 26, 2026)
+------------------------
+- Fix #128: Infinite redirect loop on /twofa/check when the return URL is the check page itself
+
 1.4.2 (October 16, 2026)
 ------------------------
 - Fix #116: TOTP setup secret is no longer regenerated on every reload of the 2FA check page, so the QR code always matches the stored secret (iOS Safari's `/manifest.json` request triggered it); The PWA manifest is no longer intercepted by the 2FA gate
