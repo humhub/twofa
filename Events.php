@@ -60,11 +60,6 @@ class Events
     public static function onGateInit(GateInitEvent $event): void
     {
         $event->manager->register(new TwofaGate());
-
-        // The PWA manifest is requested by browsers as a sub-resource of every page, also of the
-        // check page. Redirecting it to the check page would render that page again in the
-        // background (a second QR code/secret for the same user), so it must never be intercepted.
-        $event->manager->registerInfrastructureRoute('web/pwa-manifest');
     }
 
     /**

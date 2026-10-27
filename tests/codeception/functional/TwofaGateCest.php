@@ -59,7 +59,7 @@ class TwofaGateCest
 
         $this->loginPendingAdmin($I);
 
-        $I->amOnPage('/index-test.php?r=web%2Fpwa-manifest%2Findex');
+        $I->amOnPage('/index-test.php?r=pwa%2Fmanifest');
 
         $I->seeResponseCodeIs(200);
         $I->dontSee('Two-factor authentication');
