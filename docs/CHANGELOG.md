@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.5.0 (Unreleased)
+------------------
+- Enh: Compatibility with HumHub 1.20: offer "Reset two-factor authentication" in the new user table of the administration (humhub/humhub#8637)
+
 1.4.3 (October 26, 2026)
 ------------------------
 - Fix #128: Infinite redirect loop on /twofa/check when the return URL is the check page itself

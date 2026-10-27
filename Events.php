@@ -23,6 +23,7 @@ use humhub\modules\user\models\User;
 use humhub\modules\user\widgets\AccountMenu;
 use humhub\modules\user\widgets\AccountSettingsMenu;
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 
 class Events
@@ -192,6 +193,28 @@ class Events
         if ($inserted) {
             $actionColumn->actions = $actions;
         }
+    }
+
+    /**
+     * Offers "Reset two-factor authentication" on the rows of the administration's user table
+     * (HumHub 1.20, `humhub\modules\admin\components\UserTable`), after "Edit".
+     */
+    public static function onUserTableInit($event): void
+    {
+        /** @var \humhub\components\table\DataTable $table */
+        $table = $event->sender;
+        $label = Yii::t('TwofaModule.base', 'Reset two-factor authentication');
+
+        $table->addAction(new \humhub\components\table\RowAction(
+            'twofa-reset',
+            $label,
+            \humhub\components\table\RowAction::KIND_POST,
+            // The action's URL is built in the table's API request: back to the list page itself.
+            static fn(User $user) => ['/twofa/admin/reset-user', 'id' => $user->id, 'returnUrl' => Url::to(['/admin/user/list'])],
+            confirm: Yii::t('TwofaModule.base', 'This will remove the current two-factor authentication setup for this user. They will need to configure it again on the next login.'),
+            visible: static fn(User $user) => $user->status != User::STATUS_SOFT_DELETED && self::canResetUser($user),
+            sortOrder: 150,
+        ));
     }
 
     public static function canResetUser(User $user): bool

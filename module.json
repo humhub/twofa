@@ -14,8 +14,8 @@
         "resources/screenshot3.png",
         "resources/screenshot4.png"
     ],
-    "version": "1.4.3",
+    "version": "1.5.0",
     "humhub": {
-        "minVersion": "1.19"
+        "minVersion": "1.20"
     }
 }

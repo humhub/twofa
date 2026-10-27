@@ -8,7 +8,6 @@
 
 use humhub\components\Application;
 use humhub\components\gates\GateManager;
-use humhub\modules\admin\grid\UserActionColumn;
 use humhub\modules\twofa\Events;
 use humhub\modules\user\controllers\AuthController;
 use humhub\modules\user\widgets\AccountSettingsMenu;
@@ -25,6 +24,10 @@ return [
         [Controller::class, Controller::EVENT_BEFORE_ACTION, [Events::class, 'onBeforeAction']],
         [Controller::class, Controller::EVENT_AFTER_ACTION, [Events::class, 'onAfterAction']],
         [AccountSettingsMenu::class, AccountSettingsMenu::EVENT_INIT, [Events::class, 'onProfileSettingMenuInit']],
-        [UserActionColumn::class, UserActionColumn::EVENT_AFTER_INIT_ACTIONS, [Events::class, 'onUserActionColumnAfterInitActions']],
+        // The user list's action column up to HumHub 1.19 (deprecated in 1.20: a class name as
+        // string, so the module keeps working once it is removed)
+        ['humhub\modules\admin\grid\UserActionColumn', 'afterInitActions', [Events::class, 'onUserActionColumnAfterInitActions']],
+        // The user table of HumHub 1.20 (a class name as string, so it is never loaded on 1.19)
+        ['humhub\modules\admin\components\UserTable', 'init', [Events::class, 'onUserTableInit']],
     ],
 ];
