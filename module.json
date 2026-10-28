@@ -16,7 +16,7 @@
     ],
     "version": "1.4.4",
     "humhub": {
-        "minVersion": "1.19",
+        "minVersion": "1.19.3",
         "maxVersion": "1.19"
     }
 }
