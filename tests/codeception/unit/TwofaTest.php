@@ -71,6 +71,54 @@ class TwofaTest extends HumHubDbTestCase
         $this->assertFalse(TwofaHelper::isVerificationPending());
     }
 
+    public function testValidCodeIsReusedByAnotherSession()
+    {
+        $this->becomeUser('Admin');
+        $this->assertTrue(TwofaHelper::enableVerifying());
+        $this->assertMailSent(1);
+        $code = TwofaHelper::getCode();
+        $expiration = TwofaHelper::getSetting(TwofaHelper::CODE_EXPIRATION_SETTING);
+
+        // Another unverified session of the same User (no session status yet) must not replace the code
+        TwofaHelper::resetSessionStatus();
+        $this->assertTrue(TwofaHelper::sendCodeIfNeeded());
+
+        $this->assertMailSent(1);
+        $this->assertSame($code, TwofaHelper::getCode());
+        $this->assertSame($expiration, TwofaHelper::getSetting(TwofaHelper::CODE_EXPIRATION_SETTING));
+        $this->assertTrue(TwofaHelper::isVerificationPending());
+    }
+
+    public function testExpiredCodeIsReissued()
+    {
+        $this->becomeUser('Admin');
+        $this->assertTrue(TwofaHelper::enableVerifying());
+        $code = TwofaHelper::getCode();
+
+        TwofaHelper::setSetting(TwofaHelper::CODE_EXPIRATION_SETTING, time() - 1);
+        $this->assertTrue(TwofaHelper::isCodeExpired());
+
+        $this->assertTrue(TwofaHelper::sendCodeIfNeeded());
+
+        $this->assertMailSent(2);
+        $this->assertNotSame($code, TwofaHelper::getCode());
+        $this->assertFalse(TwofaHelper::isCodeExpired());
+    }
+
+    public function testSecondLoginIssuesNewCode()
+    {
+        $this->becomeUser('Admin');
+        $this->assertTrue(TwofaHelper::enableVerifying());
+        $first = TwofaHelper::getCode();
+
+        // An explicit login in another session always issues a new code
+        TwofaHelper::resetSessionStatus();
+        $this->assertTrue(TwofaHelper::enableVerifying());
+
+        $this->assertMailSent(2);
+        $this->assertNotSame($first, TwofaHelper::getCode());
+    }
+
     public function testEnforcedMethodMustBeEnabled()
     {
         $this->becomeUser('Admin');
