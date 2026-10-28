@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.4.4 (Unreleased)
+------------------
+- Fix #130: Email verification code is no longer replaced and re-sent by other unverified sessions of the same user while a valid code exists
+
 1.4.3 (October 26, 2026)
 ------------------------
 - Fix #128: Infinite redirect loop on /twofa/check when the return URL is the check page itself
