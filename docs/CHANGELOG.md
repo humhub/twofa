@@ -4,6 +4,7 @@ Changelog
 1.5.0 (Unreleased)
 ------------------
 - Enh: Compatibility with HumHub 1.20: offer "Reset two-factor authentication" in the new user table of the administration (humhub/humhub#8637)
+- Enh #131: Removed the redirect loop workaround of `/twofa/check`, fixed in HumHub core 1.19.3
 
 1.4.3 (October 26, 2026)
 ------------------------
