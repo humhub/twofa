@@ -29,7 +29,7 @@ use yii\helpers\Json;
 
 <div class="mb-3">
     <?= Link::to(Yii::t('TwofaModule.base', 'Request new code'))
-        ->icon('fa-qrcode')
+        ->icon('qrcode')
         ->right()
         ->action('twofa.callDriverAction', Yii::$app->user->identity->createUrl('/twofa/user-settings/driver-action'))
         ->options([

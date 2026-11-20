@@ -4,6 +4,7 @@ use humhub\helpers\Html;
 use humhub\modules\twofa\drivers\EmailDriver;
 use humhub\modules\twofa\models\Config;
 use humhub\widgets\bootstrap\Button;
+use humhub\widgets\Icon;
 use humhub\widgets\form\ActiveForm;
 
 /**
@@ -18,7 +19,7 @@ use humhub\widgets\form\ActiveForm;
 
 <div id="disabledDriversInfo"
      class="alert alert-warning<?= empty($model->enabledDrivers) ? '' : ' d-none' ?>">
-    <i class="fa fa-info-circle" aria-hidden="true"></i>
+    <?= Icon::get('info-circle') ?>
     <?= Yii::t('TwofaModule.base', 'This module is disabled because no drivers are selected, however users from the enforced groups always fallback to {defaultDriverName} driver by default.', [
         'defaultDriverName' => $enforcedMethodName
     ]) ?>
