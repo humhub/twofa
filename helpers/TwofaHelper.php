@@ -25,6 +25,10 @@ class TwofaHelper
     public const CODE_SETTING = 'twofaCode';
     public const CODE_EXPIRATION_SETTING = 'twofaCodeExpiration';
 
+    /** Prefix of the per-user mutex which serializes the issuance of verification codes */
+    private const MUTEX_PREFIX = 'twofa.code.';
+    private const MUTEX_TIMEOUT = 10;
+
     private const SESSION_STATUS = 'twofa.status';
     private const SESSION_STATUS_PENDING = 'pending';
     private const SESSION_STATUS_VERIFIED = 'verified';
@@ -247,32 +251,80 @@ class TwofaHelper
         Yii::$app->session->set(self::SESSION_STATUS, $status);
     }
 
-    private static function isPendingVerification(): bool
-    {
-        return Yii::$app->session->get(self::SESSION_STATUS) === self::SESSION_STATUS_PENDING;
-    }
-
     private static function isSessionVerified(): bool
     {
         return Yii::$app->session->get(self::SESSION_STATUS) === self::SESSION_STATUS_VERIFIED;
     }
 
     /**
-     * Enable verifying by 2fa for current User
+     * Enable verifying by 2fa for current User: always issues a new verification code
+     * (replacing the previous one) and sends it by the Driver.
      *
      * @return bool true on success enabling
      */
     public static function enableVerifying()
     {
+        return self::issueCode(false);
+    }
+
+    /**
+     * Check if the current User has a stored verification code which is not expired yet.
+     *
+     * The code is stored per User (not per session), so it is shared by all sessions of the User.
+     */
+    private static function hasValidCode(): bool
+    {
+        return self::getCode() !== null && !self::isCodeExpired();
+    }
+
+    /**
+     * Issues a verification code for the current User.
+     *
+     * Issuing is serialized per User by a mutex, so parallel requests (several sessions/devices,
+     * AJAX requests) cannot send several e-mails and overwrite the code of each other.
+     *
+     * @param bool $reuseValid Don't issue a new code when a valid one is already stored (it only marks
+     * the current session as pending then)
+     * @return bool true when a valid code is available for the current session
+     */
+    private static function issueCode(bool $reuseValid): bool
+    {
+        $user = Yii::$app->user->getIdentity();
         $driver = self::getDriver();
 
-        // Send a verifying code to use by driver
-        if (!$driver || !$driver->send()) {
-            // Impossible to send a verifying code by Driver,
-            // because wrong driver OR current User has no enabled 2fa
+        // Impossible to send a verifying code by Driver,
+        // because wrong driver OR current User has no enabled 2fa
+        if (!$user instanceof User || !$driver) {
             return false;
         }
 
+        $mutexName = self::MUTEX_PREFIX . $user->id;
+        if (!Yii::$app->mutex->acquire($mutexName, self::MUTEX_TIMEOUT)) {
+            // Fail-closed: the verification stays pending, a code is requested again by the next request
+            return false;
+        }
+
+        try {
+            if ($reuseValid) {
+                // A parallel request could issue the code while this one was waiting for the lock
+                Yii::$app->getModule('user')->settings->flushContentContainer($user);
+                if (self::hasValidCode()) {
+                    self::setSessionStatus(self::SESSION_STATUS_PENDING);
+                    return true;
+                }
+            }
+
+            return self::storeAndSendCode($driver);
+        } finally {
+            Yii::$app->mutex->release($mutexName);
+        }
+    }
+
+    /**
+     * Stores a new code and only then delivers it, so the delivered code is always the stored one.
+     */
+    private static function storeAndSendCode(BaseDriver $driver): bool
+    {
         /** @var TwofaModule $module */
         $module = Yii::$app->getModule('twofa');
 
@@ -289,6 +341,13 @@ class TwofaHelper
             $transaction->commit();
         } catch (\Exception) {
             $transaction->rollBack();
+            return false;
+        }
+
+        if (!$driver->send()) {
+            // Nothing was delivered: don't keep a code which the User cannot know (fail-closed)
+            self::setSetting(self::CODE_SETTING);
+            self::setSetting(self::CODE_EXPIRATION_SETTING);
             return false;
         }
 
@@ -332,18 +391,21 @@ class TwofaHelper
     }
 
     /**
-     * Delivers a verification code unless a valid one is already pending.
+     * Delivers a verification code unless a valid one is already issued for the User
+     * (by any of the User's sessions).
      *
-     * @return bool whether a valid code is available (already pending or newly sent)
+     * @return bool whether a valid code is available (already issued or newly sent)
      * @since 1.4
      */
     public static function sendCodeIfNeeded(): bool
     {
-        if (self::isPendingVerification() && self::getCode() !== null) {
+        if (self::hasValidCode()) {
+            // The code is per User, so an unverified session just joins it instead of replacing it
+            self::setSessionStatus(self::SESSION_STATUS_PENDING);
             return true;
         }
 
-        return self::enableVerifying();
+        return self::issueCode(true);
     }
 
     /**

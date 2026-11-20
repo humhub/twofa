@@ -5,6 +5,11 @@ Changelog
 ------------------
 - Enh: Compatibility with HumHub 1.20: offer "Reset two-factor authentication" in the new user table of the administration (humhub/humhub#8637)
 
+1.4.4 (Unreleased)
+------------------
+- Fix #130: Email verification code is no longer replaced and re-sent by other unverified sessions of the same user while a valid code exists
+- Enh #133: Removed the redirect loop workaround of `/twofa/check`, fixed in HumHub core 1.19.3
+
 1.4.3 (October 26, 2026)
 ------------------------
 - Fix #128: Infinite redirect loop on /twofa/check when the return URL is the check page itself

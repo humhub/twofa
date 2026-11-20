@@ -10,7 +10,6 @@ namespace humhub\modules\twofa\controllers;
 
 use humhub\components\Controller;
 use humhub\modules\twofa\helpers\TwofaHelper;
-use humhub\modules\twofa\helpers\TwofaUrl;
 use humhub\modules\twofa\models\CheckCode;
 use Yii;
 
@@ -33,10 +32,6 @@ class CheckController extends Controller
     public function actionIndex()
     {
         $redirectUrl = Yii::$app->user->getReturnUrl();
-        if (TwofaUrl::isCheckUrl($redirectUrl)) {
-            // The check page itself must not be a redirect target, otherwise it ends in a redirect loop
-            $redirectUrl = Yii::$app->getHomeUrl();
-        }
 
         if (!TwofaHelper::isVerificationPending()) {
             return $this->response->redirect($redirectUrl);
