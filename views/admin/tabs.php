@@ -29,11 +29,11 @@ if (Yii::$app->user->can(ManageUsers::class)) {
 }
 
 ?>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <?= Yii::t('TwofaModule.base', '<strong>Two-Factor Authentication</strong> administration') ?>
+<div class="card content-card">
+    <div class="card-header">
+        <div class="card-title"><?= Yii::t('TwofaModule.base', '<strong>Two-Factor Authentication</strong> administration') ?></div>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
         <?= Tabs::widget([
             'renderTabContent' => false,
             'options' => [

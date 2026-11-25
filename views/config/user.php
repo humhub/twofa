@@ -15,13 +15,13 @@ use humhub\widgets\form\ActiveForm;
 
 ?>
 
-<div class="panel-heading">
-    <?= Yii::t('TwofaModule.base', '<strong>Two-Factor Authentication</strong> settings'); ?>
+<div class="card-header">
+    <div class="card-title"><?= Yii::t('TwofaModule.base', '<strong>Two-Factor Authentication</strong> settings'); ?></div>
 </div>
 
-<?= AccountSettingsMenu::widget(); ?>
+<div class="card-tabs"><?= AccountSettingsMenu::widget(); ?></div>
 
-<div class="panel-body">
+<div class="card-body">
     <div class="text-body-secondary">
         <?= Yii::t('TwofaModule.base', 'Two-factor authentication (2FA) provides an additional level of security for your account. Once enabled, you will be prompted to enter a code in addition to entering your username and password.'); ?>
     </div>

@@ -17,7 +17,7 @@ use yii\grid\DataColumn;
 
 ?>
 
-<h4><?= Yii::t('TwofaModule.base', 'Enabled users') ?></h4>
+<h4 class="card-title mt-0"><?= Yii::t('TwofaModule.base', 'Enabled users') ?></h4>
 <div class="text-body-secondary mb-3">
     <?= Yii::t('TwofaModule.base', 'This list shows users who currently have two-factor authentication configured.') ?>
 </div>

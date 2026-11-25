@@ -3,6 +3,7 @@ Changelog
 
 1.5.0 (Unreleased)
 ------------------
+- Enh: Cards instead of Bootstrap 3 panels of the core 1.20 (humhub/humhub#8777)
 - Enh: Compatibility with HumHub 1.20: offer "Reset two-factor authentication" in the new user table of the administration (humhub/humhub#8637)
 - Enh: `humhub\widgets\menu\MenuLink` instead of the deprecated `ui` class, Tabler icons instead of Font Awesome
 

@@ -28,12 +28,12 @@ $this->pageTitle = Yii::t('TwofaModule.base', 'Two-Factor Authentication');
 <div class="container" style="text-align: center;">
     <?= SiteLogo::widget(['place' => 'login']); ?><br>
     <div class="row">
-        <div id="must-change-password-form" class="panel panel-default animated bounceIn"
+        <div id="must-change-password-form" class="card content-card animated bounceIn"
              style="max-width: 400px; margin: 0 auto 20px; text-align: left;">
-            <div class="panel-heading">
-                <?= Yii::t('TwofaModule.base', '<strong>Two-factor</strong> authentication'); ?>
+            <div class="card-header">
+                <div class="card-title"><?= Yii::t('TwofaModule.base', '<strong>Two-factor</strong> authentication'); ?></div>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
                 <?php $driver->beforeCheckCodeFormInput($form, $model); ?><br/>
