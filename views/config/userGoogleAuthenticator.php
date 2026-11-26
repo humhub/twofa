@@ -23,7 +23,7 @@ use yii\helpers\Json;
 </div>
 
 <div id="twofaGoogleAuthPinCode"<?= $requirePinCode ? '' : ' class="d-none"' ?>>
-    <?= $form->field($model, 'pinCode') ?>
+    <?= $form->field($model, 'pinCode')->textInput(['autocomplete' => 'one-time-code', 'inputmode' => 'numeric']) ?>
     <?= $form->field($model, 'changeSecretCode')->hiddenInput()->label(false) ?>
 </div>
 

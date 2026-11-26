@@ -38,7 +38,12 @@ $this->pageTitle = Yii::t('TwofaModule.base', 'Two-Factor Authentication');
 
                 <?php $driver->beforeCheckCodeFormInput($form, $model); ?><br/>
 
-                <?= $form->field($model, 'code')->textInput(); ?>
+                <?php // Not `inputmode="numeric"`: mailed and recovery codes have letters, case-sensitive ?>
+                <?= $form->field($model, 'code')->textInput([
+                    'autocomplete' => 'one-time-code',
+                    'autocapitalize' => 'off',
+                    'spellcheck' => 'false',
+                ]); ?>
 
                 <?php if ($rememberDays): ?>
                     <?= $form->field($model, 'rememberBrowser')->checkbox()
